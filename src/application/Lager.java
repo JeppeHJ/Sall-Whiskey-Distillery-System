@@ -7,6 +7,7 @@ import java.util.ArrayList;
  */
 public class Lager {
     private String lokation;
+    private static int count = 0;
     private int id;
     private ArrayList<Fad> fade;
     private int antalPladser;
@@ -14,7 +15,8 @@ public class Lager {
 
     public Lager(String lokation, int id, int antalPladser) {
         this.lokation = lokation;
-        this.id = id;
+        count++;
+        this.id = count;
         this.fade = new ArrayList<>();
         this.antalPladser = antalPladser;
     }

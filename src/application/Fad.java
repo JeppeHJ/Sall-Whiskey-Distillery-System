@@ -4,6 +4,7 @@ package application;
  * Fad klassen repræsenterer et fad, der kan opbevares i et lager.
  */
 public class Fad {
+    private static int count;
     private int id;
     private String fadType;
     private double fadStr;
@@ -14,7 +15,8 @@ public class Fad {
     private Lager lager;
 
     public Fad(int id, String fadType, double fadStr, String newSpiritBatchNr, double antalLiterPåFyldt, double alkoholProcent, String medarbejderintialer, Lager lager) {
-        this.id = id;
+        count++;
+        this.id = count;
         this.fadType = fadType;
         this.fadStr = fadStr;
         this.newSpiritBatchNr = newSpiritBatchNr;
