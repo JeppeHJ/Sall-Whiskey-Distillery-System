@@ -7,10 +7,7 @@ public class Storage {
     private static Storage storage;
     private ArrayList<Lager> lagre;
 
-    /**
-     * Privat constructor for at sikre, at der kun er én Storage instans (Singleton).
-     */
-    private Storage() {
+    public Storage() {
         lagre = new ArrayList<>();
     }
 
@@ -26,11 +23,7 @@ public class Storage {
         return storage;
     }
 
-    /**
-     * Tilføjer et Lager objekt til listen af lagre.
-     *
-     * @param lager Lager objektet, der skal tilføjes.
-     */
+
     public void addLager(Lager lager) {
         lagre.add(lager);
     }

@@ -15,10 +15,8 @@ public class Controller {
     private static Controller controller;
     private Storage storage;
 
-    /**
-     * Privat konstruktør for at forhindre instantiering fra uden for klassen.
-     */
-    private Controller() {
+
+    public Controller() {
         storage = Storage.getStorage();
     }
 
@@ -34,30 +32,13 @@ public class Controller {
         return controller;
     }
 
-    /**
-     * Opretter et nyt Lager objekt og tilføjer det til Storage.
-     *
-     * @param lokation     Lagerets placering.
-     * @param id           Lagerets ID.
-     * @param antalPladser Antallet af ledige pladser i Lageret.
-     */
+
     public void opretLager(String lokation, int id, int antalPladser) {
         Lager lager = new Lager(lokation, id, antalPladser);
         storage.addLager(lager);
     }
 
-    /**
-     * Opretter et nyt Fad objekt og tilføjer det til det angivne Lager.
-     *
-     * @param id                 Fadets ID.
-     * @param fadType            Fadets type.
-     * @param fadStr             Fadets styrke.
-     * @param newSpiritBatchNr   Batchnummeret for den nye ånd.
-     * @param antalLiterPåFyldt  Antallet af liter, når fadet er fyldt.
-     * @param alkoholProcent     Alkoholprocenten i fadet.
-     * @param medarbejderintialer Initialerne for den ansvarlige medarbejder.
-     * @param lagerId            ID'et for det Lager, hvor fadet skal placeres.
-     */
+
     public void opretFad(int id, String fadType, double fadStr, String newSpiritBatchNr, double antalLiterPåFyldt, double alkoholProcent, String medarbejderintialer, int lagerId) {
         Lager lager = storage.getLagerById(lagerId);
         if (lager != null) {
@@ -66,11 +47,6 @@ public class Controller {
         }
     }
 
-    /**
-     * Returnerer en liste over alle Lager objekter i Storage.
-     *
-     * @return en ArrayList af Lager objekter.
-     */
     public ArrayList<Lager> getAlleLagre() {
         return storage.getLagre();
     }
