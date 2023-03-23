@@ -26,7 +26,10 @@ public class Lager {
         return new ArrayList<>(fade);
     }
 
-
+    /**
+     * Præ-kondition: Lager ikke fyldt
+     * @param fad
+     */
     public void addFad(Fad fad) {
         if (!(this.fade.contains(fad))) {
             this.fade.add(fad);

@@ -49,6 +49,9 @@ public class Controller {
             if (alkoholProcent > 100) {
                 throw new RuntimeException("Alkohol kan ikke udgøre mere end 100%");
             }
+
+            if ()
+
             Fad fad = new Fad(fadType, fadStr, newSpiritBatchNr, antalLiterPåFyldt, alkoholProcent, medarbejderinitialer, lager);
             storage.getLagerById(lagerId).addFad(fad);
         }

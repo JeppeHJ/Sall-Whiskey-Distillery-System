@@ -13,6 +13,7 @@ class ControllerTest {
 
     @BeforeEach
     void setUp() {
+
         controller = Controller.getController();
         controller.opretLager("Aarhus", 50);
 
@@ -27,10 +28,11 @@ class ControllerTest {
 
     @Test
     void opretTomtFad() {
-        int lagerId = 1;
+        int lagerId = 2;
         controller.opretTomtFad("EXBourbon", 100.0, lagerId);
         assertEquals(1, controller.getLagerById(lagerId).getFade().size());
     }
+
     @Test
     void opretFadMedFlereLiterPåfyldtEndStr() {
         int lagerId = 1;
