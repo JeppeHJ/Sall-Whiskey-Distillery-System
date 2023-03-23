@@ -31,7 +31,6 @@ public class Storage {
     /**
      * Finder og returnerer et Lager objekt baseret på dets ID.
      *
-     * @param id ID'et for det Lager, der skal findes.
      * @return Lager objektet med det angivne ID, eller null hvis det ikke findes.
      */
     public ArrayList<Lager> getLagre() {

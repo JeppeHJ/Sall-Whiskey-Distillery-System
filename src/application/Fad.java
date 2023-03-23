@@ -13,8 +13,12 @@ public class Fad {
     private double alkoholProcent;
     private String medarbejderintialer;
     private Lager lager;
-
-    public Fad(int id, String fadType, double fadStr, String newSpiritBatchNr, double antalLiterPåFyldt, double alkoholProcent, String medarbejderintialer, Lager lager) {
+/**
+Pre-condition:
+ - alkoholprocent < 100
+ - antalLiterPåfyldt < fadStr
+ */
+    public Fad(String fadType, double fadStr, String newSpiritBatchNr, double antalLiterPåFyldt, double alkoholProcent, String medarbejderintialer, Lager lager) {
         count++;
         this.id = count;
         this.fadType = fadType;
@@ -27,12 +31,13 @@ public class Fad {
     }
 
 
-    public Fad(int id, String fadType, double fadStr) {
-        this.id = id;
+    public Fad(String fadType, double fadStr, Lager lager) {
+        count++;
+        this.id = count;
         this.fadType = fadType;
         this.fadStr = fadStr;
+        this.setLager(lager);
     }
-
 
     public void setLager(Lager lager) {
         if (!(this.lager == lager)) {

@@ -33,17 +33,32 @@ public class Controller {
     }
 
 
-    public void opretLager(String lokation, int id, int antalPladser) {
-        Lager lager = new Lager(lokation, id, antalPladser);
+    public void opretLager(String lokation, int antalPladser) {
+        Lager lager = new Lager(lokation, antalPladser);
         storage.addLager(lager);
     }
 
 
-    public void opretFad(int id, String fadType, double fadStr, String newSpiritBatchNr, double antalLiterPåFyldt, double alkoholProcent, String medarbejderintialer, int lagerId) {
+    public void opretFad(String fadType, double fadStr, String newSpiritBatchNr, double antalLiterPåFyldt, double alkoholProcent, String medarbejderinitialer, int lagerId) {
         Lager lager = storage.getLagerById(lagerId);
         if (lager != null) {
-            Fad fad = new Fad(id, fadType, fadStr, newSpiritBatchNr, antalLiterPåFyldt, alkoholProcent, medarbejderintialer, lager);
-            lager.addFad(fad);
+            if (antalLiterPåFyldt > fadStr) {
+                throw new RuntimeException("Du kan ikke fylde flere liter på, end der er plads til");
+            }
+
+            if (alkoholProcent > 100) {
+                throw new RuntimeException("Alkohol kan ikke udgøre mere end 100%");
+            }
+            Fad fad = new Fad(fadType, fadStr, newSpiritBatchNr, antalLiterPåFyldt, alkoholProcent, medarbejderinitialer, lager);
+            storage.getLagerById(lagerId).addFad(fad);
+        }
+    }
+
+    public void opretTomtFad(String fadType, double fadStr, int lagerId) {
+        Lager lager = storage.getLagerById(lagerId);
+        if (lager != null) {
+            Fad fad = new Fad(fadType, fadStr, lager);
+            storage.getLagerById(lagerId).addFad(fad);
         }
     }
 

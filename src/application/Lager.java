@@ -13,7 +13,7 @@ public class Lager {
     private int antalPladser;
 
 
-    public Lager(String lokation, int id, int antalPladser) {
+    public Lager(String lokation, int antalPladser) {
         this.lokation = lokation;
         count++;
         this.id = count;
