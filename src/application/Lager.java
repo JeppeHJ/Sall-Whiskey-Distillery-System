@@ -21,6 +21,9 @@ public class Lager {
         this.antalPladser = antalPladser;
     }
 
+    public int getAntalPladser() {
+        return antalPladser;
+    }
 
     public ArrayList<Fad> getFade() {
         return new ArrayList<>(fade);

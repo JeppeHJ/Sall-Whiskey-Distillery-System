@@ -33,9 +33,10 @@ public class Controller {
     }
 
 
-    public void opretLager(String lokation, int antalPladser) {
+    public int opretLager(String lokation, int antalPladser) {
         Lager lager = new Lager(lokation, antalPladser);
         storage.addLager(lager);
+        return lager.getId();
     }
 
 
@@ -50,7 +51,9 @@ public class Controller {
                 throw new RuntimeException("Alkohol kan ikke udgøre mere end 100%");
             }
 
-            if ()
+            if (storage.getLagerById(lagerId).getFade().size() + 1 == storage.getLagerById(lagerId).getAntalPladser()) {
+                throw new RuntimeException("Lageret er fyldt, desværre");
+            }
 
             Fad fad = new Fad(fadType, fadStr, newSpiritBatchNr, antalLiterPåFyldt, alkoholProcent, medarbejderinitialer, lager);
             storage.getLagerById(lagerId).addFad(fad);
