@@ -3,9 +3,11 @@ package gui;
 import application.Lager;
 import controller.Controller;
 import javafx.geometry.Insets;
+import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 
 public class LagerePane extends GridPane {
     private Controller controller = Controller.getController();
@@ -22,8 +24,16 @@ public class LagerePane extends GridPane {
 
 
         this.add(lstLager, 0, 0);
-        this.lstLager.getItems().addAll(controller.getAlleLagre());
+        this.lstLager.getItems().setAll(controller.getAlleLagre());
         this.add(btnOpretLager, 15, 1);
+
+
+
     }
+    public void updateControls() {
+        lstLager.getSelectionModel().clearSelection();
+
+    }
+
 
 }
