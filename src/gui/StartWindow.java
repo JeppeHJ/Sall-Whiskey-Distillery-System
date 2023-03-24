@@ -13,13 +13,14 @@ import javafx.stage.Stage;
 
 public class StartWindow extends Application {
 
+    private  Controller controller = Controller.getController();
+
     @Override
     public void start(Stage stage) {
         stage.setTitle("Sporbarhed i produktionen og fadlagerstyring");
         BorderPane pane = new BorderPane();
         this.initContent(pane);
-        Controller controller = Controller.getController();
-        controller.createSomeObjects();
+
 
         Scene scene = new Scene(pane);
         stage.setScene(scene);
@@ -31,6 +32,7 @@ public class StartWindow extends Application {
 
 
         private void initContent(BorderPane pane) {
+        controller.createSomeObjects();
             TabPane tabPane = new TabPane();
             this.initTabPane(tabPane);
             pane.setCenter(tabPane);
