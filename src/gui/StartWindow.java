@@ -18,11 +18,13 @@ public class StartWindow extends Application {
         stage.setTitle("Sporbarhed i produktionen og fadlagerstyring");
         BorderPane pane = new BorderPane();
         this.initContent(pane);
+        Controller controller = Controller.getController();
+        controller.createSomeObjects();
 
         Scene scene = new Scene(pane);
         stage.setScene(scene);
         stage.setHeight(500);
-        stage.setWidth(800);
+        stage.setWidth(700);
         stage.show();
     }
 
