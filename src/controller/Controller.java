@@ -2,6 +2,7 @@ package controller;
 
 import application.Fad;
 import application.Lager;
+import application.Lagretvæske;
 import storage.Storage;
 
 import java.util.ArrayList;
@@ -31,42 +32,14 @@ public class Controller {
         }
         return controller;
     }
+    //todo lav opret metoder
 
 
-    public int opretLager(String lokation, int antalPladser) {
-        Lager lager = new Lager(lokation, antalPladser);
-        storage.addLager(lager);
-        return lager.getId();
-    }
 
 
-    public void opretFad(String fadType, double fadStr, String newSpiritBatchNr, double antalLiterPåFyldt, double alkoholProcent, String medarbejderinitialer, int lagerId) {
-        Lager lager = storage.getLagerById(lagerId);
-        if (lager != null) {
-            if (antalLiterPåFyldt > fadStr) {
-                throw new RuntimeException("Du kan ikke fylde flere liter på, end der er plads til");
-            }
 
-            if (alkoholProcent > 100) {
-                throw new RuntimeException("Alkohol kan ikke udgøre mere end 100%");
-            }
 
-            if (storage.getLagerById(lagerId).getFade().size() + 1 == storage.getLagerById(lagerId).getAntalPladser()) {
-                throw new RuntimeException("Lageret er fyldt, desværre");
-            }
 
-            Fad fad = new Fad(fadType, fadStr, newSpiritBatchNr, antalLiterPåFyldt, alkoholProcent, medarbejderinitialer, lager);
-            storage.getLagerById(lagerId).addFad(fad);
-        }
-    }
-
-    public void opretTomtFad(String fadType, double fadStr, int lagerId) {
-        Lager lager = storage.getLagerById(lagerId);
-        if (lager != null) {
-            Fad fad = new Fad(fadType, fadStr, lager);
-            storage.getLagerById(lagerId).addFad(fad);
-        }
-    }
 
     public ArrayList<Lager> getAlleLagre() {
         return storage.getLagre();
@@ -98,12 +71,18 @@ public class Controller {
         return total;
     }
 
-    public void createSomeObjects() {
-        int id1 = this.opretLager("Lokalt", 10);
-        int id2 = this.opretLager("OFF-prem", 10);
-        this.opretFad("ex burbon", 100, "123456789", 50, 40, "JH", id1);
-        this.opretFad("ex burbon", 100, "123456789", 50, 40, "JH", id2);
+    public int totalAntalLager() {
+        return storage.getLagre().size();
     }
+
+
+//
+//    public void createSomeObjects() {
+//        int id1 = this.opretLager("Lokalt", 10);
+//        int id2 = this.opretLager("OFF-prem", 10);
+//        this.opretFad("Fad1", 1.0, id1);
+//        this.opretFad("Fad2", 2.0, id1);
+//    }
 
 }
 

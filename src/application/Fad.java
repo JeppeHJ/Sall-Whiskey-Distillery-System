@@ -1,5 +1,7 @@
 package application;
 
+import java.util.ArrayList;
+
 /**
  * Fad klassen repræsenterer et fad, der kan opbevares i et lager.
  */
@@ -8,27 +10,7 @@ public class Fad {
     private int id;
     private String fadType;
     private double fadStr;
-    private String newSpiritBatchNr;
-    private double antalLiterPåFyldt;
-    private double alkoholProcent;
-    private String medarbejderintialer;
-    private Lager lager;
-/**
-Pre-condition:
- - alkoholprocent < 100
- - antalLiterPåfyldt < fadStr
- */
-    public Fad(String fadType, double fadStr, String newSpiritBatchNr, double antalLiterPåFyldt, double alkoholProcent, String medarbejderintialer, Lager lager) {
-        count++;
-        this.id = count;
-        this.fadType = fadType;
-        this.fadStr = fadStr;
-        this.newSpiritBatchNr = newSpiritBatchNr;
-        this.antalLiterPåFyldt = antalLiterPåFyldt;
-        this.alkoholProcent = alkoholProcent;
-        this.medarbejderintialer = medarbejderintialer;
-        this.setLager(lager);
-    }
+    private ArrayList<Lagretvæske> lagretvæsker;
 
 
     public Fad(String fadType, double fadStr, Lager lager) {
@@ -36,20 +18,22 @@ Pre-condition:
         this.id = count;
         this.fadType = fadType;
         this.fadStr = fadStr;
-        this.setLager(lager);
+        this.lagretvæsker = new ArrayList<>();
     }
 
-    public void setLager(Lager lager) {
-        if (!(this.lager == lager)) {
-            this.lager = lager;
-            Lager oldLager = this.lager;
-            if (oldLager != null) {
-                oldLager.removeFad(this);
-            }
-            this.lager = lager;
-            if (lager != null) {
-                lager.addFad(this);
-            }
+    //todo
+    public void påfyldning() {
+    }
+
+    public void addLagretVæsker(Lagretvæske lagretvæske) {
+        if (!(this.lagretvæsker.contains(lagretvæske))) {
+            this.lagretvæsker.add(lagretvæske);
         }
     }
+    public void removeLagretVæsker(Lagretvæske lagretvæske) {
+        if (this.lagretvæsker.contains(lagretvæske)) {
+            this.lagretvæsker.remove(lagretvæske);
+        }
+    }
+
 }

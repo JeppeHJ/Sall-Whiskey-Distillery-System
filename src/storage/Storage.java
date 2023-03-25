@@ -4,6 +4,7 @@ import application.Lager;
 import java.util.ArrayList;
 
 public class Storage {
+    //todo add nye lister
     private static Storage storage;
     private ArrayList<Lager> lagre;
 

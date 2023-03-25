@@ -36,7 +36,6 @@ public class Lager {
     public void addFad(Fad fad) {
         if (!(this.fade.contains(fad))) {
             this.fade.add(fad);
-            fad.setLager(this);
         }
     }
 
@@ -45,7 +44,6 @@ public class Lager {
         if (this.fade.contains(fad)) {
             this.fade.remove(fad);
         }
-        fad.setLager(null);
     }
 
     public int getId() {
