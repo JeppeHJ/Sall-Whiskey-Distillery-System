@@ -90,11 +90,20 @@ public class Controller {
         return storage.getLagerById(id);
     }
 
+    public int totalAntalFad() {
+        int total = 0;
+        for (Lager lager : storage.getLagre()) {
+            total += lager.getFade().size();
+        }
+        return total;
+    }
+
     public void createSomeObjects() {
-        int id1 = this.opretLager("Lager 1", 10);
-        int id2 = this.opretLager("Lager 2", 10);
+        int id1 = this.opretLager("Lokalt", 10);
+        int id2 = this.opretLager("OFF-prem", 10);
         this.opretFad("ex burbon", 100, "123456789", 50, 40, "JH", id1);
         this.opretFad("ex burbon", 100, "123456789", 50, 40, "JH", id2);
     }
+
 }
 

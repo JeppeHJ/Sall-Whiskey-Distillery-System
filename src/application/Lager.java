@@ -51,4 +51,11 @@ public class Lager {
     public int getId() {
         return this.id;
     }
+    @Override
+    public String toString() {
+        return
+                 lokation + ' ' +
+                " id: " + id + " antal fad: "+this.fade.size()+
+                " Pladser: " + antalPladser;
+    }
 }

@@ -15,6 +15,7 @@ public class LagerePane extends GridPane {
     private ListView<Lager> lstLager = new ListView<>();
     private Button btnOpretLager = new Button("Opret lager");
     private Label antalLagre = new Label("Antal lagre: " + controller.getAlleLagre().size());
+    private Label totalAntalFad = new Label("Total antal fad: " + controller.totalAntalFad());
     public LagerePane() {
 
         this.setPadding(new Insets(20));
@@ -25,11 +26,20 @@ public class LagerePane extends GridPane {
 
 
         this.add(lstLager, 0, 0);
+        this.lstLager.setEditable(false);
         this.lstLager.getItems().setAll(controller.getAlleLagre());
-        this.add(btnOpretLager, 15, 1);
+        this.add(btnOpretLager, 15, 2);
+        btnOpretLager.setOnAction(event -> actionopretLager());
         this.add(antalLagre, 0, 1);
+        this.add(totalAntalFad, 0 , 2);
 
 
+
+
+    }
+    public void actionopretLager() {
+        OpretLagerDialog dia =new OpretLagerDialog();
+        dia.showAndWait();
 
     }
     public void updateControls() {
