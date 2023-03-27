@@ -3,20 +3,27 @@ package application;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Lagretvæske {
+public class LagretVæske {
+    private static int count;
+    private int id;
     private double liter;
     private double alkoholProcent;
     private HashMap<Fad, Integer> fadehistorik = new HashMap<>();
     private ArrayList<Distillat> distillater;
 
-    public Lagretvæske(double liter,ArrayList<Distillat> distillater) {
+    public LagretVæske(double liter, ArrayList<Distillat> distillater) {
         this.distillater=distillater;
         this.liter = liter;
+        this.id = count++;
         this.alkoholProcent = alkoholProcent;
     }
 
     //todo hvad fanden er det nu du bruger hashmap til?
 
+
+    public int getId() {
+        return id;
+    }
 
     public double getLiter() {
         return liter;

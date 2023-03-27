@@ -10,10 +10,10 @@ public class Fad {
     private int id;
     private String fadType;
     private double fadStr;
-    private ArrayList<Lagretvæske> lagretvæsker;
+    private ArrayList<LagretVæske> lagretvæsker;
 
 
-    public Fad(String fadType, double fadStr, Lager lager) {
+    public Fad(String fadType, double fadStr) {
         count++;
         this.id = count;
         this.fadType = fadType;
@@ -25,15 +25,18 @@ public class Fad {
     public void påfyldning() {
     }
 
-    public void addLagretVæsker(Lagretvæske lagretvæske) {
+    public void addLagretVæsker(LagretVæske lagretvæske) {
         if (!(this.lagretvæsker.contains(lagretvæske))) {
             this.lagretvæsker.add(lagretvæske);
         }
     }
-    public void removeLagretVæsker(Lagretvæske lagretvæske) {
+    public void removeLagretVæsker(LagretVæske lagretvæske) {
         if (this.lagretvæsker.contains(lagretvæske)) {
             this.lagretvæsker.remove(lagretvæske);
         }
     }
 
+    public int getId() {
+        return id;
+    }
 }

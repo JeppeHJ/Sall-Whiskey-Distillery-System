@@ -1,6 +1,7 @@
 package application;
 
 public class Distillat {
+    private static int count;
     private int id;
     private double liter;
     private String maltBatch;
@@ -8,8 +9,7 @@ public class Distillat {
     private double alkoholprocent;
     private  String rygemateriale;
 
-    public Distillat(int id, double liter, String maltBatch, String kornsort, double alkoholprocent, String rygemateriale) {
-        this.id = id;
+    public Distillat(double liter, String maltBatch, String kornsort, double alkoholprocent, String rygemateriale) {
         this.liter = liter;
         this.maltBatch = maltBatch;
         this.kornsort = kornsort;
