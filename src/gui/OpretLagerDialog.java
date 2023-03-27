@@ -58,7 +58,7 @@ pane.add(new Label("Lager adresse:"), 0, 0);
             lblError.setText("Udfyld venligst alle felter");
             return;
         }
-        controller.opretLager(lokation,pladser);
+//        controller.opretLager(lokation,pladser);
         this.hide();
     }}
 
