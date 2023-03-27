@@ -32,7 +32,7 @@ public class StartWindow extends Application {
 
 
         private void initContent(BorderPane pane) {
-        controller.createSomeObjects();
+//        controller.createSomeObjects();
             TabPane tabPane = new TabPane();
             this.initTabPane(tabPane);
             pane.setCenter(tabPane);
