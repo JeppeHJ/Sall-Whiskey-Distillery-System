@@ -1,5 +1,6 @@
 package application;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -8,14 +9,15 @@ public class LagretVæske {
     private int id;
     private double liter;
     private double alkoholProcent;
-    private HashMap<Fad, Integer> fadehistorik = new HashMap<>();
+    private LocalDate påfyldningsDato;
+    private HashMap<Fad, LocalDate> fadehistorik = new HashMap<>();
     private ArrayList<Distillat> distillater;
 
-    public LagretVæske(double liter, ArrayList<Distillat> distillater) {
-        this.distillater=distillater;
+    public LagretVæske(double liter, LocalDate påfyldningsDato) {
+        this.påfyldningsDato = påfyldningsDato;
         this.liter = liter;
         this.id = count++;
-        this.alkoholProcent = alkoholProcent;
+        this.distillater = new ArrayList<>();
     }
 
     //todo hvad fanden er det nu du bruger hashmap til?
@@ -27,6 +29,10 @@ public class LagretVæske {
 
     public double getLiter() {
         return liter;
+    }
+
+    public void addDistillat(Distillat distillat) {
+        this.distillater.add(distillat);
     }
 
     public void setLiter(double liter) {
@@ -52,7 +58,7 @@ public class LagretVæske {
         return totalAlkohol / totalVolumen;
     }
 
-    public HashMap<Fad, Integer> getFadehistorik() {
+    public HashMap<Fad, LocalDate> getFadehistorik() {
         return new HashMap<>(fadehistorik);
     }
 

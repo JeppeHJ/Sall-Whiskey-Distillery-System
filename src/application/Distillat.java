@@ -29,6 +29,10 @@ public class Distillat {
         return maltBatch;
     }
 
+    public void setLiter(double liter) {
+        this.liter = liter;
+    }
+
     public String getKornsort() {
         return kornsort;
     }

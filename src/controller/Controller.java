@@ -6,6 +6,7 @@ import application.Lager;
 import application.LagretVæske;
 import storage.Storage;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -22,11 +23,6 @@ public class Controller {
         storage = Storage.getStorage();
     }
 
-    /**
-     * Returnerer singleton-instansen af Controller-klassen.
-     *
-     * @return singleton-instansen af Controller-klassen.
-     */
     public static Controller getController() {
         if (controller == null) {
             controller = new Controller();
@@ -34,43 +30,17 @@ public class Controller {
         return controller;
     }
 
+    /**-------------- LAGER METODER --------------**/
     public Lager opretLager(String lokation, int antalPladser) {
         Lager lager = new Lager(lokation, antalPladser);
         storage.addLager(lager);
         return lager;
     }
 
-    public Fad opretFad(String fadType, double fadStr, Lager lager) {
-        Fad fad = new Fad(fadType, fadStr);
-        storage.getLagerById(lager.getId()).addFad(fad);
-        storage.addFad(fad);
-        return fad;
-    }
-
-    //TODO Håndter oprettelse af lagretVæske (hvordan skal fad angives?)
-    public LagretVæske opretLagretVæske(double liter, ArrayList<Distillat> distillater) {
-        LagretVæske lagretVæske = new LagretVæske(liter, distillater);
-        storage.addLagretVæske(lagretVæske);
-        return lagretVæske;
-    }
-
-    public Distillat opretDistillat(double liter, String maltBatch, String kornsort, double alkoholprocent, String rygemateriale) {
-        Distillat distillat = new Distillat(liter, maltBatch, kornsort, alkoholprocent, rygemateriale);
-        storage.addDistillat(distillat);
-        return distillat;
-    }
-
-
     public ArrayList<Lager> getAlleLagre() {
         return storage.getLagre();
     }
 
-    /**
-     * Returnerer en liste over alle Fad objekter i det angivne Lager.
-     *
-     * @param lagerId ID'et for det Lager, hvis fade skal hentes.
-     * @return en ArrayList af Fad objekter.
-     */
     public ArrayList<Fad> getFadeILager(int lagerId) {
         Lager lager = storage.getLagerById(lagerId);
         if (lager != null) {
@@ -83,6 +53,19 @@ public class Controller {
         return storage.getLagerById(id);
     }
 
+    public int totalAntalLager() {
+        return storage.getLagre().size();
+    }
+
+    /**-------------- FAD METODER --------------**/
+
+    public Fad opretFad(String fadType, double fadStr, Lager lager) {
+        Fad fad = new Fad(fadType, fadStr);
+        storage.getLagerById(lager.getId()).addFad(fad);
+        storage.addFad(fad);
+        return fad;
+    }
+
     public int totalAntalFad() {
         int total = 0;
         for (Lager lager : storage.getLagre()) {
@@ -91,9 +74,41 @@ public class Controller {
         return total;
     }
 
-    public int totalAntalLager() {
-        return storage.getLagre().size();
+    //many testcases
+    public void fyldPåSpecifiktFad(double liter, LocalDate påfyldningsDato, Fad fad, Distillat distillat) {
+        LagretVæske lagretVæske = new LagretVæske(liter, påfyldningsDato);
+        Fad valgtFad = storage.getFadById(fad.getId());
+        Distillat valgtDistillat = storage.getDistillatById(distillat.getId());
+
+        valgtFad.påfyldning(liter, lagretVæske, påfyldningsDato);
+        valgtDistillat.setLiter(valgtDistillat.getLiter() - liter);
     }
+
+    public void autoFyldPåTommeFade(double liter, LocalDate påfyldningsDato, Lager lager, Distillat distillat) {
+        LagretVæske lagretVæske = new LagretVæske(liter, påfyldningsDato);
+        Lager valgtLager = storage.getLagerById(lager.getId());
+        Distillat valgtDistillat = storage.getDistillatById(distillat.getId());
+    }
+
+    /**-------------- LagretVæske METODER --------------**/
+
+    //TODO Håndter oprettelse af lagretVæske (hvordan skal fad angives?)
+    public LagretVæske opretLagretVæske(double liter, LocalDate påfyldningsDato) {
+        LagretVæske lagretVæske = new LagretVæske(liter, påfyldningsDato);
+        storage.addLagretVæske(lagretVæske);
+        return lagretVæske;
+    }
+
+    /**-------------- Distillat METODER --------------**/
+
+    public Distillat opretDistillat(double liter, String maltBatch, String kornsort, double alkoholprocent, String rygemateriale) {
+        Distillat distillat = new Distillat(liter, maltBatch, kornsort, alkoholprocent, rygemateriale);
+        storage.addDistillat(distillat);
+        return distillat;
+    }
+
+
+
 
     public void createSomeObjects() {
     }

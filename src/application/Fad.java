@@ -1,5 +1,6 @@
 package application;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -21,17 +22,16 @@ public class Fad {
         this.lagretVæsker = new ArrayList<>();
     }
 
-    public void påfyldning(double mængde, LagretVæske lagretVæske) {
-        if ((this.fadStr - getFadfyldning()) >= mængde) {
-            double newVolume = this.getFadfyldning() + mængde;
+    /** Præ-condition:
+     * Mængde < (fadStr - getFadfyldning)
+     * @param mængde
+     * @param lagretVæske
+     */
+
+    public void påfyldning(double mængde, LagretVæske lagretVæske, LocalDate påfyldningsDato) {
             this.addLagretVæsker(lagretVæske);
-            for (Fad fad : lagretVæske.getFadehistorik().keySet()) {
-                fad.removeLagretVæsker(lagretVæske);
-            }
-            lagretVæske.getFadehistorik().put(this, 0);
-        } else {
-            throw new IllegalArgumentException("Not enough space in the barrel.");
-        }
+            lagretVæske.getFadehistorik().put(this, påfyldningsDato);
+
     }
 
     public double getFadfyldning() {
