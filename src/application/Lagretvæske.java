@@ -9,7 +9,7 @@ public class Lagretvæske {
     private HashMap<Fad, Integer> fadehistorik = new HashMap<>();
     private ArrayList<Distillat> distillater;
 
-    public Lagretvæske(double liter,ArrayList<Distillat> distillater) {
+    public Lagretvæske(double liter, ArrayList<Distillat> distillater) {
         this.distillater=distillater;
         this.liter = liter;
         this.alkoholProcent = alkoholProcent;
@@ -34,22 +34,15 @@ public class Lagretvæske {
         return new ArrayList<>(distillater);
     }
 
-    //todo find en måde at regne ud hvad alkohol procenten er på baggrund af alle distilaters alkohol procent og hvormeget der er blevet hældt i dem
-    public static double calculateNewAlkoholProcent(ArrayList<Distillat> distilats, double[] volumes) {
-        double totalAlcoholContent = 0;
-        double totalVolume = 0;
-
-        for (int i = 0; i < distilats.size(); i++) {
-            totalAlcoholContent += distilats.get(i).getAlkoholprocent() * volumes[i];
-            totalVolume += volumes[i];
+    // TODO: find en måde at regne ud hvad alkohol procenten er på baggrund af alle distilaters alkohol procent og hvormeget der er blevet hældt i dem
+    public static double calculateNewAlkoholProcent(ArrayList<Distillat> distillater, double[] volumes) {
+        double totalAlkohol = 0;
+        double totalVolumen = 0;
+        for (int i = 0; i < distillater.size(); i++) {
+            totalAlkohol += distillater.get(i).getAlkoholprocent() * volumes[i];
+            totalVolumen += volumes[i];
         }
-
-        if (totalVolume == 0) {
-            throw new IllegalArgumentException("Total volume cannot be zero.");
-        }
-
-        double newAlkoholProcent = totalAlcoholContent / totalVolume;
-        return newAlkoholProcent;
+        return totalAlkohol / totalVolumen;
     }
 
 
