@@ -34,7 +34,7 @@ public class Lagretvæske {
         return new ArrayList<>(distillater);
     }
 
-    // TODO: find en måde at regne ud hvad alkohol procenten er på baggrund af alle distilaters alkohol procent og hvormeget der er blevet hældt i dem
+    // find en måde at regne ud hvad alkohol procenten er på baggrund af alle distilaters alkohol procent og hvormeget der er blevet hældt i dem
     public static double calculateNewAlkoholProcent(ArrayList<Distillat> distillater, double[] volumes) {
         double totalAlkohol = 0;
         double totalVolumen = 0;
@@ -45,5 +45,7 @@ public class Lagretvæske {
         return totalAlkohol / totalVolumen;
     }
 
-
+    public HashMap<Fad, Integer> getFadehistorik() {
+        return new HashMap<>(fadehistorik);
+    }
 }
