@@ -10,25 +10,25 @@ public class Fad {
     private int id;
     private String fadType;
     private double fadStr;
-    private ArrayList<Lagretvæske> lagretvæsker;
+    private ArrayList<LagretVæske> lagretVæsker;
 
 
-    public Fad(String fadType, double fadStr, Lager lager) {
+    public Fad(String fadType, double fadStr) {
         count++;
         this.id = count;
         this.fadType = fadType;
         this.fadStr = fadStr;
-        this.lagretvæsker = new ArrayList<>();
+        this.lagretVæsker = new ArrayList<>();
     }
 
-    public void påfyldning(double mængde, Lagretvæske lagretvæske) {
+    public void påfyldning(double mængde, LagretVæske lagretVæske) {
         if ((this.fadStr - getFadfyldning()) >= mængde) {
             double newVolume = this.getFadfyldning() + mængde;
-            this.addLagretVæsker(lagretvæske);
-            for (Fad fad : lagretvæske.getFadehistorik().keySet()) {
-                fad.removeLagretVæsker(lagretvæske);
+            this.addLagretVæsker(lagretVæske);
+            for (Fad fad : lagretVæske.getFadehistorik().keySet()) {
+                fad.removeLagretVæsker(lagretVæske);
             }
-            lagretvæske.getFadehistorik().put(this, 0);
+            lagretVæske.getFadehistorik().put(this, 0);
         } else {
             throw new IllegalArgumentException("Not enough space in the barrel.");
         }
@@ -36,22 +36,25 @@ public class Fad {
 
     public double getFadfyldning() {
         double fyldning = 0.0;
-        for (Lagretvæske lagretvæske : lagretvæsker) {
-            fyldning += lagretvæske.getLiter();
+        for (LagretVæske lagretVæske : lagretVæsker) {
+            fyldning += lagretVæske.getLiter();
         }
         return fyldning;
     }
 
-    public void addLagretVæsker(Lagretvæske lagretvæske) {
-        if (!(this.lagretvæsker.contains(lagretvæske))) {
-            this.lagretvæsker.add(lagretvæske);
+    public void addLagretVæsker(LagretVæske lagretVæske) {
+        if (!(this.lagretVæsker.contains(lagretVæske))) {
+            this.lagretVæsker.add(lagretVæske);
         }
     }
 
-    public void removeLagretVæsker(Lagretvæske lagretvæske) {
-        if (this.lagretvæsker.contains(lagretvæske)) {
-            this.lagretvæsker.remove(lagretvæske);
+    public void removeLagretVæsker(LagretVæske lagretVæske) {
+        if (this.lagretVæsker.contains(lagretVæske)) {
+            this.lagretVæsker.remove(lagretVæske);
         }
     }
 
+    public int getId() {
+        return id;
+    }
 }

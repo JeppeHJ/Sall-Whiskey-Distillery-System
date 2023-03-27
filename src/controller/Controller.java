@@ -1,8 +1,9 @@
 package controller;
 
+import application.Distillat;
 import application.Fad;
 import application.Lager;
-import application.Lagretvæske;
+import application.LagretVæske;
 import storage.Storage;
 
 import java.util.ArrayList;
@@ -32,13 +33,32 @@ public class Controller {
         }
         return controller;
     }
-    //todo lav opret metoder
 
+    public Lager opretLager(String lokation, int antalPladser) {
+        Lager lager = new Lager(lokation, antalPladser);
+        storage.addLager(lager);
+        return lager;
+    }
 
+    public Fad opretFad(String fadType, double fadStr, Lager lager) {
+        Fad fad = new Fad(fadType, fadStr);
+        storage.getLagerById(lager.getId()).addFad(fad);
+        storage.addFad(fad);
+        return fad;
+    }
 
+    //TODO Håndter oprettelse af lagretVæske (hvordan skal fad angives?)
+    public LagretVæske opretLagretVæske(double liter, ArrayList<Distillat> distillater) {
+        LagretVæske lagretVæske = new LagretVæske(liter, distillater);
+        storage.addLagretVæske(lagretVæske);
+        return lagretVæske;
+    }
 
-
-
+    public Distillat opretDistillat(double liter, String maltBatch, String kornsort, double alkoholprocent, String rygemateriale) {
+        Distillat distillat = new Distillat(liter, maltBatch, kornsort, alkoholprocent, rygemateriale);
+        storage.addDistillat(distillat);
+        return distillat;
+    }
 
 
     public ArrayList<Lager> getAlleLagre() {
@@ -75,14 +95,7 @@ public class Controller {
         return storage.getLagre().size();
     }
 
-
-//
-//    public void createSomeObjects() {
-//        int id1 = this.opretLager("Lokalt", 10);
-//        int id2 = this.opretLager("OFF-prem", 10);
-//        this.opretFad("Fad1", 1.0, id1);
-//        this.opretFad("Fad2", 2.0, id1);
-//    }
-
+    public void createSomeObjects() {
+    }
 }
 
