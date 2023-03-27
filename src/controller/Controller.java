@@ -80,7 +80,7 @@ public class Controller {
         Fad valgtFad = storage.getFadById(fad.getId());
         Distillat valgtDistillat = storage.getDistillatById(distillat.getId());
 
-        valgtFad.påfyldning(liter, lagretVæske, påfyldningsDato);
+        valgtFad.påfyldning(lagretVæske, påfyldningsDato);
         valgtDistillat.setLiter(valgtDistillat.getLiter() - liter);
     }
 

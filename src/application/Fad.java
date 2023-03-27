@@ -11,6 +11,8 @@ public class Fad {
     private int id;
     private String fadType;
     private double fadStr;
+
+    private double currentCapacity;
     private ArrayList<LagretVæske> lagretVæsker;
 
 
@@ -24,13 +26,14 @@ public class Fad {
 
     /** Præ-condition:
      * Mængde < (fadStr - getFadfyldning)
-     * @param mængde
+     * @param
      * @param lagretVæske
      */
 
-    public void påfyldning(double mængde, LagretVæske lagretVæske, LocalDate påfyldningsDato) {
+    public void påfyldning(LagretVæske lagretVæske, LocalDate påfyldningsDato) {
             this.addLagretVæsker(lagretVæske);
             lagretVæske.getFadehistorik().put(this, påfyldningsDato);
+
 
     }
 
@@ -39,7 +42,8 @@ public class Fad {
         for (LagretVæske lagretVæske : lagretVæsker) {
             fyldning += lagretVæske.getLiter();
         }
-        return fyldning;
+        this.currentCapacity = fyldning;
+        return this.currentCapacity;
     }
 
     public void addLagretVæsker(LagretVæske lagretVæske) {
