@@ -21,8 +21,25 @@ public class Fad {
         this.lagretvæsker = new ArrayList<>();
     }
 
-    //todo
-    public void påfyldning() {
+    public void påfyldning(double mængde, Lagretvæske lagretvæske) {
+        if ((this.fadStr - getFadfyldning()) >= mængde) {
+            double newVolume = this.getFadfyldning() + mængde;
+            this.addLagretVæsker(lagretvæske);
+            for (Fad fad : lagretvæske.getFadehistorik().keySet()) {
+                fad.removeLagretVæsker(lagretvæske);
+            }
+            lagretvæske.getFadehistorik().put(this, 0);
+        } else {
+            throw new IllegalArgumentException("Not enough space in the barrel.");
+        }
+    }
+
+    public double getFadfyldning() {
+        double fyldning = 0.0;
+        for (Lagretvæske lagretvæske : lagretvæsker) {
+            fyldning += lagretvæske.getLiter();
+        }
+        return fyldning;
     }
 
     public void addLagretVæsker(Lagretvæske lagretvæske) {
@@ -30,6 +47,7 @@ public class Fad {
             this.lagretvæsker.add(lagretvæske);
         }
     }
+
     public void removeLagretVæsker(Lagretvæske lagretvæske) {
         if (this.lagretvæsker.contains(lagretvæske)) {
             this.lagretvæsker.remove(lagretvæske);
