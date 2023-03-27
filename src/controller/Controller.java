@@ -8,6 +8,7 @@ import storage.Storage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Controller-klassen er ansvarlig for at administrere Lager og Fad objekter.
@@ -75,12 +76,12 @@ public class Controller {
     }
 
     //many testcases
-    public void fyldPåSpecifiktFad(double liter, LocalDate påfyldningsDato, Fad fad, Distillat distillat) {
-        LagretVæske lagretVæske = new LagretVæske(liter, påfyldningsDato);
+    public void fyldPåSpecifiktFad(double liter, LocalDate påfyldningsDato, Fad fad, Distillat distillat, LagretVæske lagretVæske) {
+        LagretVæske valgtLagretVæske = storage.getLagretVæskeById(lagretVæske.getId());
         Fad valgtFad = storage.getFadById(fad.getId());
         Distillat valgtDistillat = storage.getDistillatById(distillat.getId());
 
-        valgtFad.påfyldning(lagretVæske, påfyldningsDato);
+        valgtFad.påfyldning(valgtLagretVæske, påfyldningsDato);
         valgtDistillat.setLiter(valgtDistillat.getLiter() - liter);
     }
 
@@ -97,6 +98,10 @@ public class Controller {
         LagretVæske lagretVæske = new LagretVæske(liter, påfyldningsDato);
         storage.addLagretVæske(lagretVæske);
         return lagretVæske;
+    }
+
+    public HashMap<Fad, LocalDate> getFadehistorik(LagretVæske lagretVæske) {
+        return storage.getLagretVæskeById(lagretVæske.getId()).getFadehistorik();
     }
 
     /**-------------- Distillat METODER --------------**/

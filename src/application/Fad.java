@@ -24,26 +24,28 @@ public class Fad {
         this.lagretVæsker = new ArrayList<>();
     }
 
-    /** Præ-condition:
+    /**
+     * Præ-condition:
      * Mængde < (fadStr - getFadfyldning)
+     *
      * @param
-     * @param lagretVæske
+     * @param
+     * @param valgtLagretVæske
      */
 
-    public void påfyldning(LagretVæske lagretVæske, LocalDate påfyldningsDato) {
-            this.addLagretVæsker(lagretVæske);
-            lagretVæske.getFadehistorik().put(this, påfyldningsDato);
-
+    public void påfyldning(LagretVæske valgtLagretVæske, LocalDate påfyldningsDato) {
+        this.addLagretVæsker(valgtLagretVæske);
+        valgtLagretVæske.addFadTilHistorik(this, påfyldningsDato);
 
     }
+
 
     public double getFadfyldning() {
         double fyldning = 0.0;
         for (LagretVæske lagretVæske : lagretVæsker) {
             fyldning += lagretVæske.getLiter();
         }
-        this.currentCapacity = fyldning;
-        return this.currentCapacity;
+        return fyldning;
     }
 
     public void addLagretVæsker(LagretVæske lagretVæske) {
@@ -60,5 +62,9 @@ public class Fad {
 
     public int getId() {
         return id;
+    }
+
+    public String toString() {
+        return "id: " + this.id + " - Fadtype: " + fadType + " - " + getFadfyldning() + "/" + fadStr + " - ";
     }
 }
