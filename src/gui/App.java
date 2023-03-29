@@ -7,9 +7,7 @@ import application.LagretVæske;
 import controller.Controller;
 import javafx.application.Application;
 
-import java.sql.Array;
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 public class App {
     private static Controller controller = Controller.getController();
@@ -40,7 +38,8 @@ public class App {
         System.out.println("f6 " + f6.getCurrentCapacity());
         System.out.println("Liter tilbage: " + d1.getLiterTilbage());
 
-
+        controller.fyldPåSpecifiktFad(30,LocalDate.now(),f1,d1, lV1);
+        System.out.println(lV1.getFadehistorik());
 
 
 
