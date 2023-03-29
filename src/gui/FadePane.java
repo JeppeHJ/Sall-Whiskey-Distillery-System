@@ -80,6 +80,7 @@ public class FadePane extends GridPane {
 
     public void updateControls() {
         lbltotalfad.setText("Total fade: "+controller.totalAntalFad());
+        comboBoxLager.getItems().addAll(controller.getAlleLagre());
 
 
     }
