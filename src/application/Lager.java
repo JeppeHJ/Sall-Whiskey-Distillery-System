@@ -56,4 +56,7 @@ public class Lager {
                 " id: " + id + " antal fad: "+this.fade.size()+
                 " Pladser: " + antalPladser;
     }
+    public int friePladser(){
+        return antalPladser-fade.size();
+    }
 }

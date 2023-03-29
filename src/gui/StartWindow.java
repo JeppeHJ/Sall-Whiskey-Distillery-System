@@ -1,5 +1,6 @@
 package gui;
 
+import application.Fad;
 import application.Lager;
 import controller.Controller;
 import javafx.application.Application;
@@ -27,19 +28,22 @@ public class StartWindow extends Application {
         stage.setHeight(500);
         stage.setWidth(700);
         stage.show();
+        stage.setResizable(false);
     }
 
 
 
         private void initContent(BorderPane pane) {
-//        controller.createSomeObjects();
+        controller.createSomeObjects();
             TabPane tabPane = new TabPane();
             this.initTabPane(tabPane);
             pane.setCenter(tabPane);
+
         }
 
         private void initTabPane(TabPane tabPane) {
             tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+
 
             Tab tab01 = new Tab("Lagere");
             Tab tab02 = new Tab("Fade");
