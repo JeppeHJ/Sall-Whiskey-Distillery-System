@@ -68,7 +68,6 @@
         public void addFadTilHistorik(Fad fad, LocalDate påfyldningsDato) {
             System.out.println("2. Fad: Fad added to historik: " + fad + " Date: " + påfyldningsDato);
             this.fadehistorik.put(fad, påfyldningsDato);
-            System.out.println(this.getFadehistorik());
         }
 
 

@@ -39,6 +39,9 @@ public class Fad {
 
     }
 
+    public double getFadStr() {
+        return fadStr;
+    }
 
     public double getFadfyldning() {
         double fyldning = 0.0;
@@ -46,6 +49,10 @@ public class Fad {
             fyldning += lagretVæske.getLiter();
         }
         return fyldning;
+    }
+
+    public double getCurrentCapacity() {
+        return this.fadStr - getFadfyldning();
     }
 
     public void addLagretVæsker(LagretVæske lagretVæske) {
