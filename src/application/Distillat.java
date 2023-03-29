@@ -4,6 +4,7 @@ public class Distillat {
     private static int count;
     private int id;
     private double liter;
+    private double literTilbage;
     private String maltBatch;
     private String kornsort;
     private double alkoholprocent;
@@ -15,6 +16,14 @@ public class Distillat {
         this.kornsort = kornsort;
         this.alkoholprocent = alkoholprocent;
         this.rygemateriale = rygemateriale;
+    }
+
+    public double getLiterTilbage() {
+        return literTilbage + liter;
+    }
+
+    public void subtractFilledLiters(double filledLiters) {
+        this.literTilbage -= filledLiters;
     }
 
     public int getId() {

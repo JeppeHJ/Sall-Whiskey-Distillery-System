@@ -75,27 +75,45 @@ public class Controller {
         return total;
     }
 
-    //many testcases
-    public void fyldPåSpecifiktFad(double liter, LocalDate påfyldningsDato, Fad fad, Distillat distillat, LagretVæske lagretVæske) {
-        LagretVæske valgtLagretVæske = storage.getLagretVæskeById(lagretVæske.getId());
+    //many testcases - remove return (for testing purposes atm)
+    public LagretVæske fyldPåSpecifiktFad(double liter, LocalDate påfyldningsDato, Fad fad, Distillat distillat) {
+        LagretVæske valgtLagretVæske = controller.opretLagretVæske(liter,påfyldningsDato, distillat);
+        storage.addLagretVæske(valgtLagretVæske);
         Fad valgtFad = storage.getFadById(fad.getId());
         Distillat valgtDistillat = storage.getDistillatById(distillat.getId());
 
         valgtFad.påfyldning(valgtLagretVæske, påfyldningsDato);
         valgtDistillat.setLiter(valgtDistillat.getLiter() - liter);
+        return valgtLagretVæske;
     }
 
-    public void autoFyldPåTommeFade(double liter, LocalDate påfyldningsDato, Lager lager, Distillat distillat) {
-        LagretVæske lagretVæske = new LagretVæske(liter, påfyldningsDato);
-        Lager valgtLager = storage.getLagerById(lager.getId());
+    public void fyldPåFlereFade(double liter, LocalDate påfyldningsDato, ArrayList<Fad> fade, Distillat distillat) {
+        ArrayList<Fad> påfyldteFade = new ArrayList<>();
         Distillat valgtDistillat = storage.getDistillatById(distillat.getId());
+        double literTilbage = liter;
+        for (Fad fad : fade) {
+            if (literTilbage > 0) {
+                double fadCapacity = fad.getFadStr() - fad.getFadfyldning();
+                double amountToFill = Math.min(fadCapacity, literTilbage);
+
+                if (amountToFill > 0) {
+                    LagretVæske lV = controller.opretLagretVæske(amountToFill, påfyldningsDato, valgtDistillat);
+                    fad.addLagretVæsker(lV);
+                    literTilbage -= amountToFill;
+                    storage.addLagretVæske(lV);
+                    påfyldteFade.add(fad);
+                }
+            }
+        }
     }
 
     /**-------------- LagretVæske METODER --------------**/
 
-    //TODO Håndter oprettelse af lagretVæske (hvordan skal fad angives?)
-    public LagretVæske opretLagretVæske(double liter, LocalDate påfyldningsDato) {
+    //TODO Håndter oprettelse af lagretVæske
+    public LagretVæske opretLagretVæske(double liter, LocalDate påfyldningsDato, Distillat distillat) {
         LagretVæske lagretVæske = new LagretVæske(liter, påfyldningsDato);
+        lagretVæske.addDistillat(distillat);
+        distillat.subtractFilledLiters(liter); // Use the subtractFilledLiters method to update literTilbage
         storage.addLagretVæske(lagretVæske);
         return lagretVæske;
     }
