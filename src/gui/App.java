@@ -8,12 +8,13 @@ import controller.Controller;
 import javafx.application.Application;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class App {
     private static Controller controller = Controller.getController();
 
     public static void main(String[] args) {
-        //Application.launch(StartWindow.class);
+        Application.launch(StartWindow.class);
         Lager l1 = controller.opretLager("Aarhus",100);
         Fad f1 = controller.opretFad("Grim",250.0, l1);
         Fad f2 = controller.opretFad("Grim",30.0, l1);
@@ -37,10 +38,6 @@ public class App {
         System.out.println("f5 " + f5.getCurrentCapacity());
         System.out.println("f6 " + f6.getCurrentCapacity());
         System.out.println("Liter tilbage: " + d1.getLiterTilbage());
-
-        controller.fyldPåSpecifiktFad(30,LocalDate.now(),f1,d1, lV1);
-        System.out.println(lV1.getFadehistorik());
-
 
 
 
