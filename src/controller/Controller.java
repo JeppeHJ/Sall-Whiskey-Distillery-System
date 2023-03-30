@@ -5,7 +5,6 @@ import application.Fad;
 import application.Lager;
 import application.LagretVæske;
 import storage.Storage;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
