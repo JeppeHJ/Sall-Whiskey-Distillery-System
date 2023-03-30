@@ -78,6 +78,7 @@ public class LagerePane extends GridPane {
 
 
     }
+    //TODO lav input validering
     private void btnOpretAction() {
         String lokation = txtLagerLokation.getText().trim();
         int pladser = Integer.parseInt(txtLagerPladser.getText().trim());

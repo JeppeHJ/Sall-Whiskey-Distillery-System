@@ -61,7 +61,7 @@ public class FadePane extends GridPane {
 
 
     }
-
+    //TODO lav input validering
     private void btnOpretAction() {
         lblError.setText("");
         Lager lager = (Lager)comboBoxLager.getValue();
