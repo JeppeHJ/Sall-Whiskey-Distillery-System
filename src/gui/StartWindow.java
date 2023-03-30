@@ -50,18 +50,21 @@ public class StartWindow extends Application {
             Tab tab03 = new Tab("Distillat");
             Tab tab04 = new Tab("Lagret distillat");
             Tab tab05 = new Tab("Færdige Whiskys");
+            Tab tab06 = new Tab("Påfyldning");
 
             LagerePane lagerePane = new LagerePane();
             FadePane fadePane = new FadePane();
             DistillatPane distillatPane = new DistillatPane();
             LagretDistillatPane lagretDistillatPane = new LagretDistillatPane();
             FeardigWhiskeysPane feardigeWhiskysPane = new FeardigWhiskeysPane();
+            PaafyldningPane paafyldningPane = new PaafyldningPane();
 
             tab01.setContent(lagerePane);
             tab02.setContent(fadePane);
             tab03.setContent(distillatPane);
             tab04.setContent(lagretDistillatPane);
             tab05.setContent(feardigeWhiskysPane);
+            tab06.setContent(paafyldningPane);
 
 
             tabPane.getTabs().add(tab01);
@@ -69,6 +72,7 @@ public class StartWindow extends Application {
             tabPane.getTabs().add(tab03);
             tabPane.getTabs().add(tab04);
             tabPane.getTabs().add(tab05);
+            tabPane.getTabs().add(tab06);
 
 
             tab01.setOnSelectionChanged(event -> lagerePane.updateControls());

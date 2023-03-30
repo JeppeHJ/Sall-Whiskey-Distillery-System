@@ -13,10 +13,11 @@ public class Fad {
     private double fadStr;
 
     private double currentCapacity;
+    private int plads;
     private ArrayList<LagretVæske> lagretVæsker;
 
 
-    public Fad(String fadType, double fadStr) {
+    public Fad(String fadType, double fadStr, int plads) {
         count++;
         this.id = count;
         this.fadType = fadType;
@@ -36,7 +37,6 @@ public class Fad {
     public void påfyldning(LagretVæske valgtLagretVæske, LocalDate påfyldningsDato) {
         this.addLagretVæsker(valgtLagretVæske);
         valgtLagretVæske.addFadTilHistorik(this, påfyldningsDato);
-
     }
 
     public double getFadStr() {
@@ -72,6 +72,6 @@ public class Fad {
     }
 
     public String toString() {
-        return "id: " + this.id + " - Fadtype: " + fadType + " - " + getFadfyldning() + "/" + fadStr + " - ";
+        return this.id + " | " + fadType + " | " + getFadfyldning() + "/" + fadStr;
     }
 }

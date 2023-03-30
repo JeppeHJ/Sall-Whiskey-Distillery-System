@@ -23,9 +23,6 @@
             this.fadehistorik =  new HashMap<>();
         }
 
-        //todo hvad fanden er det nu du bruger hashmap til?
-
-
         public int getId() {
             return id;
         }

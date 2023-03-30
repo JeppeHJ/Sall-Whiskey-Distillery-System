@@ -9,6 +9,7 @@ public class Lager {
     private String lokation;
     private static int count = 0;
     private int id;
+    private ArrayList<Boolean> fadPlads;
     private ArrayList<Fad> fade;
     private int antalPladser;
 
@@ -19,6 +20,10 @@ public class Lager {
         this.id = count;
         this.fade = new ArrayList<>();
         this.antalPladser = antalPladser;
+        this.fadPlads = new ArrayList<>();
+        for (int i = 0; i < antalPladser; i++) {
+            this.fadPlads.add(i,false);
+        }
     }
 
     public int getAntalPladser() {

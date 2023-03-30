@@ -1,5 +1,7 @@
 package application;
 
+import java.time.LocalDate;
+
 public class Distillat {
     private static int count;
     private int id;
@@ -9,13 +11,20 @@ public class Distillat {
     private String kornsort;
     private double alkoholprocent;
     private  String rygemateriale;
+    private LocalDate datoForDone;
 
-    public Distillat(double liter, String maltBatch, String kornsort, double alkoholprocent, String rygemateriale) {
+    public Distillat(double liter, String maltBatch, String kornsort, double alkoholprocent, String rygemateriale, LocalDate dato) {
         this.liter = liter;
         this.maltBatch = maltBatch;
         this.kornsort = kornsort;
         this.alkoholprocent = alkoholprocent;
         this.rygemateriale = rygemateriale;
+        this.datoForDone = dato;
+
+    }
+
+    public LocalDate getDatoForDone() {
+        return datoForDone;
     }
 
     public double getLiterTilbage() {
@@ -52,5 +61,9 @@ public class Distillat {
 
     public String getRygemateriale() {
         return rygemateriale;
+    }
+
+    public String toString() {
+        return id + " | " + maltBatch + " | liter: " + (liter + literTilbage);
     }
 }
