@@ -48,9 +48,9 @@ public class StartWindow extends Application {
             Tab tab01 = new Tab("Lagere");
             Tab tab02 = new Tab("Fade");
             Tab tab03 = new Tab("Distillat");
-            Tab tab04 = new Tab("Lagret distillat");
+            Tab tab04 = new Tab("Påfyldning");
             Tab tab05 = new Tab("Færdige Whiskys");
-            Tab tab06 = new Tab("Påfyldning");
+            Tab tab06 = new Tab("Lagret distillat");
 
             LagerePane lagerePane = new LagerePane();
             FadePane fadePane = new FadePane();
@@ -62,10 +62,9 @@ public class StartWindow extends Application {
             tab01.setContent(lagerePane);
             tab02.setContent(fadePane);
             tab03.setContent(distillatPane);
-            tab04.setContent(lagretDistillatPane);
+            tab04.setContent(paafyldningPane);
             tab05.setContent(feardigeWhiskysPane);
-            tab06.setContent(paafyldningPane);
-
+            tab06.setContent(lagretDistillatPane);
 
             tabPane.getTabs().add(tab01);
             tabPane.getTabs().add(tab02);
@@ -74,10 +73,10 @@ public class StartWindow extends Application {
             tabPane.getTabs().add(tab05);
             tabPane.getTabs().add(tab06);
 
-
             tab01.setOnSelectionChanged(event -> lagerePane.updateControls());
             tab02.setOnSelectionChanged(event -> fadePane.updateControls());
-//            tab03.setOnSelectionChanged(event -> distillatPane.updateControls());
+            tab04.setOnSelectionChanged(event -> paafyldningPane.updateControls());
+            //tab03.setOnSelectionChanged(event -> distillatPane.updateControls());
 //            tab04.setOnSelectionChanged(event -> lagretDistillatPane.updateControls());
 //            tab05.setOnSelectionChanged(event -> feardigeWhiskysPane.updateControls());
 

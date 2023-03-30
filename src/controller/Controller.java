@@ -9,6 +9,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+//TODO HER ER TO-DOs, LÆS NED!
+
 /**
  * Controller-klassen er ansvarlig for at administrere Lager og Fad objekter.
  * Den bruger Singleton designmønsteret for at sikre, at kun én instans
@@ -45,6 +47,9 @@ public class Controller {
         return storage.getLagre();
     }
 
+    //TODO (30/03/2023 19:34)
+    // Input-validering:
+    // - lagerId skal kunne findes i storage
     public ArrayList<Fad> getFadeILager(int lagerId) {
         Lager lager = storage.getLagerById(lagerId);
         if (lager != null) {
@@ -53,6 +58,9 @@ public class Controller {
         return new ArrayList<>();
     }
 
+    //TODO (30/03/2023 19:34)
+    // Input-validering:
+    // - lagerId skal kunne findes i storage
     public Lager getLagerById(int id) {
         return storage.getLagerById(id);
     }
@@ -81,13 +89,19 @@ public class Controller {
         return total;
     }
 
-    //TODO (30/03/2023 13:22)
-    // Input-validering:
-    // - liter ikke 0 eller -
-    // - fad skal kunne findes i storage
-    // - distillat skal kunne findes i storage
-    // - add tilsvarende pre-condition i selve klassen
     public LagretVæske fyldPåSpecifiktFad(double liter, LocalDate påfyldningsDato, Fad fad, Distillat distillat) {
+        if (liter > (fad.getFadStr() - fad.getFadfyldning())) {
+            throw new IllegalArgumentException("Du kan ikke fylde så meget på fadet.");
+        }
+        if (liter <= 0) {
+            throw new IllegalArgumentException("Litermængden kan ikke være 0 eller under");
+        }
+        if (storage.getFadById(fad.getId()) == null) {
+            throw new IllegalArgumentException("Fad kunne ikke findes i storage");
+        }
+        if (storage.getDistillatById(distillat.getId()) == null) {
+            throw new IllegalArgumentException("Distillat kunne ikke findes i storage");
+        }
         LagretVæske valgtLagretVæske = controller.opretLagretVæske(liter,påfyldningsDato, distillat);
         storage.addLagretVæske(valgtLagretVæske);
         Fad valgtFad = storage.getFadById(fad.getId());
@@ -133,7 +147,7 @@ public class Controller {
     public LagretVæske opretLagretVæske(double liter, LocalDate påfyldningsDato, Distillat distillat) {
         LagretVæske lagretVæske = new LagretVæske(liter, påfyldningsDato);
         lagretVæske.addDistillat(storage.getDistillatById(distillat.getId()));
-        distillat.subtractFilledLiters(liter); // Use the subtractFilledLiters method to update literTilbage
+        distillat.subtractFilledLiters(liter);
         storage.addLagretVæske(lagretVæske);
         return lagretVæske;
     }
@@ -167,9 +181,6 @@ public class Controller {
         return distillaterMedVæske;
     }
 
-
-
-
     public void createSomeObjects() {
         Lager l1 = controller.opretLager("Aarhus",100);
         Fad f1 = controller.opretFad("Grim",250.0, l1, 1);
@@ -185,7 +196,7 @@ public class Controller {
         fade.add(f4);
         fade.add(f5);
         fade.add(f6);
-        Distillat d1 = controller.opretDistillat(300,"SortBatch73","Black",40.0, "Hmm", LocalDate.now());
+        Distillat d1 = controller.opretDistillat(3000,"SortBatch73","Black",40.0, "Hmm", LocalDate.now());
         controller.fyldPåFlereFade(250,LocalDate.now(), fade, d1);
 
     }

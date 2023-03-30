@@ -23,6 +23,7 @@ public class Fad {
         this.fadType = fadType;
         this.fadStr = fadStr;
         this.lagretVæsker = new ArrayList<>();
+        this.plads = plads;
     }
 
     /**

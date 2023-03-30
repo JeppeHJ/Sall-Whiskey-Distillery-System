@@ -1,33 +1,22 @@
 package gui;
 
-import application.Distillat;
 import application.Fad;
 import application.Lager;
 import controller.Controller;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-
-//TODO Opdater FadListView når Fad oprettes (ikke clear alt)
-//TODO Tilføj "CheckBoxes": "Vis kun tomme fade", "Vis kun fyldte fade"
+import javafx.scene.text.Font;
 
 public class FadePane extends GridPane {
-    private Controller controller = Controller.getController();
-
-    private ListView<Fad> listFade = new ListView<>();
-
-    private TextField txtxFadtype = new TextField();
-    private Lager valgtLager;
-    private TextField txtfadStr= new TextField();
-    private Label lblfadType= new Label("Fad Type");
-    private Label lblfadStr = new Label("Fad størrelse");
-    private Label lblvealglager = new Label("Vælg lager:");
-    private Label lblError = new Label();
-    private Label lbltotalfad=new Label("Total fade: "+controller.totalAntalFad());
-    private ComboBox comboBoxLager = new ComboBox<>();
-    private Button btnopretfad = new Button("Opret fad");
+    private final Controller controller = Controller.getController();
+    private static final int ROWS = 10;
+    private static final int COLUMNS = 10;
+    private final GridPane warehouseGrid = createWarehouseGrid();
+    private final ListView<Fad> listFade = new ListView<>();
+    private final TextField txtxFadtype = new TextField();
+    private final TextField txtfadStr = new TextField();
+    private final ComboBox<Lager> comboBoxLager = new ComboBox<>();
 
     public FadePane() {
 
@@ -36,85 +25,106 @@ public class FadePane extends GridPane {
         this.setVgap(10);
         this.setGridLinesVisible(false);
 
-        //----------------------------------------------list
-        this.comboBoxLager.getItems().addAll(controller.getAlleLagre());
-        this.add( comboBoxLager, 3, 0);
+        //----------------------------------------------ComboBox
+        comboBoxLager.getItems().addAll(controller.getAlleLagre());
+        this.add(comboBoxLager, 3, 0);
 
         comboBoxLager.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            listFade.getSelectionModel().clearSelection(); // Clear the ListView selection
-            Lager lager = (Lager) newSelection;
-            if (lager != null) {
-                listFade.getItems().setAll(controller.getFadeILager(lager.getId()));
+            listFade.getSelectionModel().clearSelection();
+            if (newSelection != null) {
+                listFade.getItems().setAll(controller.getFadeILager(newSelection.getId()));
             } else {
-                listFade.getItems().clear(); // Clear the ListView if no Lager is selected
+                listFade.getItems().clear();
             }
         });
 
-
         //-----------------------------------------------Fade liste
         this.add(listFade, 1, 3);
-        this.listFade.setEditable(false);
-        this.valgtLager = (Lager)comboBoxLager.getValue();
-        if (valgtLager != null) {
-            System.out.println(valgtLager.getId());
-            this.listFade.getItems().setAll(controller.getFadeILager(valgtLager.getId()));
-        }
-        this.listFade.setMinHeight(200);
-
-
+        listFade.setEditable(false);
+        listFade.setMinHeight(200);
 
         //------------------------------------------------- Labels
-        this.add(lblfadStr,0,0);
-        this.add(lblfadType,0,1);
-        this.add(lblvealglager,2,0);
-        this.add(lblError,3,2);
-        lblError.setStyle("-fx-text-fill: red;");
+        Label lblfadStr = new Label("Fad størrelse");
+        this.add(lblfadStr, 0, 0);
+        Label lblfadPosition = new Label("Vælg position");
+        this.add(lblfadPosition, 3, 2);
+        Label lblfadType = new Label("Fad Type");
+        this.add(lblfadType, 0, 1);
+        Label lblvealglager = new Label("Vælg lager:");
+        this.add(lblvealglager, 2, 0);
+        Label lbltotalfad = new Label("Total fade: " + controller.totalAntalFad());
         this.add(lbltotalfad, 0, 7);
+        Label lblPosition = new Label("Position");
+        this.add(lblPosition,0,2);
+
 
         //------------------------------------------------button
-        this.add(btnopretfad,3,1);
+        Button btnopretfad = new Button("Opret fad");
+        this.add(btnopretfad, 3, 1);
         btnopretfad.setOnAction(event -> btnOpretAction());
 
         //-------------------------------------------------text
-        this.add(txtfadStr,1,0);
+        this.add(txtfadStr, 1, 0);
         this.add(txtxFadtype, 1, 1);
 
-
-        //-------------------------------------------------
-
-
-
-
-
-
+        this.add(warehouseGrid, 3,3);
     }
-    //TODO lav input validering
+
     private void btnOpretAction() {
-        lblError.setText("");
         int plads = 1;
-        Lager lager = (Lager)comboBoxLager.getValue();
+        Lager lager = comboBoxLager.getValue();
         String fadtype = txtxFadtype.getText().trim();
-        int fadStr = Integer.parseInt(txtfadStr.getText().trim());
-        if (fadtype.length() == 0 || fadStr == 0 || txtfadStr.getText().trim().length() == 0) {
-            lblError.setText("Udfyld venligst alle felter");
-        } else {
+
+        if (lager == null || fadtype.isEmpty() || txtfadStr.getText().trim().isEmpty()) {
+            showErrorAlert("Udfyld venligst alle felter");
+            return;
+        }
+
+        try {
+            int fadStr = Integer.parseInt(txtfadStr.getText().trim());
             controller.opretFad(fadtype, fadStr, lager, plads);
             txtfadStr.clear();
             txtxFadtype.clear();
             comboBoxLager.getSelectionModel().clearSelection();
             this.updateControls();
+        } catch (NumberFormatException e) {
+            showErrorAlert("Ugyldig fad størrelse");
         }
     }
+
+    private void showErrorAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Fejl");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private GridPane createWarehouseGrid() {
+        GridPane grid = new GridPane();
+        for (int row = 0; row < ROWS; row++) {
+            for (int column = 0; column < COLUMNS; column++) {
+                Button cell = new Button();
+                cell.setMinSize(20, 20);
+                cell.setMaxSize(20, 20);
+                int position = row * COLUMNS + column + 1;
+                cell.setText(String.valueOf(position));
+                cell.setFont(new Font(7));
+                cell.setOnAction(event -> {
+                    txtfadStr.setText(String.valueOf(position));
+                });
+                grid.add(cell, column, row);
+            }}
+        grid.setHgap(5);
+        grid.setVgap(5);
+        return grid;
+    }
+
+
 
     public void updateControls() {
-        lbltotalfad.setText("Total fade: "+controller.totalAntalFad());
         comboBoxLager.getItems().clear();
         comboBoxLager.getItems().addAll(controller.getAlleLagre());
-        if (this.valgtLager != null) {
-            listFade.getItems().addAll(controller.getFadeILager(valgtLager.getId()));
-        }
-
-
     }
-
 }
+
