@@ -10,8 +10,7 @@ public class Lager {
     private String lokation;
     private static int count = 0;
     private int id;
-    private ArrayList<Boolean> fadPlads;
-    private ArrayList<Fad> fade;
+
     private int antalPladser;
     private HashMap<Integer, Fad> fadeHashMap;
 
@@ -20,13 +19,8 @@ public class Lager {
         this.lokation = lokation;
         count++;
         this.id = count;
-        this.fade = new ArrayList<>();
         this.antalPladser = antalPladser;
-        this.fadPlads = new ArrayList<>();
         this.fadeHashMap = new HashMap<>();
-        for (int i = 0; i < antalPladser; i++) {
-            this.fadPlads.add(i,false);
-        }
         for (int i = 0; i < antalPladser; i++) {
             this.fadeHashMap.put(i + 1,null);
         }
@@ -37,9 +31,6 @@ public class Lager {
         return fadeHashMap;
     }
 
-    public ArrayList<Boolean> getFadPlads() {
-        return fadPlads;
-    }
 
     public int amountOfFade() {
         int count = 0;
@@ -54,10 +45,6 @@ public class Lager {
 
     public int getAntalPladser() {
         return antalPladser;
-    }
-
-    public ArrayList<Fad> getFade() {
-        return new ArrayList<>(fade);
     }
 
     /**
@@ -84,10 +71,8 @@ public class Lager {
     public String toString() {
         return
                  lokation + ' ' +
-                " id: " + id + " antal fad: "+this.fade.size()+
+                " id: " + id + " antal fad: "+this.fadeHashMap.size()+
                 " Pladser: " + antalPladser;
     }
-    public int friePladser(){
-        return antalPladser-fade.size();
-    }
+
 }
