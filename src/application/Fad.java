@@ -11,8 +11,6 @@ public class Fad {
     private int id;
     private String fadType;
     private double fadStr;
-
-    private double currentCapacity;
     private int plads;
     private ArrayList<LagretVæske> lagretVæsker;
 
