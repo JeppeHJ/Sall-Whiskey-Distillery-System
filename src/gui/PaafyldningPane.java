@@ -11,6 +11,7 @@ import javafx.scene.layout.GridPane;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PaafyldningPane extends GridPane {
     private final Controller controller = Controller.getController();
@@ -59,7 +60,8 @@ public class PaafyldningPane extends GridPane {
         comboBoxLager.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             listFade.getSelectionModel().clearSelection();
             if (newSelection != null) {
-                listFade.getItems().setAll(controller.getFadeILager(newSelection.getId()));
+                HashMap<Integer, Fad> fadeIHashMap = controller.getFadeIHashMap(newSelection.getId());
+                listFade.getItems().setAll(fadeIHashMap.values());
             } else {
                 listFade.getItems().clear();
             }
@@ -99,7 +101,8 @@ public class PaafyldningPane extends GridPane {
         listFade.setEditable(false);
         valgtLager = comboBoxLager.getValue();
         if (valgtLager != null) {
-            listFade.getItems().setAll(controller.getFadeILager(valgtLager.getId()));
+            HashMap<Integer, Fad> fadeIHashMap = controller.getFadeIHashMap(valgtLager.getId());
+            listFade.getItems().setAll(fadeIHashMap.values());
         }
         listFade.setMaxHeight(100);
     }
@@ -197,7 +200,8 @@ public class PaafyldningPane extends GridPane {
         comboBoxDistillat.getItems().clear();
         comboBoxDistillat.getItems().addAll(controller.getDistillaterMedActualVaeske());
         if (this.valgtLager != null) {
-            listFade.getItems().addAll(controller.getFadeILager(valgtLager.getId()));
+            System.out.println("gej");
+            listFade.getItems().setAll(controller.getFadeIHashMap(valgtLager.getId()).values());
         }
 
 

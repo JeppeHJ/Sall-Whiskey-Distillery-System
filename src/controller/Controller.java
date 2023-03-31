@@ -58,6 +58,14 @@ public class Controller {
         return new ArrayList<>();
     }
 
+    public HashMap<Integer, Fad> getFadeIHashMap(int lagerId) {
+        Lager lager = storage.getLagerById(lagerId);
+        if (lager != null) {
+            return lager.getFadeHashMap();
+        }
+        return new HashMap<>();
+    }
+
     //TODO (30/03/2023 19:34)
     // Input-validering:
     // - lagerId skal kunne findes i storage
@@ -75,8 +83,8 @@ public class Controller {
     // - fadStr ikke - eller 0
     // - add tilsvarende pre-condition i selve klassen
     public Fad opretFad(String fadType, double fadStr, Lager lager, int plads) {
-        Fad fad = new Fad(fadType, fadStr, plads);
-        storage.getLagerById(lager.getId()).addFad(fad);
+        Fad fad = new Fad(fadType, fadStr);
+        storage.getLagerById(lager.getId()).addFad(fad, plads);
         storage.addFad(fad);
         return fad;
     }
@@ -84,7 +92,7 @@ public class Controller {
     public int totalAntalFad() {
         int total = 0;
         for (Lager lager : storage.getLagre()) {
-            total += lager.getFade().size();
+            total += lager.amountOfFade();
         }
         return total;
     }

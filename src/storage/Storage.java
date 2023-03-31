@@ -6,18 +6,18 @@ import application.Lager;
 import application.LagretVæske;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Storage {
-    //todo add nye lister
     private static Storage storage;
     private ArrayList<Lager> lagre;
-    private ArrayList<Fad> fade;
+    private HashMap<Integer, Fad> fade; // Change to HashMap
     private ArrayList<Distillat> distillater;
     private ArrayList<LagretVæske> lagretVæsker;
 
     public Storage() {
         lagre = new ArrayList<>();
-        fade = new ArrayList<>();
+        fade = new HashMap<>(); // Initialize HashMap
         distillater = new ArrayList<>();
         lagretVæsker = new ArrayList<>();
     }
@@ -50,21 +50,18 @@ public class Storage {
 
     //------------------- Fad storage -----------------//
 
+    //------------------- Fad storage -----------------//
+
     public void addFad(Fad fad) {
-        fade.add(fad);
+        fade.put(fad.getId(), fad); // Update to use HashMap
     }
 
     public ArrayList<Fad> getFade() {
-        return new ArrayList<>(fade);
+        return new ArrayList<>(fade.values()); // Update to use HashMap
     }
 
     public Fad getFadById(int id) {
-        for (Fad fad : fade) {
-            if (fad.getId() == id) {
-                return fad;
-            }
-        }
-        return null;
+        return fade.get(id); // Update to use HashMap
     }
 
     //------------------- Distillat storage -----------------//

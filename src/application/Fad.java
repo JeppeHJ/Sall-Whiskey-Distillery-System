@@ -17,7 +17,7 @@ public class Fad {
     private ArrayList<LagretVæske> lagretVæsker;
 
 
-    public Fad(String fadType, double fadStr, int plads) {
+    public Fad(String fadType, double fadStr) {
         count++;
         this.id = count;
         this.fadType = fadType;
@@ -66,6 +66,10 @@ public class Fad {
         if (this.lagretVæsker.contains(lagretVæske)) {
             this.lagretVæsker.remove(lagretVæske);
         }
+    }
+
+    public int getPlads() {
+        return plads;
     }
 
     public int getId() {

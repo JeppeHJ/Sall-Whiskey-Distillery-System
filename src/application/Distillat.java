@@ -15,6 +15,7 @@ public class Distillat {
 
     public Distillat(double liter, String maltBatch, String kornsort, double alkoholprocent, String rygemateriale, LocalDate dato) {
         this.liter = liter;
+        this.id = count++;
         this.maltBatch = maltBatch;
         this.kornsort = kornsort;
         this.alkoholprocent = alkoholprocent;
