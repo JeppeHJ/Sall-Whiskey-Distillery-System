@@ -47,9 +47,7 @@ public class Controller {
         return storage.getLagre();
     }
 
-    //TODO (30/03/2023 19:34)
-    // Input-validering:
-    // - lagerId skal kunne findes i storage
+
 
     public HashMap<Integer, Fad> getFadeIHashMap(int lagerId) {
         Lager lager = storage.getLagerById(lagerId);

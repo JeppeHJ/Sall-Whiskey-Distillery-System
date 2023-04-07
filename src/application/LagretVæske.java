@@ -10,10 +10,13 @@
         private static int count = 0;
         private int id;
         private double liter;
+        //TODO: alkoholdprocent skal gives en værdi ud fra claculatenewAlkoholProcent
         private double alkoholProcent;
         private LocalDate påfyldningsDato;
         private HashMap<Fad, LocalDate> fadehistorik;
         private ArrayList<Distillat> distillater;
+
+
 
         public LagretVæske(double liter, LocalDate påfyldningsDato) {
             this.påfyldningsDato = påfyldningsDato;
@@ -47,7 +50,7 @@
             return new ArrayList<>(distillater);
         }
 
-        // find en måde at regne ud hvad alkohol procenten er på baggrund af alle distilaters alkohol procent og hvormeget der er blevet hældt i dem
+
         public static double calculateNewAlkoholProcent(ArrayList<Distillat> distillater, double[] volumes) {
             double totalAlkohol = 0;
             double totalVolumen = 0;
