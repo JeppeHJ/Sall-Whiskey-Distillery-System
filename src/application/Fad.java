@@ -8,11 +8,9 @@ import java.util.ArrayList;
  */
 public class Fad {
     private static int count;
-    private int id;
-    private String fadType;
-    private double fadStr;
-
-    private double currentCapacity;
+    private final int id;
+    private final String fadType;
+    private final double fadStr;
     private int plads;
     private ArrayList<LagretVæske> lagretVæsker;
 
@@ -50,6 +48,10 @@ public class Fad {
             fyldning += lagretVæske.getLiter();
         }
         return fyldning;
+    }
+
+    public void addPlads(int plads) {
+        this.plads = plads;
     }
 
     public double getCurrentCapacity() {

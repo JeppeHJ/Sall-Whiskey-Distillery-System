@@ -39,7 +39,7 @@ public class FadePane extends GridPane {
         comboBoxLager.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             listFade.getSelectionModel().clearSelection();
             if (newSelection != null) {
-                listFade.getItems().setAll(controller.getFadeILager(newSelection.getId()));
+                listFade.getItems().setAll(controller.getFadeIHashMap(newSelection.getId()).values());
                 this.lagerChoice = newSelection;
                 this.getChildren().remove(warehouseGrid);
                 this.warehouseGrid.getChildren().clear();
@@ -157,14 +157,6 @@ public class FadePane extends GridPane {
         grid.setHgap(5);
         grid.setVgap(5);
         return grid;
-    }
-    private boolean isPositionOccupied(Lager lager, int position) {
-        for (Fad fad : controller.getFadeILager(lager.getId())) {
-            if (fad.getPlads() == position) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private boolean isHashMapOccupied(Lager lager, int position) {

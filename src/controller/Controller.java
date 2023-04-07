@@ -50,13 +50,6 @@ public class Controller {
     //TODO (30/03/2023 19:34)
     // Input-validering:
     // - lagerId skal kunne findes i storage
-    public ArrayList<Fad> getFadeILager(int lagerId) {
-        Lager lager = storage.getLagerById(lagerId);
-        if (lager != null) {
-            return lager.getFade();
-        }
-        return new ArrayList<>();
-    }
 
     public HashMap<Integer, Fad> getFadeIHashMap(int lagerId) {
         Lager lager = storage.getLagerById(lagerId);

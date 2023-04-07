@@ -4,14 +4,14 @@ import java.time.LocalDate;
 
 public class Distillat {
     private static int count;
-    private int id;
+    private final int id;
     private double liter;
     private double literTilbage;
-    private String maltBatch;
-    private String kornsort;
+    private final String maltBatch;
+    private final String kornsort;
     private double alkoholprocent;
-    private  String rygemateriale;
-    private LocalDate datoForDone;
+    private final String rygemateriale;
+    private final LocalDate datoForDone;
 
     public Distillat(double liter, String maltBatch, String kornsort, double alkoholprocent, String rygemateriale, LocalDate dato) {
         this.liter = liter;
