@@ -1,19 +1,23 @@
 package gui;
 
+import application.Distillat;
 import application.Fad;
 import application.Lager;
+import application.LagretVæske;
 import controller.Controller;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class FadePane extends GridPane {
     private final Controller controller = Controller.getController();
-    private static final int ROWS = 10;
-    private static final int COLUMNS = 10;
+
     private int selectedPosition;
     private GridPane warehouseGrid = createWarehouseGrid();
     private final ListView<Fad> listFade = new ListView<>();
@@ -21,6 +25,10 @@ public class FadePane extends GridPane {
     private final TextField txtfadStr = new TextField();
     private final ComboBox<Lager> comboBoxLager = new ComboBox<>();
     private Label lblActualPosition = new Label();
+
+    private final ListView<Distillat> lstDistillat = new ListView<>();
+    private final ListView<String> lstIndholdshistorik = new ListView<>();
+    private final ListView<String> lstOmhældningshistorik = new ListView<>();
 
     private Lager lagerChoice = comboBoxLager.getValue();
 
@@ -56,6 +64,16 @@ public class FadePane extends GridPane {
         listFade.setEditable(false);
         listFade.setMinHeight(200);
 
+        this.add(lstDistillat, 1, 4);
+        lstDistillat.setEditable(false);
+        lstDistillat.setMinHeight(200);
+        this.add(lstIndholdshistorik, 1, 5);
+        lstIndholdshistorik.setEditable(false);
+        lstIndholdshistorik.setMinHeight(200);
+        this.add(lstOmhældningshistorik, 1, 6);
+        lstOmhældningshistorik.setEditable(false);
+        lstOmhældningshistorik.setMinHeight(200);
+
         //------------------------------------------------- Labels
         Label lblfadStr = new Label("Fad størrelse");
         this.add(lblfadStr, 0, 0);
@@ -70,8 +88,33 @@ public class FadePane extends GridPane {
         Label lblPosition = new Label("Position");
         this.add(lblPosition,0,2);
 
+        Label lbldistillat = new Label("Distillat");
+        this.add(lbldistillat, 0, 4);
+        Label lblIndholdshistorik = new Label("Indholdshistorik");
+        this.add(lblIndholdshistorik, 0, 5);
+        Label lblOmhældningshistorik = new Label("Omhældningshistorik");
+        this.add(lblOmhældningshistorik, 0, 6);
+
         this.add(lblActualPosition, 1, 2);
 
+        listFade.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                ArrayList<Distillat> distillatList = new ArrayList<>();
+                // Update the new ListViews based on the selected Fad
+                for (LagretVæske lV: newSelection.getLagretVæsker()) {
+                    for (Distillat distillat: lV.getDistillater()) {
+                        distillatList.add(distillat);
+                    }
+                }
+                lstDistillat.getItems().setAll(distillatList);
+                //lstIndholdshistorik.getItems().setAll(newSelection.getIndholdshistorik());
+                //lstOmhældningshistorik.getItems().setAll(newSelection.getOmhældningshistorik());
+            } else {
+                lstDistillat.getItems().clear();
+                lstIndholdshistorik.getItems().clear();
+                lstOmhældningshistorik.getItems().clear();
+            }
+        });
 
         //------------------------------------------------button
         Button btnopretfad = new Button("Opret fad");

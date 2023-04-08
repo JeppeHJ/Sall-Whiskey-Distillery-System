@@ -1,9 +1,6 @@
 package storage;
 
-import application.Distillat;
-import application.Fad;
-import application.Lager;
-import application.LagretVæske;
+import application.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,12 +11,14 @@ public class Storage {
     private HashMap<Integer, Fad> fade; // Change to HashMap
     private ArrayList<Distillat> distillater;
     private ArrayList<LagretVæske> lagretVæsker;
+    private ArrayList<Whisky> whiskyer;
 
     public Storage() {
         lagre = new ArrayList<>();
         fade = new HashMap<>(); // Initialize HashMap
         distillater = new ArrayList<>();
         lagretVæsker = new ArrayList<>();
+        whiskyer = new ArrayList<>();
     }
 
     public static Storage getStorage() {
@@ -52,12 +51,13 @@ public class Storage {
 
     //------------------- Fad storage -----------------//
 
-    public void addFad(Fad fad) {
-        fade.put(fad.getId(), fad); // Update to use HashMap
+    public void addFad(Fad fad, int plads) {
+        fad.addPlads(plads);
+        fade.put(fad.getId(), fad);
     }
 
     public ArrayList<Fad> getFade() {
-        return new ArrayList<>(fade.values()); // Update to use HashMap
+        return new ArrayList<>(fade.values());
     }
 
     public Fad getFadById(int id) {
@@ -100,5 +100,15 @@ public class Storage {
             }
         }
         return null;
+    }
+
+    //------------------- Whisky storage -----------------//
+
+    public void addWhisky(Whisky whisky) {
+        whiskyer.add(whisky);
+    }
+
+    public ArrayList<Whisky> getWhiskyer() {
+        return whiskyer;
     }
 }

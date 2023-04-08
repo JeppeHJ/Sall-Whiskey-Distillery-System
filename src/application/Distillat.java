@@ -12,8 +12,9 @@ public class Distillat {
     private double alkoholprocent;
     private final String rygemateriale;
     private final LocalDate datoForDone;
+    private final String medarbejder;
 
-    public Distillat(double liter, String maltBatch, String kornsort, double alkoholprocent, String rygemateriale, LocalDate dato) {
+    public Distillat(double liter, String maltBatch, String kornsort, double alkoholprocent, String rygemateriale, LocalDate dato, String medarbejder) {
         this.liter = liter;
         this.id = count++;
         this.maltBatch = maltBatch;
@@ -21,6 +22,7 @@ public class Distillat {
         this.alkoholprocent = alkoholprocent;
         this.rygemateriale = rygemateriale;
         this.datoForDone = dato;
+        this.medarbejder = medarbejder;
 
     }
 
@@ -65,6 +67,6 @@ public class Distillat {
     }
 
     public String toString() {
-        return id + " | " + maltBatch + " | liter: " + (liter + literTilbage);
+        return id + " | " + maltBatch;
     }
 }

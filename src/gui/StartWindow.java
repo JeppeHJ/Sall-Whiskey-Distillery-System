@@ -1,14 +1,10 @@
 package gui;
 
-import application.Fad;
-import application.Lager;
 import controller.Controller;
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 
@@ -25,8 +21,8 @@ public class StartWindow extends Application {
 
         Scene scene = new Scene(pane);
         stage.setScene(scene);
-        stage.setHeight(500);
-        stage.setWidth(700);
+        stage.setHeight(800);
+        stage.setWidth(1000);
         stage.show();
         stage.setResizable(false);
     }
@@ -55,7 +51,7 @@ public class StartWindow extends Application {
             LagerePane lagerePane = new LagerePane();
             FadePane fadePane = new FadePane();
             DistillatPane distillatPane = new DistillatPane();
-            LagretDistillatPane lagretDistillatPane = new LagretDistillatPane();
+            WhiskyPane whiskyPane = new WhiskyPane();
             FeardigWhiskeysPane feardigeWhiskysPane = new FeardigWhiskeysPane();
             PaafyldningPane paafyldningPane = new PaafyldningPane();
 
@@ -64,7 +60,7 @@ public class StartWindow extends Application {
             tab03.setContent(distillatPane);
             tab04.setContent(paafyldningPane);
             tab05.setContent(feardigeWhiskysPane);
-            tab06.setContent(lagretDistillatPane);
+            tab06.setContent(whiskyPane);
 
             tabPane.getTabs().add(tab01);
             tabPane.getTabs().add(tab02);
@@ -75,10 +71,10 @@ public class StartWindow extends Application {
 
             tab01.setOnSelectionChanged(event -> lagerePane.updateControls());
             tab02.setOnSelectionChanged(event -> fadePane.updateControls());
-            tab04.setOnSelectionChanged(event -> paafyldningPane.updateControls());
             //tab03.setOnSelectionChanged(event -> distillatPane.updateControls());
-//            tab04.setOnSelectionChanged(event -> lagretDistillatPane.updateControls());
-//            tab05.setOnSelectionChanged(event -> feardigeWhiskysPane.updateControls());
+            tab04.setOnSelectionChanged(event -> paafyldningPane.updateControls());
+            tab05.setOnSelectionChanged(event -> feardigeWhiskysPane.updateControls());
+            tab06.setOnSelectionChanged(event -> whiskyPane.updateControls());
 
 
 

@@ -7,9 +7,9 @@ import java.util.HashMap;
  * Lager klassen repræsenterer et lager, hvor der er plads til et bestemt antal fade.
  */
 public class Lager {
-    private String lokation;
+    private final String lokation;
     private static int count = 0;
-    private int id;
+    private final int id;
 
     private int antalPladser;
     private HashMap<Integer, Fad> fadeHashMap;

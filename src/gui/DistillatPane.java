@@ -16,6 +16,7 @@ public class DistillatPane extends GridPane {
     private final TextField txtKornsort = new TextField();
     private final TextField txtAlkoholprocent = new TextField();
     private final TextField txtRygemateriale = new TextField();
+    private final TextField txtMedarbejder = new TextField();
     private final DatePicker datePicker = new DatePicker();
 
     public DistillatPane() {
@@ -45,6 +46,8 @@ public class DistillatPane extends GridPane {
         this.add(lblRygemateriale, 1, 4);
         Label lblDate = new Label("Dato");
         this.add(lblDate, 1, 5);
+        Label lblMedarbejder = new Label("Medarbejder");
+        this.add(lblMedarbejder, 1,6);
 
         // text fields
         this.add(txtLiter, 2, 0);
@@ -52,13 +55,14 @@ public class DistillatPane extends GridPane {
         this.add(txtKornsort, 2, 2);
         this.add(txtAlkoholprocent, 2, 3);
         this.add(txtRygemateriale, 2, 4);
+        this.add(txtMedarbejder, 2, 6);
 
         // date picker
         this.add(datePicker, 2, 5);
 
         // button
         Button btnOpretDistillat = new Button("Opret Distillat");
-        this.add(btnOpretDistillat, 1, 6);
+        this.add(btnOpretDistillat, 1, 7);
         btnOpretDistillat.setOnAction(event -> btnOpretDistillatAction());
     }
 
@@ -69,6 +73,7 @@ public class DistillatPane extends GridPane {
         String kornsort = txtKornsort.getText().trim();
         String alkoholprocent = txtAlkoholprocent.getText().trim();
         String rygemateriale = txtRygemateriale.getText().trim();
+        String medarbejder = txtMedarbejder.getText().trim();
         LocalDate date = datePicker.getValue();
         // Validation checks
         if (liter.isEmpty() || maltbatch.isEmpty() || kornsort.isEmpty() || alkoholprocent.isEmpty() || rygemateriale.isEmpty() || date == null) {
@@ -82,7 +87,7 @@ public class DistillatPane extends GridPane {
             double alkoholprocentValue = Double.parseDouble(alkoholprocent);
 
             // Call controller method to create Distillat
-            controller.opretDistillat(literValue, maltbatch, kornsort, alkoholprocentValue, rygemateriale, date);
+            controller.opretDistillat(literValue, maltbatch, kornsort, alkoholprocentValue, rygemateriale, date, medarbejder);
 
             // Update ListView
             lstDistillater.getItems().setAll(controller.getDistillaterMedActualVaeske());
