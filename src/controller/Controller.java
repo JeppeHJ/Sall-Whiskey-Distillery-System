@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Controller-klassen er ansvarlig for at administrere Lager og Fad objekter.
+ * Controller-klassen
  * Den bruger Singleton designmønsteret for at sikre, at kun én instans
  * af Controller oprettes i løbet af programmets levetid.
  */
@@ -66,6 +66,7 @@ public class Controller {
     // Opretter et nyt Fad objekt og tilføjer det til storage og lager
     public Fad opretFad(String fadType, double fadStr, Lager lager, int plads) {
         Fad fad = new Fad(fadType, fadStr);
+        // Tilføj fad til lager og storage
         storage.getLagerById(lager.getId()).addFad(fad, plads);
         storage.addFad(fad, plads);
         return fad;
@@ -101,15 +102,25 @@ public class Controller {
         return barrels;
     }
 
+    // Metode til at fylde et specifikt Fad op med en given mængde af lagret væske fra et distillat
     public LagretVæske fyldPåSpecifiktFad(double liter, LocalDate påfyldningsDato, Fad fad, Distillat distillat) {
+        // Validerer input for liter, fad og distillat
         validateFyldPåSpecifiktFadInput(liter, fad, distillat);
+
+        // Opretter et nyt LagretVæske objekt med den ønskede mængde og dato for påfyldning
         LagretVæske valgtLagretVæske = opretLagretVæske(liter, påfyldningsDato, distillat);
 
+        // Finder det ønskede Fad og Distillat i storage
         Fad valgtFad = storage.getFadById(fad.getId());
         Distillat valgtDistillat = storage.getDistillatById(distillat.getId());
 
+        // Påføres det valgte LagretVæske objekt til det valgte Fad
         valgtFad.påfyldning(valgtLagretVæske, påfyldningsDato);
+
+        // Opdaterer mængden af distillat efter påfyldning
         valgtDistillat.setLiter(valgtDistillat.getLiter() - liter);
+
+        // Returnerer det opdaterede LagretVæske objekt
         return valgtLagretVæske;
     }
 
@@ -128,42 +139,66 @@ public class Controller {
         }
     }
 
+    // Fylder flere fade op med en given mængde lagret væske fra et distillat
     public void fyldPåFlereFade(double liter, LocalDate påfyldningsDato, ArrayList<Fad> fade, Distillat distillat) {
+        // Validerer input
         validateFyldPåFlereFadeInput(liter, distillat);
+
+        // Finder det ønskede Distillat
         Distillat valgtDistillat = storage.getDistillatById(distillat.getId());
+
+        // Initialiserer variabelen for mængden af væske, der skal fyldes på
         double literTilbage = liter;
+
+        // Loop igennem listen af fade
         for (Fad fad : fade) {
+            // Tjekker om der er væske tilbage at fylde på
             if (literTilbage > 0) {
+                // Beregner ledige kapacitet og mængden af væske, der skal fyldes på dette fad
                 double fadCapacity = fad.getFadStr() - fad.getFadfyldning();
                 double amountToFill = Math.min(fadCapacity, literTilbage);
 
+                // Fylder væske på dette fad, hvis nødvendigt
                 if (amountToFill > 0) {
+                    // Opretter og tilføjer LagretVæske til fad og historik
                     LagretVæske lV = opretLagretVæske(amountToFill, påfyldningsDato, valgtDistillat);
                     fad.addLagretVæsker(lV);
                     lV.addFadTilHistorik(fad, påfyldningsDato);
+
+                    // Opdaterer mængden af væske, der er tilbage at fylde på
                     literTilbage -= amountToFill;
                 }
             }
         }
     }
-
+    // Validerer input for fyldPåFlereFade metoden
     private void validateFyldPåFlereFadeInput(double liter, Distillat distillat) {
+        // Tjekker om litermængden er positiv
         if (liter <= 0) {
             throw new IllegalArgumentException("Litermængden kan ikke være 0 eller under");
         }
+        // Tjekker om distillatet findes i storage
         if (storage.getDistillatById(distillat.getId()) == null) {
             throw new IllegalArgumentException("Distillat kunne ikke findes i storage");
         }
     }
+
+    // Opretter og tilføjer en ny LagretVæske til storage
     public LagretVæske opretLagretVæske(double liter, LocalDate påfyldningsDato, Distillat distillat) {
+        // Validerer input
         validateOpretLagretVæskeInput(liter, distillat);
+        // Opretter ny LagretVæske
         LagretVæske lagretVæske = new LagretVæske(liter, påfyldningsDato);
+        // Tilføjer distillat til LagretVæske
         lagretVæske.addDistillat(storage.getDistillatById(distillat.getId()));
+        // Opdaterer distillatets liter
         distillat.subtractFilledLiters(liter);
+        // Tilføjer LagretVæske til storage
         storage.addLagretVæske(lagretVæske);
         return lagretVæske;
     }
 
+    // Validerer input for opretLagretVæske metoden
     private void validateOpretLagretVæskeInput(double liter, Distillat distillat) {
         if (liter <= 0) {
             throw new IllegalArgumentException("Litermængden kan ikke være 0 eller under");
@@ -173,11 +208,14 @@ public class Controller {
         }
     }
 
+    // Henter færdige LagretVæsker baseret på deres alder
     public ArrayList<LagretVæske> getFaerdigLagretVaeske() {
         ArrayList<LagretVæske> færdigeVæsker = new ArrayList<>();
         LocalDate currentDate = LocalDate.now();
+        // Gennemgår alle lagrede væsker
         for (LagretVæske væske : storage.getLagretVæsker()) {
             LocalDate påfyldningsDato = væske.getPåfyldningsDato();
+            // Tjekker om væsken har lagret i mindst 3 år
             if (påfyldningsDato.plusYears(3).isBefore(currentDate) || påfyldningsDato.plusYears(3).isEqual(currentDate)) {
                 færdigeVæsker.add(væske);
             }
@@ -185,31 +223,37 @@ public class Controller {
         return færdigeVæsker;
     }
 
+    // Henter fadehistorik for en LagretVæske
     public HashMap<Fad, LocalDate> getFadehistorik(LagretVæske lagretVæske) {
+        // Validerer input
         validateGetFadehistorikInput(lagretVæske);
+        // Henter fadehistorik for LagretVæske
         return storage.getLagretVæskeById(lagretVæske.getId()).getFadehistorik();
     }
 
+    // Validerer input for Fadehistorik
     private void validateGetFadehistorikInput(LagretVæske lagretVæske) {
         if (storage.getLagretVæskeById(lagretVæske.getId()) == null) {
             throw new IllegalArgumentException("LagretVæske kunne ikke findes i storage");
         }
     }
     /**-------------- Distillat METODER --------------**/
-    //TODO (30/03/2023 13:22)
-    // Input-validering:
-    // - liter ikke 0 eller -
-    // - alkoholprocent ikke over 100 eller -
-    // - add tilsvarende pre-condition(s) i selve klassen
+
+// Opretter et nyt Distillat og tilføjer det til storage
     public Distillat opretDistillat(double liter, String maltBatch, String kornsort, double alkoholprocent, String rygemateriale, LocalDate dato, String medarbejder) {
+        // Opretter nyt Distillat
         Distillat distillat = new Distillat(liter, maltBatch, kornsort, alkoholprocent, rygemateriale, dato, medarbejder);
+        // Tilføjer Distillat til storage
         storage.addDistillat(distillat);
         return distillat;
     }
 
+    // Henter en liste over Distillater med væske tilbage
     public ArrayList<Distillat> getDistillaterMedActualVaeske() {
         ArrayList<Distillat> distillaterMedVæske = new ArrayList<>();
-        for (Distillat distillat: storage.getDistillater()) {
+        // Gennemgår alle distillater i storage
+        for (Distillat distillat : storage.getDistillater()) {
+            // Tjekker om der er væske tilbage i distillatet
             if (distillat.getLiter() > 0) {
                 distillaterMedVæske.add(distillat);
             }
@@ -218,42 +262,59 @@ public class Controller {
     }
 
     /** ------------- WHISKY METODER ------------- **/
+
+    // Opretter en ny Whisky og tilføjer den til storage
     public Whisky opretWhisky(String navn, LocalDate påfyldningsDato, double alkoholprocent, double liter, Flasketype flasketype, LagretVæske væske, Fad fad, String vandKilde, double fortyndelsesProcent) {
+        // Beregner kapaciteten i fadet
         double fadStr = fad.getFadStr();
         double fadFyldning = fad.getFadfyldning();
         double capacity = fadStr - fadFyldning;
-        System.out.println("Capacity: " + capacity);
-        System.out.println("Liter: " + liter);
+
+        // Validerer litermængden
         if (liter > fadFyldning) {
             throw new IllegalArgumentException("Så meget indeholder fadet ikke.");
         }
+
+        // Opretter ny Whisky
         Whisky whisky = new Whisky(navn, påfyldningsDato, alkoholprocent, liter, flasketype, væske, vandKilde, fortyndelsesProcent);
+        // Tilføjer Whisky til storage
         storage.addWhisky(whisky);
-        System.out.println(fad.getFadfyldning());
-        fad.reducereLagretVaeske(liter); // Reducerer mængden af LagretVæske i Fad
+
+        // Opdaterer LagretVæske i Fad
+        fad.reducereLagretVaeske(liter);
+
         return whisky;
     }
 
+    // Henter fadhistorikken for en given Whisky
     public List<FadHistoryEntry> getFadHistoryForWhisky(Whisky whisky) {
+        // Henter LagretVæske fra Whisky
         LagretVæske lagretVæske = whisky.getVæske();
+        // Henter fadhistorikken for LagretVæske
         HashMap<Fad, LocalDate> fadHistory = lagretVæske.getFadehistorik();
+        // Liste til at holde FadHistoryEntry objekter
         List<FadHistoryEntry> fadHistoryEntries = new ArrayList<>();
 
+        // Gennemgår fadhistorikken og opretter FadHistoryEntry objekter
         for (Map.Entry<Fad, LocalDate> entry : fadHistory.entrySet()) {
             fadHistoryEntries.add(new FadHistoryEntry(entry.getKey(), entry.getValue()));
         }
 
         return fadHistoryEntries;
     }
+
+    // Henter en liste over alle Whisky i storage
     public ArrayList<Whisky> getWhisky() {
+        // Henter listen over whiskyer
         ArrayList<Whisky> whiskyer = storage.getWhiskyer();
 
+        // Hvis der ikke er nogen whiskyer, returner en tom liste
         if (whiskyer == null) {
             return new ArrayList<>();
         }
+
         return whiskyer;
     }
-
     public void createSomeObjects() {
         Lager l1 = controller.opretLager("Aarhus",100);
         Fad f1 = controller.opretFad("Grim",250.0, l1, 1);
