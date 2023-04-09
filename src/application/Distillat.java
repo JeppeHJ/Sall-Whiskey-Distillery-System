@@ -2,8 +2,11 @@ package application;
 
 import java.time.LocalDate;
 
+/**
+ * Denne klasse repræsenterer et distillat i destilleringsprocessen.
+ */
 public class Distillat {
-    private static int count;
+    private static int count; // For unikke ID'er
     private final int id;
     private double liter;
     private double literTilbage;
@@ -14,6 +17,7 @@ public class Distillat {
     private final LocalDate datoForDone;
     private final String medarbejder;
 
+    // Konstruktør
     public Distillat(double liter, String maltBatch, String kornsort, double alkoholprocent, String rygemateriale, LocalDate dato, String medarbejder) {
         this.liter = liter;
         this.id = count++;
@@ -23,19 +27,15 @@ public class Distillat {
         this.rygemateriale = rygemateriale;
         this.datoForDone = dato;
         this.medarbejder = medarbejder;
-
     }
 
+    // Getters
     public LocalDate getDatoForDone() {
         return datoForDone;
     }
 
     public double getLiterTilbage() {
         return literTilbage + liter;
-    }
-
-    public void subtractFilledLiters(double filledLiters) {
-        this.literTilbage -= filledLiters;
     }
 
     public int getId() {
@@ -50,10 +50,6 @@ public class Distillat {
         return maltBatch;
     }
 
-    public void setLiter(double liter) {
-        this.liter = liter;
-    }
-
     public String getKornsort() {
         return kornsort;
     }
@@ -66,6 +62,17 @@ public class Distillat {
         return rygemateriale;
     }
 
+    // Setter
+    public void setLiter(double liter) {
+        this.liter = liter;
+    }
+
+    // Tildeler subtractFilledLiters
+    public void subtractFilledLiters(double filledLiters) {
+        this.literTilbage -= filledLiters;
+    }
+
+    // String repræsentation
     public String toString() {
         return id + " | " + maltBatch;
     }

@@ -15,7 +15,7 @@ public class Fad {
     private ArrayList<LagretVæskeHistoryEntry> history;
     private ArrayList<LagretVæske> lagretVæsker;
 
-
+    // Konstruktør
     public Fad(String fadType, double fadStr) {
         count++;
         this.id = count;
@@ -25,28 +25,22 @@ public class Fad {
         history = new ArrayList<>();
     }
 
-    /**
-     * Præ-condition:
-     * Mængde < (fadStr - getFadfyldning)
-     *
-     * @param
-     * @param
-     * @param valgtLagretVæske
-     */
-
+    // Påfyldning af LagretVæske til Fad
     public void påfyldning(LagretVæske valgtLagretVæske, LocalDate påfyldningsDato) {
         this.addLagretVæsker(valgtLagretVæske);
         valgtLagretVæske.addFadTilHistorik(this, påfyldningsDato);
 
-        // Add the LagretVæske to the history with the fill date and null as the empty date
+        // Tilføj LagretVæske til historikken
         addToHistory(valgtLagretVæske, påfyldningsDato, null);
     }
 
+    // Tilføjer en ny post til historikken
     public void addToHistory(LagretVæske lagretVaeske, LocalDate fillDate, LocalDate emptyDate) {
         LagretVæskeHistoryEntry entry = new LagretVæskeHistoryEntry(lagretVaeske, fillDate, emptyDate);
         history.add(entry);
     }
 
+    // Getters
     public ArrayList<LagretVæskeHistoryEntry> getHistory() {
         return history;
     }
@@ -63,14 +57,15 @@ public class Fad {
         return fyldning;
     }
 
+    // Reducerer mængden af LagretVæske i Fad
     public void reducereLagretVaeske(double liter) {
         for (LagretVæske væske : lagretVæsker) {
             væske.setLiter(væske.getLiter() - liter);
-            System.out.println(væske.getLiter());
             break; // Antager, at der kun er én LagretVæske i fadet
         }
     }
 
+    // Kontrollerer om LagretVæske er færdiglagret (minimum 3 år)
     public boolean erFaerdigLagret() {
         LocalDate currentDate = LocalDate.now();
         for (LagretVæske lV : lagretVæsker) {
@@ -81,7 +76,7 @@ public class Fad {
         }
         return true;
     }
-
+    // Getters og setters
     public ArrayList<LagretVæske> getLagretVæsker() {
         return lagretVæsker;
     }
@@ -90,13 +85,14 @@ public class Fad {
         this.plads = plads;
     }
 
-
+    // Tilføjer LagretVæske til fadet
     public void addLagretVæsker(LagretVæske lagretVæske) {
         if (!(this.lagretVæsker.contains(lagretVæske))) {
             this.lagretVæsker.add(lagretVæske);
         }
     }
 
+    // Fjerner LagretVæske fra fadet
     public void removeLagretVæsker(LagretVæske lagretVæske) {
         if (this.lagretVæsker.contains(lagretVæske)) {
             this.lagretVæsker.remove(lagretVæske);
@@ -111,7 +107,7 @@ public class Fad {
         return id;
     }
 
+    // toString-metoden for Fad
     public String toString() {
         return this.id + " | " + fadType + " | " + this.getFadfyldning() + "/" + this.fadStr + " | Fadposition: " + this.plads;
-    }
-}
+    }}

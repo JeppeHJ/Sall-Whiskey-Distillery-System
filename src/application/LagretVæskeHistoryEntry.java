@@ -2,11 +2,20 @@ package application;
 
 import java.time.LocalDate;
 
+/**
+ * LagretVæskeHistoryEntry klassen repræsenterer en historik over lagret væske, der er blevet fyldt og tømt fra et fad.
+ */
 public class LagretVæskeHistoryEntry {
     private LagretVæske lagretVaeske;
     private LocalDate fillDate;
     private LocalDate emptyDate;
 
+    /**
+     * Konstruktør for LagretVæskeHistoryEntry
+     * @param lagretVaeske Det lagrede væskeobjekt
+     * @param fillDate Påfyldningsdatoen for væsken i fadet
+     * @param emptyDate Tømningsdatoen for væsken fra fadet
+     */
     public LagretVæskeHistoryEntry(LagretVæske lagretVaeske, LocalDate fillDate, LocalDate emptyDate) {
         this.lagretVaeske = lagretVaeske;
         this.fillDate = fillDate;
@@ -14,6 +23,7 @@ public class LagretVæskeHistoryEntry {
     }
 
     // Getters and setters
+
     public LagretVæske getLagretVaeske() {
         return lagretVaeske;
     }
