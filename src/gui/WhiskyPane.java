@@ -1,8 +1,7 @@
 package gui;
 
 import application.Fad;
-import application.FadHistoryEntry;
-import application.LagretVæske;
+import application.LagretVæskesFadHistorik;
 import application.Whisky;
 import controller.Controller;
 import javafx.geometry.Insets;
@@ -17,7 +16,7 @@ public class WhiskyPane extends GridPane {
     private final ComboBox<Whisky> lstFaerdigeVaesker = new ComboBox<>(); // Updated to Whisky
     private final TextArea txtAreaInfo = new TextArea();
     private final TextArea txtAreaDistillat = new TextArea();
-    private final ListView<FadHistoryEntry> lstBarrels = new ListView<>();
+    private final ListView<LagretVæskesFadHistorik> lstBarrels = new ListView<>();
 
     public WhiskyPane() {
         this.setPadding(new Insets(20));
@@ -66,7 +65,7 @@ public class WhiskyPane extends GridPane {
                         "Flasketype: " + newValue.getFlasketype()
                 );
 
-                List<FadHistoryEntry> fadHistory = controller.getFadHistoryForWhisky(newValue);
+                List<LagretVæskesFadHistorik> fadHistory = controller.getFadHistoryForWhisky(newValue);
                 lstBarrels.getItems().setAll(fadHistory);
             } else {
                 txtAreaInfo.clear();
@@ -77,11 +76,11 @@ public class WhiskyPane extends GridPane {
         lstBarrels.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 Fad fad = newValue.getFad();
-                List<FadHistoryEntry> fadHistory = controller.getFadHistoryForWhisky(lstFaerdigeVaesker.getValue());
+                List<LagretVæskesFadHistorik> fadHistory = controller.getFadHistoryForWhisky(lstFaerdigeVaesker.getValue());
                 StringBuilder historyText = new StringBuilder("History for Fad ID: " + fad.getId() + "\n\n");
 
-                for (FadHistoryEntry entry : fadHistory) {
-                    historyText.append("Påhældning: ").append(entry.getDate().toString()).append("\n");
+                for (LagretVæskesFadHistorik entry : fadHistory) {
+                    historyText.append("Påhældning: ").append(entry.getFraDato().toString()).append("\n");
                 }
 
                 txtAreaDistillat.setText(historyText.toString());
@@ -92,13 +91,13 @@ public class WhiskyPane extends GridPane {
 
         lstBarrels.setCellFactory(new Callback<>() {
             @Override
-            public ListCell<FadHistoryEntry> call(ListView<FadHistoryEntry> param) {
+            public ListCell<LagretVæskesFadHistorik> call(ListView<LagretVæskesFadHistorik> param) {
                 return new ListCell<>() {
                     @Override
-                    protected void updateItem(FadHistoryEntry item, boolean empty) {
+                    protected void updateItem(LagretVæskesFadHistorik item, boolean empty) {
                         super.updateItem(item, empty);
                         if (item != null && !empty) {
-                            setText("Fad ID: " + item.getFad().getId() + " | Påhældning: " + item.getDate().toString() + "-");
+                            setText("Fad ID: " + item.getFad().getId() + " | Påhældning: " + item.getFraDato().toString() + "-");
                         } else {
                             setText(null);
                         }

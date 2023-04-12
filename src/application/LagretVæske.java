@@ -1,5 +1,6 @@
 package application;
 
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +16,8 @@ public class LagretVæske {
     private LocalDate påfyldningsDato;
     private HashMap<Fad, LocalDate> fadehistorik;
     private ArrayList<Distillat> distillater;
+    private ArrayList<LagretVæskesFadHistorik> fadHistorik;
+
 
     /**
      * Konstruktor for LagretVæske.
@@ -28,6 +31,31 @@ public class LagretVæske {
         this.id = count++;
         this.distillater = new ArrayList<>();
         this.fadehistorik = new HashMap<>();
+        this.fadHistorik = new ArrayList<>();
+    }
+
+    public void addDestillater(ArrayList<Distillat> distillater) {
+        for (Distillat distillat : distillater) {
+            if (!this.distillater.contains(distillat)) {
+                this.distillater.add(distillat);
+            }
+        }
+    }
+
+    public void addFadHistorikker(ArrayList<LagretVæskesFadHistorik> fadHistorikker) {
+        for (LagretVæskesFadHistorik lagretVæskesFadHistorik : fadHistorikker) {
+                this.fadHistorik.add(lagretVæskesFadHistorik);
+            }
+        }
+
+    public void editHistoryWhenOmhældning(LagretVæske lagretVæske, LocalDate emptyDate) {
+        for (LagretVæskesFadHistorik lV: fadHistorik) {
+            if (lV.getFad().getLagretVæsker() != null && !lV.getFad().getLagretVæsker().isEmpty()) {
+                if (lV.getFad().getLagretVæsker().get(0) == lagretVæske) {
+                    lV.setTilDato(emptyDate);
+                }
+            }
+        }
     }
 
     // Getters og setters
@@ -44,10 +72,15 @@ public class LagretVæske {
     }
 
     public void addDistillat(Distillat distillat) {
-        this.distillater.add(distillat);
+        if (!this.distillater.contains(distillat)) {
+            this.distillater.add(distillat);
+        }
     }
 
     public void setLiter(double liter) {
+        if (liter == 0) {
+
+        }
         this.liter = liter;
     }
 
@@ -77,18 +110,19 @@ public class LagretVæske {
     }
 
     // Getter for fadehistorik
-    public HashMap<Fad, LocalDate> getFadehistorik() {
-        return this.fadehistorik;
+    public ArrayList<LagretVæskesFadHistorik> getFadehistorik() {
+        return this.fadHistorik;
     }
+
 
     /**
      * Tilføjer et fad og påfyldningsdato til væskens historik.
      *
      * @param fad             Fadet, der skal tilføjes.
-     * @param påfyldningsDato Datoen for påfyldning af fadet.
      */
-    public void addFadTilHistorik(Fad fad, LocalDate påfyldningsDato) {
-        this.fadehistorik.put(fad, påfyldningsDato);
+    public void addFadTilHistorik(Fad fad, LocalDate fillDate, LocalDate emptyDate) {
+        LagretVæskesFadHistorik entry = new LagretVæskesFadHistorik(fad, fillDate, emptyDate);
+        fadHistorik.add(entry);
     }
 
     /**
@@ -98,6 +132,6 @@ public class LagretVæske {
      */
     @Override
     public String toString() {
-        return fadehistorik + " " + distillater;
+        return "VæskeID: " + this.id +  " | " + påfyldningsDato + " -";
     }
 }

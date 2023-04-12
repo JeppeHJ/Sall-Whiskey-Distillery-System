@@ -12,8 +12,9 @@ public class Fad {
     private final String fadType;
     private final double fadStr;
     private int plads;
-    private ArrayList<LagretVæskeHistoryEntry> history;
-    private ArrayList<LagretVæske> lagretVæsker;
+    private final ArrayList<FadsLagretVæskeHistorik> væskeHistory;
+    private final ArrayList<FadsOmhældningsHistorik> omhældningsHistory;
+    private final ArrayList<LagretVæske> lagretVæsker;
 
     // Konstruktør
     public Fad(String fadType, double fadStr) {
@@ -22,27 +23,80 @@ public class Fad {
         this.fadType = fadType;
         this.fadStr = fadStr;
         this.lagretVæsker = new ArrayList<>();
-        history = new ArrayList<>();
+        væskeHistory = new ArrayList<>();
+        omhældningsHistory = new ArrayList<>();
     }
 
     // Påfyldning af LagretVæske til Fad
     public void påfyldning(LagretVæske valgtLagretVæske, LocalDate påfyldningsDato) {
         this.addLagretVæsker(valgtLagretVæske);
-        valgtLagretVæske.addFadTilHistorik(this, påfyldningsDato);
+        valgtLagretVæske.addFadTilHistorik(this, påfyldningsDato, null);
 
         // Tilføj LagretVæske til historikken
         addToHistory(valgtLagretVæske, påfyldningsDato, null);
     }
 
-    // Tilføjer en ny post til historikken
-    public void addToHistory(LagretVæske lagretVaeske, LocalDate fillDate, LocalDate emptyDate) {
-        LagretVæskeHistoryEntry entry = new LagretVæskeHistoryEntry(lagretVaeske, fillDate, emptyDate);
-        history.add(entry);
+    public ArrayList<FadsOmhældningsHistorik> getOmhældningsHistory() {
+        return omhældningsHistory;
     }
 
+
+    public void addToOmhældningsHistorik(FadsOmhældningsHistorik object) {
+        this.omhældningsHistory.add(object);
+    }
+
+    public void omhældning(Fad kilde, Fad destination, double mængde, LagretVæske nyeVæske) {
+        FadsOmhældningsHistorik omhældningKilde = new FadsOmhældningsHistorik(kilde, destination, mængde, LocalDate.now());
+        FadsOmhældningsHistorik omhældningDestination = new FadsOmhældningsHistorik(destination, kilde, mængde, LocalDate.now());
+
+        kilde.addToOmhældningsHistorik(omhældningKilde);
+        destination.addToOmhældningsHistorik(omhældningDestination);
+
+        destination.addToHistory(nyeVæske, LocalDate.now(), null);
+        if (destination.lagretVæsker.size() != 0) {
+            destination.editHistoryWhenBarrelEmpty(destination.lagretVæsker.get(0), LocalDate.now());
+        }
+
+        if ((kilde.fadStr - kilde.getFadfyldning()) - mængde == 0) {
+            kilde.editHistoryWhenBarrelEmpty(kilde.lagretVæsker.get(0), LocalDate.now());
+        }
+
+        // Handle kilde fads nye mængde
+        kilde.reducereLagretVaeske(mængde);
+
+        // Sub handle hvis reducereLagretVæske == 0
+
+        // Handle destination fads nye mængde
+        if (!(destination.getLagretVæsker().isEmpty())) {
+            System.out.println("Hejsjssss: " + destination.getId());
+            destination.removeLagretVæsker(destination.getLagretVæsker().get(0));
+
+        }
+
+        destination.addLagretVæsker(nyeVæske);
+    }
+
+
+
+    // Tilføjer en ny post til historikken
+    public void addToHistory(LagretVæske lagretVaeske, LocalDate fillDate, LocalDate emptyDate) {
+        FadsLagretVæskeHistorik entry = new FadsLagretVæskeHistorik(lagretVaeske, fillDate, emptyDate);
+        væskeHistory.add(entry);
+    }
+
+    public void editHistoryWhenBarrelEmpty(LagretVæske lagretVaeske, LocalDate emptyDate) {
+        for (FadsLagretVæskeHistorik lV: væskeHistory) {
+            if (lV.getLagretVaeske() == lagretVaeske) {
+                lV.setEmptyDate(emptyDate);
+            }
+        }
+    }
+
+
+
     // Getters
-    public ArrayList<LagretVæskeHistoryEntry> getHistory() {
-        return history;
+    public ArrayList<FadsLagretVæskeHistorik> getFadsLagretVæskeHistorik() {
+        return væskeHistory;
     }
 
     public double getFadStr() {
@@ -87,13 +141,12 @@ public class Fad {
 
     // Tilføjer LagretVæske til fadet
     public void addLagretVæsker(LagretVæske lagretVæske) {
-        if (!(this.lagretVæsker.contains(lagretVæske))) {
-            this.lagretVæsker.add(lagretVæske);
-        }
+        this.lagretVæsker.add(0, lagretVæske);
     }
 
     // Fjerner LagretVæske fra fadet
     public void removeLagretVæsker(LagretVæske lagretVæske) {
+        System.out.println("Alarm: " + lagretVæske);
         if (this.lagretVæsker.contains(lagretVæske)) {
             this.lagretVæsker.remove(lagretVæske);
         }
@@ -109,5 +162,6 @@ public class Fad {
 
     // toString-metoden for Fad
     public String toString() {
-        return this.id + " | " + fadType + " | " + this.getFadfyldning() + "/" + this.fadStr + " | Fadposition: " + this.plads;
+        return this.id + " | " + this.getFadfyldning();
+        //return this.id + " | " + fadType + " | " +  + "/" + this.fadStr + " | Fadposition: " + this.plads;
     }}
