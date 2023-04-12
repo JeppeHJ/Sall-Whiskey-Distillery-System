@@ -71,7 +71,7 @@ public class StartWindow extends Application {
 
             tab01.setOnSelectionChanged(event -> lagerePane.updateControls());
             tab02.setOnSelectionChanged(event -> fadePane.updateControls());
-            //tab03.setOnSelectionChanged(event -> distillatPane.updateControls());
+            tab03.setOnSelectionChanged(event -> distillatPane.updateControls());
             tab04.setOnSelectionChanged(event -> paafyldningPane.updateControls());
             tab05.setOnSelectionChanged(event -> feardigeWhiskysPane.updateControls());
             tab06.setOnSelectionChanged(event -> whiskyPane.updateControls());

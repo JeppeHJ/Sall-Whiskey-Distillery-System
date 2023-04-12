@@ -366,16 +366,18 @@ private final Button btnNuværendeIndholdDetaljer = new Button("Detaljer");
         grid.setPadding(new Insets(20, 150, 10, 10));
 
         TextField textField1 = new TextField();
-        TextField textField2 = new TextField();
+        DatePicker datePicker = new DatePicker();
         TextField textField3 = new TextField();
         ComboBox<Fad> comboBoxFadMedVæske = new ComboBox<>();
         ComboBox<Fad> comboBoxFadDestination = new ComboBox<>();
         grid.add(comboBoxFadMedVæske, 1, 0);
         grid.add(comboBoxFadDestination, 1, 1);
+        grid.add(datePicker, 3, 1);
 
         grid.add(new Label("Vælg Fad med væske:"), 0, 0);
         grid.add(new Label("Fad Destination:"), 0, 1);
         grid.add(new Label("Mængde:"), 2, 0);
+        grid.add(new Label("Dato:"), 3, 0);
         grid.add(textField3, 2, 1);
 
         // Populate the ComboBoxes
@@ -403,6 +405,7 @@ private final Button btnNuværendeIndholdDetaljer = new Button("Detaljer");
                 inputData.put("FadMedVæske", comboBoxFadMedVæske.getValue());
                 inputData.put("FadDestination", comboBoxFadDestination.getValue());
                 inputData.put("Mængde", textField3.getText());
+                inputData.put("Date", datePicker.getValue());
                 return inputData;
             }
             return null;
@@ -422,8 +425,9 @@ private final Button btnNuværendeIndholdDetaljer = new Button("Detaljer");
         Fad fadMedVæske = (Fad) inputData.get("FadMedVæske");
         Fad fadDestination = (Fad) inputData.get("FadDestination");
         String mængde = (String) inputData.get("Mængde");
+        LocalDate date = (LocalDate) inputData.get("Date");
 
-        controller.opretNyLagretVæskeOmhældning(fadMedVæske, fadDestination, Double.parseDouble(mængde));
+        controller.opretNyLagretVæskeOmhældning(fadMedVæske, fadDestination, Double.parseDouble(mængde), date);
 
         // Process the data as needed
     }

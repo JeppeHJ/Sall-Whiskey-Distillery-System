@@ -43,10 +43,13 @@ public class LagretVæske {
     }
 
     public void addFadHistorikker(ArrayList<LagretVæskesFadHistorik> fadHistorikker) {
-        for (LagretVæskesFadHistorik lagretVæskesFadHistorik : fadHistorikker) {
-                this.fadHistorik.add(lagretVæskesFadHistorik);
+        for (LagretVæskesFadHistorik fadHistorik : fadHistorikker) {
+            // Only add the fadHistorik if it's not already present in the list
+            if (!this.fadHistorik.contains(fadHistorik)) {
+                this.fadHistorik.add(fadHistorik);
             }
         }
+    }
 
     public void editHistoryWhenOmhældning(LagretVæske lagretVæske, LocalDate emptyDate) {
         for (LagretVæskesFadHistorik lV: fadHistorik) {

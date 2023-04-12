@@ -3,12 +3,10 @@ package gui;
 import application.Lager;
 import controller.Controller;
 import javafx.geometry.Insets;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 public class LagerePane extends GridPane {
     private final Controller controller = Controller.getController();
@@ -17,49 +15,43 @@ public class LagerePane extends GridPane {
     private final Label lblTotalAntalFad = new Label("Total antal fad: " + controller.totalAntalFad());
     private final TextField txtLagerLokation = new TextField();
     private final TextField txtLagerPladser = new TextField();
+    private final VBox listViewBox = new VBox(10); // Set spacing to 10
 
     public LagerePane() {
         this.setPadding(new Insets(20));
         this.setHgap(20);
         this.setVgap(10);
         this.setGridLinesVisible(false);
+        this.updateControls();
 
-        // list
-        this.add(lstLager, 0, 1);
-        this.lstLager.setEditable(false);
-        this.lstLager.getItems().setAll(controller.getAlleLagre());
-        this.lstLager.setMinHeight(200);
+        lstLager.setPrefHeight(150); // Set the preferred height for the ListView
+        listViewBox.getChildren().addAll(new Label("Lager Liste:"), lstLager);
 
-        // labels
-        Label lblOpretlager = new Label("Nyt lager oplysninger");
-        this.add(lblOpretlager, 1, 0);
-        this.add(lblTotalAntalFad, 0, 7);
-        this.add(lblAntalLagre, 0, 5);
-        Label lblNuvaerendeLager = new Label("Lager Liste:");
-        this.add(lblNuvaerendeLager, 0, 0);
-        Label lblPladser = new Label("Pladser");
+        GridPane inputGrid = new GridPane();
+        inputGrid.setHgap(10);
+        inputGrid.setVgap(10);
+
+        // Labels
         Label lblLokation = new Label("Lokation");
+        Label lblPladser = new Label("Pladser");
 
-        // button
+        inputGrid.add(lblLokation, 0, 0);
+        inputGrid.add(txtLagerLokation, 1, 0);
+        inputGrid.add(lblPladser, 0, 1);
+        inputGrid.add(txtLagerPladser, 1, 1);
+
         Button btnOpretLager = new Button("Opret lager");
         btnOpretLager.setOnAction(event -> btnOpretAction());
 
-        // opretLagerInnerPane
-        GridPane opretLagerInnerPane = new GridPane();
-        opretLagerInnerPane.setHgap(10);
-        opretLagerInnerPane.setVgap(20);
-        this.add(opretLagerInnerPane, 1, 1);
-        opretLagerInnerPane.setGridLinesVisible(false);
-        opretLagerInnerPane.add(lblLokation, 0, 0);
-        opretLagerInnerPane.add(lblPladser, 0, 1);
-        opretLagerInnerPane.add(txtLagerLokation, 1, 0);
-        opretLagerInnerPane.add(txtLagerPladser, 1, 1);
-        opretLagerInnerPane.add(btnOpretLager, 0, 3);
-        
+        this.add(listViewBox, 0, 0);
+        this.add(inputGrid, 1, 0);
+        this.add(btnOpretLager, 1, 1);
+        this.add(lblAntalLagre, 0, 2);
+        this.add(lblTotalAntalFad, 0, 3);
     }
 
     public void updateControls() {
-        this.lstLager.getItems().setAll(controller.getAlleLagre());
+        lstLager.getItems().setAll(controller.getAlleLagre());
         lblAntalLagre.setText("Antal lagre: " + controller.getAlleLagre().size());
         lblTotalAntalFad.setText("Total antal fad: " + controller.totalAntalFad());
     }
@@ -88,7 +80,6 @@ public class LagerePane extends GridPane {
             showErrorAlert("Indtast venligst et gyldigt tal for pladser");
             return;
         }
-
         if (pladser <= 0) {
             showErrorAlert("Antallet af pladser skal være større end 0");
             return;

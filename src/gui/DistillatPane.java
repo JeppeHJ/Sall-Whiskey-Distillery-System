@@ -3,8 +3,11 @@ package gui;
 import application.Distillat;
 import controller.Controller;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+
 import java.time.LocalDate;
 
 /**
@@ -20,52 +23,56 @@ public class DistillatPane extends GridPane {
     private final TextField txtRygemateriale = new TextField();
     private final TextField txtMedarbejder = new TextField();
     private final DatePicker datePicker = new DatePicker();
+    private final VBox listViewBox = new VBox(10);
 
     public DistillatPane() {
         this.setPadding(new Insets(20));
         this.setHgap(20);
         this.setVgap(10);
-        this.setGridLinesVisible(false);
+        this.setGridLinesVisible(false); // Hide grid lines for better appearance
 
-        // liste
-        this.add(lstDistillater, 0, 1);
-        this.lstDistillater.setEditable(false);
-        this.lstDistillater.setMinHeight(200);
-        this.lstDistillater.getItems().setAll(controller.getDistillaterMedActualVaeske());
+        lstDistillater.setPrefHeight(150); // Set the preferred height for the ListView
+        listViewBox.getChildren().addAll(new Label("Distillat Liste:"), lstDistillater);
+
+        GridPane inputGrid = new GridPane();
+        inputGrid.setHgap(10);
+        inputGrid.setVgap(10);
 
         // etiketter
-        Label lblDistillatList = new Label("Distillat Liste:");
-        this.add(lblDistillatList, 0, 0);
         Label lblLiter = new Label("Liter");
-        this.add(lblLiter, 1, 0);
         Label lblMaltbatch = new Label("Maltbatch");
-        this.add(lblMaltbatch, 1, 1);
+
         Label lblKornsort = new Label("Kornsort");
-        this.add(lblKornsort, 1, 2);
+
         Label lblAlkoholprocent = new Label("Alkoholprocent");
-        this.add(lblAlkoholprocent, 1, 3);
+
         Label lblRygemateriale = new Label("Rygemateriale");
-        this.add(lblRygemateriale, 1, 4);
+
         Label lblDate = new Label("Dato");
-        this.add(lblDate, 1, 5);
+
         Label lblMedarbejder = new Label("Medarbejder");
-        this.add(lblMedarbejder, 1, 6);
 
-        // tekstfelter
-        this.add(txtLiter, 2, 0);
-        this.add(txtMaltbatch, 2, 1);
-        this.add(txtKornsort, 2, 2);
-        this.add(txtAlkoholprocent, 2, 3);
-        this.add(txtRygemateriale, 2, 4);
-        this.add(txtMedarbejder, 2, 6);
+        inputGrid.add(lblLiter, 0, 0);
+        inputGrid.add(txtLiter, 1, 0);
+        inputGrid.add(lblMaltbatch, 0, 1);
+        inputGrid.add(txtMaltbatch, 1, 1);
+        inputGrid.add(lblKornsort, 0, 2);
+        inputGrid.add(txtKornsort, 1, 2);
+        inputGrid.add(lblAlkoholprocent, 0, 3);
+        inputGrid.add(txtAlkoholprocent, 1, 3);
+        inputGrid.add(lblRygemateriale, 0, 4);
+        inputGrid.add(txtRygemateriale, 1, 4);
+        inputGrid.add(lblDate, 0, 5);
+        inputGrid.add(datePicker, 1, 5);
+        inputGrid.add(lblMedarbejder, 0, 6);
+        inputGrid.add(txtMedarbejder, 1, 6);
 
-        // date picker
-        this.add(datePicker, 2, 5);
-
-        // knap
         Button btnOpretDistillat = new Button("Opret Distillat");
-        this.add(btnOpretDistillat, 1, 7);
         btnOpretDistillat.setOnAction(event -> btnOpretDistillatAction());
+
+        this.add(listViewBox, 0, 0);
+        this.add(inputGrid, 1, 0);
+        this.add(btnOpretDistillat, 1, 1);
     }
 
     private void btnOpretDistillatAction() {
@@ -93,7 +100,7 @@ public class DistillatPane extends GridPane {
             controller.opretDistillat(literValue, maltbatch, kornsort, alkoholprocentValue, rygemateriale, date, medarbejder);
 
             // Opdater ListView
-            lstDistillater.getItems().setAll(controller.getDistillaterMedActualVaeske());
+            listViewBox.getChildren().addAll(new Label("Distillat Liste:"), lstDistillater);
 
             // Ryd inputfelter
             txtLiter.clear();
@@ -113,5 +120,9 @@ public class DistillatPane extends GridPane {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    public void updateControls() {
+        lstDistillater.getItems().setAll(controller.getDistillaterMedActualVaeske());
     }
 }

@@ -112,7 +112,7 @@ public class Controller {
         return fade;
     }
 
-    public LagretVæske opretNyLagretVæskeOmhældning(Fad kilde, Fad destination, double mængde) {
+    public LagretVæske opretNyLagretVæskeOmhældning(Fad kilde, Fad destination, double mængde, LocalDate dato) {
 
         ArrayList<Distillat> kildeDestillatListe = kilde.getLagretVæsker().get(0).getDistillater();
         ArrayList<Distillat> destinationDestillatListe = null;
@@ -123,25 +123,20 @@ public class Controller {
         }
         // Cojoin the lists into a new
         LagretVæske kildeLv = kilde.getLagretVæsker().get(0);
-        LagretVæske nyeVæske = controller.opretLagretVæske(mængde + destination.getFadfyldning(), LocalDate.now(), null, kildeDestillatListe, destinationDestillatListe, kildeLv, destLv);
+        LagretVæske nyeVæske = controller.opretLagretVæske(mængde + destination.getFadfyldning(), dato, null, kildeDestillatListe, destinationDestillatListe, kildeLv, destLv);
 
         kilde.omhældning(kilde, destination, mængde, nyeVæske);
 
         // Handle væsken i kilde-fad
-        System.out.println(kilde.getFadfyldning());
-        System.out.println(kilde.getFadStr());
         if (kilde.getFadfyldning() == 0) {
-            controller.tømtFad(kilde, nyeVæske);
+            controller.tømtFad(kilde, nyeVæske, dato);
         }
-
-
-        System.out.println();
         return nyeVæske;
     }
 
-    private void tømtFad(Fad fad, LagretVæske nyeVæske) {
+    private void tømtFad(Fad fad, LagretVæske nyeVæske, LocalDate dato) {
         // Fad skal have et FadsLagretVæskeHistorik objekt med lagretvæske, påfyldningsdato, final omhældningsdato
-        fad.editHistoryWhenBarrelEmpty(fad.getLagretVæsker().get(0), LocalDate.now());
+        fad.editHistoryWhenBarrelEmpty(fad.getLagretVæsker().get(0), dato);
 
         // Kilde Fad er nu tomt i systemet
         fad.removeLagretVæsker(fad.getLagretVæsker().get(0));
@@ -279,7 +274,7 @@ public class Controller {
                 // Co-join the lists of LagretVæskesFadHistorik object stored in kilde and dest
             }
             lagretVæske.addFadHistorikker(nyListeAfLagretVæskesFadHistorik);
-            lagretVæske.editHistoryWhenOmhældning(kildeLagretVæske, LocalDate.now());
+            lagretVæske.editHistoryWhenOmhældning(kildeLagretVæske, påfyldningsDato);
             lagretVæske.addDestillater(nyListeAfDistillater);
             storage.addLagretVæske(lagretVæske);
             return lagretVæske;
@@ -290,8 +285,6 @@ public class Controller {
     }
 
     private ArrayList<Distillat> joinDistillatLists(ArrayList<Distillat> kilde, ArrayList<Distillat> destination) {
-        System.out.println("Kilde: " + kilde);
-        System.out.println("Destination: " + destination);
         ArrayList<Distillat> combinedList = new ArrayList<>(kilde);
 
         if (destination != null) {
@@ -305,17 +298,13 @@ public class Controller {
                 LocalDate date2 = d2.getDatoForDone();
                 return date1.compareTo(date2);
             });
-            System.out.println("Condition 1: " + combinedList);
             return combinedList;
 
         }
-        System.out.println("Condition 2: " + combinedList);
         return combinedList;
     }
 
     private ArrayList<LagretVæskesFadHistorik> joinFadHistory(ArrayList<LagretVæskesFadHistorik> kilde, ArrayList<LagretVæskesFadHistorik> destination) {
-        System.out.println("Kilde: " + kilde);
-        System.out.println("Destination: " + destination);
         ArrayList<LagretVæskesFadHistorik> combinedList = new ArrayList<>(kilde);
 
         if (destination != null) {
@@ -329,11 +318,10 @@ public class Controller {
                 LocalDate date2 = d2.getFraDato();
                 return date1.compareTo(date2);
             });
-            System.out.println("Condition 1: " + combinedList);
+
             return combinedList;
 
         }
-        System.out.println("Condition 2: " + combinedList);
         return combinedList;
     }
 
@@ -353,14 +341,46 @@ public class Controller {
         ArrayList<LagretVæske> færdigeVæsker = new ArrayList<>();
         LocalDate currentDate = LocalDate.now();
         // Gennemgår alle lagrede væsker
-        for (LagretVæske væske : storage.getLagretVæsker()) {
+        for (LagretVæske væske : getAktiveLagredeVæsker()) {
             LocalDate påfyldningsDato = væske.getPåfyldningsDato();
+
             // Tjekker om væsken har lagret i mindst 3 år
             if (påfyldningsDato.plusYears(3).isBefore(currentDate) || påfyldningsDato.plusYears(3).isEqual(currentDate)) {
                 færdigeVæsker.add(væske);
             }
         }
         return færdigeVæsker;
+    }
+
+
+    public List<Fad> getFaerdigLagretVæskePåFad(LagretVæske lagretVaeske) {
+        List<Fad> barrels = new ArrayList<>();
+        for (Fad fad : storage.getFade()) {
+            if (fad.getLagretVæsker().contains(lagretVaeske))
+                barrels.add(fad);
+        }
+        return barrels;
+    }
+
+    public boolean checkOmFærdigLagretVæskeHarFad(LagretVæske lagretVaeske) {
+        boolean harFad = false;
+        for (Fad fad : storage.getFade()) {
+            if (fad.getLagretVæsker().contains(lagretVaeske)) {
+                harFad = true;
+            }
+
+        }
+        return harFad;
+    }
+    public ArrayList<LagretVæske> getAktiveLagredeVæsker() {
+        ArrayList<LagretVæske> aktiveVæsker = new ArrayList<>();
+        for (LagretVæske væske: storage.getLagretVæsker()) {
+            if (checkOmFærdigLagretVæskeHarFad(væske) && væske.getLiter() != 0) {
+                aktiveVæsker.add(væske);
+            }
+        }
+
+        return aktiveVæsker;
     }
 
     // Henter fadehistorik for en LagretVæske
@@ -404,7 +424,7 @@ public class Controller {
     /** ------------- WHISKY METODER ------------- **/
 
     // Opretter en ny Whisky og tilføjer den til storage
-    public Whisky opretWhisky(String navn, LocalDate påfyldningsDato, double alkoholprocent, double liter, Flasketype flasketype, LagretVæske væske, Fad fad, String vandKilde, double fortyndelsesProcent) {
+    public Whisky opretWhisky(String navn, LocalDate påfyldningsDato, double liter, Flasketype flasketype, LagretVæske væske, Fad fad, String vandKilde, double fortyndelsesProcent) {
         // Beregner kapaciteten i fadet
         double fadStr = fad.getFadStr();
         double fadFyldning = fad.getFadfyldning();
@@ -416,7 +436,7 @@ public class Controller {
         }
 
         // Opretter ny Whisky
-        Whisky whisky = new Whisky(navn, påfyldningsDato, alkoholprocent, liter, flasketype, væske, vandKilde, fortyndelsesProcent);
+        Whisky whisky = new Whisky(navn, påfyldningsDato, liter, flasketype, væske, vandKilde, fortyndelsesProcent);
         // Tilføjer Whisky til storage
         storage.addWhisky(whisky);
 
@@ -432,16 +452,9 @@ public class Controller {
         LagretVæske lagretVæske = whisky.getVæske();
         // Henter fadhistorikken for LagretVæske
         ArrayList<LagretVæskesFadHistorik> fadHistory = lagretVæske.getFadehistorik();
-        // Liste til at holde LagretVæskesFadHistorik objekter
-        List<LagretVæskesFadHistorik> fadHistoryEntries = new ArrayList<>();
+        System.out.println(lagretVæske.getFadehistorik());
 
-        // Gennemgår fadhistorikken og opretter LagretVæskesFadHistorik objekter
-        // TODO VIGTIGT!!!!
-        /*for (Map.Entry<Fad, LocalDate> entry : fadHistory.entrySet()) {
-            fadHistoryEntries.add(new LagretVæskesFadHistorik(entry.getKey(), entry.getValue(), LocalDate.now()));
-        }*/
-
-        return fadHistoryEntries;
+        return fadHistory;
     }
 
     // Henter en liste over alle Whisky i storage

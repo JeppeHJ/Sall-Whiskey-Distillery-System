@@ -34,6 +34,10 @@ public class Distillat {
         return datoForDone;
     }
 
+    public String getMedarbejder() {
+        return medarbejder;
+    }
+
     public double getLiterTilbage() {
         return literTilbage + liter;
     }
