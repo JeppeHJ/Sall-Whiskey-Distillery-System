@@ -98,4 +98,7 @@ public class Lager {
                 " id: " + id + " antal fad: " + this.fadeHashMap.size() +
                 " Pladser: " + antalPladser;
     }
+    public String getLokation(){
+        return this.lokation;
+    }
 }
