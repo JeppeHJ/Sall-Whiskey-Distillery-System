@@ -287,7 +287,7 @@ public class Controller {
         if (påfyldningsDato == null) {
             throw new IllegalArgumentException("Påfyldningsdato kan ikke være null");
         }
-        if (distillat == null) {
+        if (distillat == null&& kildeDestillatListe ==null) {
             throw new IllegalArgumentException("Distillat kan ikke være null");
         }
         // hvis den lagrede væske oprettes fra et destillat basically

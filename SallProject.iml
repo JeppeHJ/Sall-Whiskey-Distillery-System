@@ -35,5 +35,6 @@
     </orderEntry>
     <orderEntry type="library" name="javafx-full" level="application" />
     <orderEntry type="library" name="lib" level="project" />
+    <orderEntry type="library" name="javafx.base" level="application" />
   </component>
 </module>
