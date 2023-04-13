@@ -8,7 +8,7 @@ public class FadsOmhældningsHistorik {
     private double mængde;
     private LocalDate datoForOmhældning;
 
-    public FadsOmhældningsHistorik(Fad fadKilde, Fad fadDestination, double mængde, LocalDate datoForOmhældning) {
+      FadsOmhældningsHistorik(Fad fadKilde, Fad fadDestination, double mængde, LocalDate datoForOmhældning) {
         this.kildeFad = fadKilde;
         this.destinationFad = fadDestination;
         this.mængde = mængde;

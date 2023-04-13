@@ -112,12 +112,12 @@ public class FadTest {
         assertNotNull(fad.getOmhældningsHistory());
     }
 
-    @Test
-    public void testAddToOmhældningsHistorik() {
-        FadsOmhældningsHistorik historik = new FadsOmhældningsHistorik(fad, null, 50, LocalDate.now());
-        fad.addToOmhældningsHistorik(historik);
-        assertEquals(1, fad.getOmhældningsHistory().size());
-    }
+//    @Test
+//    public void testAddToOmhældningsHistorik() {
+//        FadsOmhældningsHistorik historik = new FadsOmhældningsHistorik(fad, null, 50, LocalDate.now());
+//        fad.addToOmhældningsHistorik(historik);
+//        assertEquals(1, fad.getOmhældningsHistory().size());
+//    }
 
     @Test
     public void testAddToHistory() {

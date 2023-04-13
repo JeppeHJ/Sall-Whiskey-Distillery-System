@@ -19,7 +19,7 @@ public class FadsLagretVæskeHistorik {
      * @param fillDate Påfyldningsdatoen for væsken i fadet
      * @param emptyDate Tømningsdatoen for væsken fra fadet
      */
-    public FadsLagretVæskeHistorik(LagretVæske lagretVaeske, LocalDate fillDate, LocalDate emptyDate) {
+     FadsLagretVæskeHistorik(LagretVæske lagretVaeske, LocalDate fillDate, LocalDate emptyDate) {
         this.lagretVaeske = lagretVaeske;
         this.fillDate = fillDate;
         this.emptyDate = emptyDate;

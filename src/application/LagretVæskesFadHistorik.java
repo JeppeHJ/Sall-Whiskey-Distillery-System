@@ -7,7 +7,7 @@ public class LagretVæskesFadHistorik {
     private LocalDate fraDato;
     private LocalDate tilDato;
 
-    public LagretVæskesFadHistorik(Fad fad, LocalDate fraDato, LocalDate tilDato) {
+     LagretVæskesFadHistorik(Fad fad, LocalDate fraDato, LocalDate tilDato) {
         this.fad = fad;
         this.fraDato = fraDato;
         this.tilDato = tilDato;
