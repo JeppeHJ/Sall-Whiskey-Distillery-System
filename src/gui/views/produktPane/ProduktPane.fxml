@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="534.0" prefWidth="782.0" style="-fx-background-color: #fff;" stylesheets="ProduktPane.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.views.produktPane.ProduktPaneController">
+    <children>
+      <Pane layoutX="516.0" layoutY="46.0" prefHeight="442.0" prefWidth="222.0" style="-fx-background-color: #f3f3f3; -fx-background-radius: 20;">
+         <children>
+            <Label layoutX="14.0" layoutY="25.0" text="Destillat Liste">
+               <font>
+                  <Font name="SansSerif Bold" size="18.0" />
+               </font>
+            </Label>
+            <ListView fx:id="listWhiskyDestillatListe" layoutX="4.0" layoutY="74.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="153.0" prefWidth="216.0" style="-fx-background-radius: 20; -fx-padding: 7;" />
+            <TextArea fx:id="txtAreaDistillatInfo" editable="false" layoutX="4.0" layoutY="250.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="166.0" prefWidth="216.0" style="-fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: #c9c9c9; -fx-padding: 7; -fx-background-color: #fff;" />
+         </children>
+      </Pane>
+      <Pane layoutX="278.0" layoutY="46.0" prefHeight="442.0" prefWidth="222.0" style="-fx-background-color: #f3f3f3; -fx-background-radius: 20;">
+         <children>
+            <Label layoutX="14.0" layoutY="25.0" text="Fad Historik">
+               <font>
+                  <Font name="SansSerif Bold" size="18.0" />
+               </font>
+            </Label>
+            <ListView fx:id="listLagretsVæskesFadHistorik" layoutX="3.0" layoutY="75.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="153.0" prefWidth="216.0" style="-fx-background-radius: 20; -fx-padding: 7;" />
+            <ListView fx:id="listFadsLagretVæskeHistorik" layoutX="5.0" layoutY="255.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="153.0" prefWidth="216.0" style="-fx-background-radius: 20; -fx-padding: 7;" />
+         </children>
+      </Pane>
+      <Pane layoutX="26.0" layoutY="112.0" prefHeight="310.0" prefWidth="230.0" style="-fx-background-color: #f3f3f3; -fx-background-radius: 20;">
+         <children>
+            <Label layoutX="14.0" layoutY="25.0" text="Whiskyflasker">
+               <font>
+                  <Font name="SansSerif Bold" size="18.0" />
+               </font>
+            </Label>
+            <TextArea fx:id="txtAreaInfo" editable="false" layoutX="7.0" layoutY="117.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="166.0" prefWidth="216.0" style="-fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: #c9c9c9; -fx-padding: 7; -fx-background-color: #fff;" />
+            <ComboBox fx:id="lstFaerdigeVaesker" layoutX="33.0" layoutY="63.0" prefHeight="27.0" prefWidth="164.0" styleClass="comboBoxLager" stylesheets="@../fadePane/FadePane.css" />
+         </children>
+      </Pane>
+    </children>
+    <padding>
+        <Insets bottom="20" left="20" right="20" top="20" />
+    </padding>
+</AnchorPane>

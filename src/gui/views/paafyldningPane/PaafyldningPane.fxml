@@ -19,7 +19,7 @@
             <children>
                 <Label layoutX="14.0" layoutY="43.0" text="Vælg lager:">
                     <font>
-                        <Font name="SansSerif Regular" size="18.0" />
+                        <Font name="SansSerif Bold" size="18.0" />
                     </font>
                 </Label>
                 <ComboBox fx:id="comboBoxLager" layoutX="124.0" layoutY="41.0" prefHeight="25.0" prefWidth="208.0" styleClass="comboBoxLager" stylesheets="@../fadePane/FadePane.css" />
@@ -30,7 +30,7 @@
             <children>
                 <Label layoutX="14.0" layoutY="43.0" text="Vælg distillat:">
                     <font>
-                        <Font name="SansSerif Regular" size="18.0" />
+                        <Font name="SansSerif Bold" size="18.0" />
                     </font>
                 </Label>
                 <ComboBox fx:id="comboBoxDistillat" layoutX="139.0" layoutY="41.0" prefHeight="27.0" prefWidth="193.0" styleClass="comboBoxLager" stylesheets="@../fadePane/FadePane.css" />
@@ -41,7 +41,7 @@
             <children>
                 <Label layoutX="27.0" layoutY="22.0" text="Antal Liter:">
                     <font>
-                        <Font name="SansSerif Regular" size="18.0" />
+                        <Font name="SansSerif Bold" size="18.0" />
                     </font>
                 </Label>
                 <TextField fx:id="txtxLiter" layoutX="148.0" layoutY="18.0" prefHeight="30.0" prefWidth="127.0" style="-fx-background-color: #fff; -fx-background-radius: 20; -fx-border-color: #000000; -fx-border-radius: 20;">
@@ -51,7 +51,7 @@
                 </TextField>
                 <Label layoutX="27.0" layoutY="66.0" text="Dato:">
                     <font>
-                        <Font name="SansSerif Regular" size="18.0" />
+                        <Font name="SansSerif Bold" size="18.0" />
                     </font>
                 </Label>
                 <DatePicker fx:id="datePicker" layoutX="148.0" layoutY="59.0" prefHeight="35.0" prefWidth="127.0" stylesheets="@../distillatPane/DistillatPane.css" />

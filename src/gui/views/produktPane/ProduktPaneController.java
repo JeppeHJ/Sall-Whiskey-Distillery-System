@@ -1,79 +1,33 @@
-package gui;
+package gui.views.produktPane;
 
 import application.*;
 import controller.Controller;
-import javafx.geometry.Insets;
+import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
 import javafx.util.Callback;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProduktPane extends GridPane {
+public class ProduktPaneController {
     private final Controller controller = Controller.getController();
-    private final ComboBox<Whisky> lstFaerdigeVaesker = new ComboBox<>(); // Updated to Whisky
-    private final TextArea txtAreaInfo = new TextArea();
-    private final TextArea txtAreaDistillat = new TextArea();
 
-    private final ListView<Distillat> listWhiskyDestillatListe = new ListView<>();
-    private final TextArea txtAreaDistillatInfo = new TextArea(); // Add the new TextArea
-    private final ListView<LagretVæskesFadHistorik> listLagretsVæskesFadHistorik = new ListView<>();
-    private final ListView<FadsLagretVæskeHistorik> listFadsLagretVæskeHistorik = new ListView<>();
+    @FXML
+    private ComboBox<Whisky> lstFaerdigeVaesker;
+    @FXML
+    private TextArea txtAreaInfo;
+    @FXML
+    private ListView<Distillat> listWhiskyDestillatListe;
+    @FXML
+    private TextArea txtAreaDistillatInfo;
+    @FXML
+    private ListView<LagretVæskesFadHistorik> listLagretsVæskesFadHistorik;
+    @FXML
+    private ListView<FadsLagretVæskeHistorik> listFadsLagretVæskeHistorik;
 
-    public ProduktPane() {
-        this.setPadding(new Insets(20));
-        this.setHgap(20);
-        this.setVgap(10);
-        this.setGridLinesVisible(false);
+    public void initialize() {
 
-        // list
-        this.add(lstFaerdigeVaesker, 0, 1);
-        this.lstFaerdigeVaesker.setEditable(false);
-        this.lstFaerdigeVaesker.getItems().setAll(controller.getWhisky()); // Updated method
-
-        // TextArea
-        this.add(txtAreaInfo, 0, 2); // Added TextArea to the layout
-        txtAreaInfo.setMinHeight(200);
-        txtAreaInfo.setMaxHeight(100);
-        txtAreaInfo.setMaxWidth(250);
-        txtAreaInfo.setEditable(false); // Make TextArea non-editable
-        txtAreaInfo.setPrefRowCount(6); // Set preferred row count (adjust as needed)
-
-        this.add(listFadsLagretVæskeHistorik, 1, 4);
-        listFadsLagretVæskeHistorik.setEditable(false);
-        listFadsLagretVæskeHistorik.setMinHeight(200);
-        listFadsLagretVæskeHistorik.setMaxHeight(100);
-        listFadsLagretVæskeHistorik.setMaxWidth(250);
-
-        // New TextArea for Distillat Info
-        this.add(txtAreaDistillatInfo, 2, 4);
-        txtAreaDistillatInfo.setEditable(false);
-        txtAreaDistillatInfo.setMinHeight(200);
-        txtAreaDistillatInfo.setMaxHeight(100);
-        txtAreaDistillatInfo.setMaxWidth(250);
-
-
-        // labels
-        Label lblDistillatList = new Label("Whiskyflasker:"); // Updated label text
-        this.add(lblDistillatList, 0, 0);
-        Label lblFadHistorik = new Label("Fad Historik:");
-        this.add(lblFadHistorik, 1, 0);
-        Label lblDestillatListe = new Label("Destillat Liste");
-        this.add(lblDestillatListe, 2, 0);
-
-        this.add(listWhiskyDestillatListe, 2, 2);
-        listWhiskyDestillatListe.setEditable(false);
-        listWhiskyDestillatListe.setMinHeight(200);
-        listWhiskyDestillatListe.setMaxHeight(100);
-        listWhiskyDestillatListe.setMaxWidth(250);
-
-        // ListView for barrels
-        this.add(listLagretsVæskesFadHistorik, 1, 2);
-        listLagretsVæskesFadHistorik.setEditable(false);
-        listLagretsVæskesFadHistorik.setMinHeight(200);
-        listLagretsVæskesFadHistorik.setMaxHeight(100);
-        listLagretsVæskesFadHistorik.setMaxWidth(250);
+        updateControls();
 
         lstFaerdigeVaesker.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -120,8 +74,6 @@ public class ProduktPane extends GridPane {
             }
         });
 
-
-
         listLagretsVæskesFadHistorik.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 Fad fad = newValue.getFad();
@@ -131,13 +83,9 @@ public class ProduktPane extends GridPane {
                 for (LagretVæskesFadHistorik entry : fadHistory) {
                     historyText.append("Påhældning: ").append(entry.getFraDato().toString()).append("\n");
                 }
-
-                txtAreaDistillat.setText(historyText.toString());
-
                 // Populate lstIndholdshistorik with the selected Fad's history
                 listFadsLagretVæskeHistorik.getItems().setAll(newValue.getFad().getFadsLagretVæskeHistorik());
             } else {
-                txtAreaDistillat.clear();
                 listFadsLagretVæskeHistorik.getItems().clear(); // Clear the new ListView if no item is selected
             }
         });
@@ -160,8 +108,9 @@ public class ProduktPane extends GridPane {
         });
     }
 
-        public void updateControls() {
+    public void updateControls() {
         lstFaerdigeVaesker.getItems().clear();
         lstFaerdigeVaesker.getItems().setAll(controller.getWhisky()); // Updated method
     }
+
 }

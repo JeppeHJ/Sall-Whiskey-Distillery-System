@@ -1,6 +1,5 @@
 package gui.views.fadePane;
 
-
 import application.*;
 import controller.Controller;
 import javafx.application.Platform;
@@ -38,11 +37,16 @@ public class FadePaneController {
     @FXML
     private Label lblActualPosition;
     @FXML
-    private ListView<LagretVæske> lstNuværendeVæske;
-    @FXML
     private ListView<Fad> listFade;
     @FXML
+    private ListView<FadsOmhældningsHistorik> lstFadOmhældningsHistorik;
+    @FXML
+    private Button btnIndholdsHistorikDetaljer;
+    @FXML
+    private Button btnNuværendeIndholdDetaljer;
+    @FXML
     private Canvas warehouseGrid;
+
 
     private int selectedPosition = 0;
     private Lager lagerChoice;
@@ -61,6 +65,41 @@ public class FadePaneController {
         comboBoxLager.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             handleLagerSelection();
         });
+
+        listFade.setCellFactory(param -> new ListCell<Fad>() {
+            @Override
+            protected void updateItem(Fad item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    setText(item.getPlads() + " | Fad-ID: " + item.getId() + " | Status: " + item.getFadfyldning() + " / " + item.getFadStr());
+                }
+            }
+        });
+
+        // Opdaterer listerne baseret på det valgte fad
+        listFade.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                ArrayList<Distillat> distillatList = new ArrayList<>();
+                for (LagretVæske lV : newSelection.getLagretVæsker()) {
+                    distillatList.addAll(lV.getDistillater());
+                }
+                // Update the FadOmhældningsHistorik ListView based on the chosen Fad
+                lstFadOmhældningsHistorik.getItems().setAll(newSelection.getOmhældningsHistory());
+
+                // Populate lstIndholdshistorik with FadsLagretVæskeHistorik objects associated with the selected Fad
+                if (!(newSelection.getFadsLagretVæskeHistorik().isEmpty())) {
+                    this.btnIndholdsHistorikDetaljer.setDisable(false);
+                    this.btnNuværendeIndholdDetaljer.setDisable(false);
+                }
+            } else {
+                lstFadOmhældningsHistorik.getItems().clear();
+                btnNuværendeIndholdDetaljer.setDisable(true);
+            }
+        });
     }
 
     private void handleLagerSelection() {
@@ -74,8 +113,10 @@ public class FadePaneController {
         }
     }
 
+    @FXML
     private void openNewWindowWithTableView() {
         TableView<LagretVæske> tableView = new TableView<>();
+
 
         // Define columns
         TableColumn<LagretVæske, Integer> column1 = new TableColumn<>("ID");
@@ -94,7 +135,7 @@ public class FadePaneController {
         // Add columns to the TableView
         tableView.getColumns().addAll(column1, column2, column3, column4, column5);
 
-        LagretVæske selectedLagretVæske = lstNuværendeVæske.getSelectionModel().getSelectedItem();
+        LagretVæske selectedLagretVæske = listFade.getSelectionModel().getSelectedItem().getLagretVæsker().get(0);
 
         // Add the selectedLagretVæske to the TableView
         tableView.getItems().add(selectedLagretVæske);
@@ -132,6 +173,7 @@ public class FadePaneController {
         }
     }
 
+    @FXML
     private void openIndholdshistorikDetaljeWindow() {
         TableView<FadsLagretVæskeHistorik> tableView = new TableView<>();
         Fad actualSelectedFad = listFade.getSelectionModel().getSelectedItem();
@@ -229,6 +271,7 @@ public class FadePaneController {
     }
 
 
+
     /**
      * Tjekker, om en bestemt lagerposition er optaget af et fad.
      *
@@ -246,6 +289,7 @@ public class FadePaneController {
         return false;
     }
 
+    @FXML
     private void showCustomDialog() {
         // Create a custom dialog
         Dialog<Map<String, Object>> customDialog = new Dialog<>();
@@ -263,16 +307,18 @@ public class FadePaneController {
         grid.setPadding(new Insets(20, 150, 10, 10));
 
         TextField textField1 = new TextField();
-        TextField textField2 = new TextField();
+        DatePicker datePicker = new DatePicker();
         TextField textField3 = new TextField();
         ComboBox<Fad> comboBoxFadMedVæske = new ComboBox<>();
         ComboBox<Fad> comboBoxFadDestination = new ComboBox<>();
         grid.add(comboBoxFadMedVæske, 1, 0);
         grid.add(comboBoxFadDestination, 1, 1);
+        grid.add(datePicker, 3, 1);
 
         grid.add(new Label("Vælg Fad med væske:"), 0, 0);
         grid.add(new Label("Fad Destination:"), 0, 1);
         grid.add(new Label("Mængde:"), 2, 0);
+        grid.add(new Label("Dato:"), 3, 0);
         grid.add(textField3, 2, 1);
 
         // Populate the ComboBoxes
@@ -300,6 +346,7 @@ public class FadePaneController {
                 inputData.put("FadMedVæske", comboBoxFadMedVæske.getValue());
                 inputData.put("FadDestination", comboBoxFadDestination.getValue());
                 inputData.put("Mængde", textField3.getText());
+                inputData.put("Date", datePicker.getValue());
                 return inputData;
             }
             return null;
@@ -313,6 +360,18 @@ public class FadePaneController {
             // Save the object chosen in the comboBoxFadMedVæske
         });
 
+        listFade.setCellFactory(param -> new ListCell<Fad>() {
+            @Override
+            protected void updateItem(Fad item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText("ID: " + item.getId() + " | Status: " + item.getFadfyldning() + " / " + item.getFadStr());
+                }
+            }
+        });
+
     }
 
     private void processData(Map<String, Object> inputData) {
@@ -322,8 +381,6 @@ public class FadePaneController {
         LocalDate date = (LocalDate) inputData.get("Date");
 
         controller.opretNyLagretVæskeOmhældning(fadMedVæske, fadDestination, Double.parseDouble(mængde), date);
-
-        // Process the data as needed
     }
 
 }

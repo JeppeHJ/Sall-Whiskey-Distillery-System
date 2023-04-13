@@ -15,9 +15,6 @@ public class OpretWhiskyPaneController {
     private RadioButton rbSingleCask, rbSingleMalt, rbBlended;
 
     @FXML
-    private ToggleGroup radioGroup;
-
-    @FXML
     private ComboBox<LagretVæske> comboBoxVælgVæse;
 
     @FXML
@@ -37,6 +34,8 @@ public class OpretWhiskyPaneController {
 
     @FXML
     private Button btnOpretWhisky;
+
+    private final ToggleGroup radioGroup = new ToggleGroup();
 
     @FXML
     public void initialize() {

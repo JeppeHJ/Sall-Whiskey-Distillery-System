@@ -21,6 +21,8 @@ public class AppController {
     @FXML
     private Button btnOpretWhiskyPane;
     @FXML
+    private Button btnProduktPane;
+    @FXML
     private AnchorPane contentPane;
 
 
@@ -37,6 +39,19 @@ public class AppController {
         btnDistillatPaneAction();
         btnPaafyldningPaneAction();
         btnOpretWhiskyPaneAction();
+        btnProduktPaneAction();
+    }
+
+    private void btnProduktPaneAction() {
+        btnProduktPane.setOnAction(event -> {
+            try {
+                Pane produktPane = getProduktPane();
+                contentPane.getChildren().setAll(produktPane);
+                produktPane.toFront();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private void btnLagerePaneAction() {
@@ -97,6 +112,12 @@ public class AppController {
                 e.printStackTrace();
             }
         });
+    }
+
+    public Pane getProduktPane() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/produktPane/ProduktPane.fxml"));
+        Pane produktPane = loader.load();
+        return produktPane;
     }
 
     public Pane getOpretWhiskyPane() throws IOException {

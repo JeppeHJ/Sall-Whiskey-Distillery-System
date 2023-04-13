@@ -16,19 +16,9 @@
 
 <AnchorPane prefHeight="537.0" prefWidth="782.0" style="-fx-background-color: #fff;" stylesheets="@/gui/views/fadePane/FadePane.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.views.fadePane.FadePaneController">
     <children>
-
-        <Label layoutX="55.0" layoutY="498.0" text="Total fade:" />
-
-        <ListView fx:id="listFade" layoutX="467.0" layoutY="415.0" maxHeight="50" />
-
-        <Label layoutX="467.0" layoutY="389.0" text="Omhældningshistorik" />
-        <ListView fx:id="lstFadOmhældningsHistorik" layoutX="467.0" layoutY="469.0" maxHeight="50" />
-
-        <Button fx:id="btnOmhældningsDetaljer" layoutX="306.0" layoutY="494.0" text="Omhældningsdetaljer" />
-        <Button fx:id="btnInputExtraData" layoutX="150.0" layoutY="494.0" text="Opret Omhældning" />
-        <Pane layoutX="37.0" layoutY="29.0" prefHeight="260.0" prefWidth="346.0" style="-fx-background-color: #f3f3f3; -fx-background-radius: 20;">
+        <Pane layoutX="37.0" layoutY="14.0" prefHeight="265.0" prefWidth="346.0" style="-fx-background-color: #f3f3f3; -fx-background-radius: 20;">
             <children>
-                <HBox alignment="CENTER_LEFT" layoutX="26.0" layoutY="92.0" prefHeight="118.0" prefWidth="272.0" spacing="20.0">
+                <HBox alignment="CENTER_LEFT" layoutX="27.0" layoutY="51.0" prefHeight="118.0" prefWidth="272.0" spacing="20.0">
                     <padding>
                         <Insets left="20.0" />
                     </padding>
@@ -37,12 +27,12 @@
                             <children>
                                 <Label text="Fad Størrelse">
                                     <font>
-                                        <Font name="SansSerif Regular" size="18.0" />
+                                        <Font name="SansSerif Regular" size="15.0" />
                                     </font>
                                 </Label>
                                 <Label text="Fad Type">
                                     <font>
-                                        <Font name="SansSerif Regular" size="18.0" />
+                                        <Font name="SansSerif Regular" size="15.0" />
                                     </font>
                                 </Label>
                             </children>
@@ -63,7 +53,7 @@
                         </VBox>
                     </children>
                 </HBox>
-                <Button fx:id="btnOpretFad" alignment="CENTER" contentDisplay="CENTER" layoutX="90.0" layoutY="210.0" mnemonicParsing="false" onAction="#btnOpretAction" prefHeight="36.0" prefWidth="145.0" style="-fx-background-radius: 20; -fx-background-color: #fff;" text="Opret Fad">
+                <Button fx:id="btnOpretFad" alignment="CENTER" contentDisplay="CENTER" layoutX="27.0" layoutY="160.0" mnemonicParsing="false" onAction="#btnOpretAction" prefHeight="36.0" prefWidth="145.0" style="-fx-background-radius: 20; -fx-background-color: #fff;" text="Opret">
                     <font>
                         <Font name="SansSerif Bold" size="12.0" />
                     </font>
@@ -73,94 +63,79 @@
                         <Font name="SansSerif Bold" size="20.0" />
                     </font>
                 </Label>
-            <HBox alignment="CENTER_LEFT" layoutX="192.0" layoutY="64.0" prefHeight="36.0" prefWidth="131.0">
-               <children>
-            
-                          <Label prefHeight="17.0" prefWidth="83.0" text="Position:">
-                     <font>
-                        <Font name="SansSerif Regular" size="15.0" />
-                     </font>
-                     <padding>
-                        <Insets left="10.0" right="15.0" />
-                     </padding>
-                  </Label>
-                    <Label fx:id="lblActualPosition" prefHeight="17.0" prefWidth="35.0">
-                     <font>
-                        <Font name="SansSerif Bold" size="15.0" />
-                     </font>
-                  </Label>
-               </children>
-            </HBox>
+                <HBox alignment="CENTER_LEFT" layoutX="183.0" layoutY="160.0" prefHeight="36.0" prefWidth="131.0">
+                    <children>
+                        <Label prefHeight="17.0" prefWidth="83.0" text="Position:">
+                            <font>
+                                <Font name="SansSerif Regular" size="15.0" />
+                            </font>
+                            <padding>
+                                <Insets left="10.0" right="15.0" />
+                            </padding>
+                        </Label>
+                        <Label fx:id="lblActualPosition" prefHeight="17.0" prefWidth="35.0">
+                            <font>
+                                <Font name="SansSerif Bold" size="15.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </HBox>
+            <Button alignment="CENTER" contentDisplay="CENTER" disable="true" layoutX="27.0" layoutY="207.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="145.0" style="-fx-background-radius: 20; -fx-background-color: #fff;" text="Opdater">
+               <font>
+                  <Font name="SansSerif Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button alignment="CENTER" contentDisplay="CENTER" disable="true" layoutX="183.0" layoutY="207.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="145.0" style="-fx-background-radius: 20; -fx-background-color: #fff;" text="Slet">
+               <font>
+                  <Font name="SansSerif Bold" size="12.0" />
+               </font>
+            </Button>
             </children>
         </Pane>
-      <Pane layoutX="401.0" layoutY="29.0" prefHeight="355.0" prefWidth="346.0" style="-fx-background-color: #f3f3f3; -fx-background-radius: 20;">
-         <children>
-            <Label layoutX="14.0" layoutY="43.0" text="Vælg lager">
-               <font>
-                  <Font name="SansSerif Regular" size="18.0" />
-               </font>
-            </Label>
-            <ComboBox fx:id="comboBoxLager" layoutX="124.0" layoutY="41.0" prefHeight="25.0" prefWidth="208.0" styleClass="comboBoxLager" />
-            <ScrollPane layoutX="49.0" layoutY="74.0" prefHeight="271.0" prefWidth="293.0" style="-fx-border-color: #f3f3f3; -fx-background-color: #f3f3f3;">
-               <content>
-                    <Canvas fx:id="warehouseGrid" height="254.0" nodeOrientation="INHERIT" width="274.0" />
-               </content>
-            </ScrollPane>
-         </children>
-      </Pane>
-      <Pane layoutX="37.0" layoutY="306.0" prefHeight="166.0" prefWidth="346.0" style="-fx-background-color: #f3f3f3; -fx-background-radius: 20;">
-         <children>
-              <VBox alignment="CENTER_LEFT" layoutX="162.0" layoutY="10.0" prefHeight="133.0" prefWidth="158.0">
-                  <children>
-                      <ListView fx:id="lstNuværendeVæske" maxHeight="50.0" prefWidth="158.0" style="-fx-background-radius: 20;">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <VBox.margin>
-                        <Insets top="10.0" />
-                     </VBox.margin>
-                  </ListView>
-                      <ListView fx:id="lstIndholdshistorik" maxHeight="50" style="-fx-background-radius: 20;">
-                     <VBox.margin>
-                        <Insets top="10.0" />
-                     </VBox.margin>
-                  </ListView>
-                      <ListView fx:id="lstDistillat" maxHeight="50" prefWidth="158.0" style="-fx-background-radius: 20;">
-                     <VBox.margin>
-                        <Insets top="10.0" />
-                     </VBox.margin>
-                  </ListView>
-                  </children>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-              </VBox>
-              <VBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="29.0" prefHeight="88.0" prefWidth="131.0">
-                  <children>
-      
-                      <Label text="Nuværende indhold">
-                     <font>
+        <Pane layoutX="401.0" layoutY="14.0" prefHeight="355.0" prefWidth="346.0" style="-fx-background-color: #f3f3f3; -fx-background-radius: 20;">
+            <children>
+                <Label layoutX="13.0" layoutY="33.0" text="Vælg lager">
+                    <font>
                         <Font name="SansSerif Regular" size="15.0" />
-                     </font>
-                  </Label>
-      
-                      <Label text="Indholdshistorik">
-                     <font>
+                    </font>
+                </Label>
+                <ComboBox fx:id="comboBoxLager" layoutX="124.0" layoutY="29.0" prefHeight="25.0" prefWidth="208.0" styleClass="comboBoxLager" />
+                <ScrollPane layoutX="49.0" layoutY="74.0" prefHeight="265.0" prefWidth="289.0" style="-fx-border-color: #f3f3f3; -fx-background-color: #f3f3f3;">
+                    <content>
+                        <Canvas fx:id="warehouseGrid" height="254.0" nodeOrientation="INHERIT" width="274.0" />
+                    </content>
+                </ScrollPane>
+            </children>
+        </Pane>
+        <Pane layoutX="37.0" layoutY="291.0" prefHeight="234.0" prefWidth="346.0" style="-fx-background-color: #f3f3f3; -fx-background-radius: 20;">
+            <children>
+                <ListView fx:id="listFade" layoutX="22.0" layoutY="14.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="166.0" prefWidth="300.0" style="-fx-background-radius: 20; -fx-padding: 7;" />
+                <Button fx:id="btnNuværendeIndholdDetaljer" alignment="CENTER" contentDisplay="CENTER" layoutX="22.0" layoutY="190.0" mnemonicParsing="false" onAction="#openNewWindowWithTableView" prefHeight="36.0" prefWidth="145.0" style="-fx-background-radius: 20; -fx-background-color: #fff;" text="Nuværende inhold">
+                    <font>
+                        <Font name="SansSerif Bold" size="12.0" />
+                    </font>
+                </Button>
+                <Button fx:id="btnIndholdsHistorikDetaljer" alignment="CENTER" contentDisplay="CENTER" layoutX="177.0" layoutY="190.0" mnemonicParsing="false" onAction="#openIndholdshistorikDetaljeWindow" prefHeight="36.0" prefWidth="145.0" style="-fx-background-radius: 20; -fx-background-color: #fff;" text="Inholdshistorik">
+                    <font>
+                        <Font name="SansSerif Bold" size="12.0" />
+                    </font>
+                </Button>
+            </children>
+        </Pane>
+        <Pane layoutX="401.0" layoutY="384.0" prefHeight="143.0" prefWidth="346.0" style="-fx-background-color: #f3f3f3; -fx-background-radius: 20;">
+            <children>
+                <Button fx:id="btnInputExtraData" alignment="CENTER" contentDisplay="CENTER" layoutX="95.0" layoutY="102.0" mnemonicParsing="false" onAction="#showCustomDialog" prefHeight="36.0" prefWidth="145.0" style="-fx-background-radius: 20; -fx-background-color: #fff;" text="Opret Omhældning">
+                    <font>
+                        <Font name="SansSerif Bold" size="12.0" />
+                    </font>
+                </Button>
+                <ListView fx:id="lstFadOmhældningsHistorik" layoutX="27.0" layoutY="38.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="58.0" prefWidth="300.0" style="-fx-background-radius: 20; -fx-padding: 7;" />
+                <Label layoutX="27.0" layoutY="14.0" text="Omhældningshistorik">
+                    <font>
                         <Font name="SansSerif Regular" size="15.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets bottom="28.0" top="28.0" />
-                     </VBox.margin>
-                  </Label>
-      
-                      <Label text="Distillat(er)">
-                     <font>
-                        <Font name="SansSerif Regular" size="15.0" />
-                     </font>
-                  </Label>
-                  </children>
-              </VBox>
-         </children>
-      </Pane>
+                    </font>
+                </Label>
+            </children>
+        </Pane>
     </children>
 </AnchorPane>
