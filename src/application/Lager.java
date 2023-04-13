@@ -96,4 +96,7 @@ public class Lager {
     public String toString() {
         return id + " | " + lokation + " | " + "Pladser: " + antalPladser;
     }
+    public String getLokation(){
+        return this.lokation;
+    }
 }
