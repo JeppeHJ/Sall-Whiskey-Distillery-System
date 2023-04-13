@@ -32,6 +32,13 @@ public class Controller {
 
     // Opretter et nyt lager og tilføjer det til storage
     public Lager opretLager(String lokation, int antalPladser) {
+        if (antalPladser < 0) {
+            throw new IllegalArgumentException("Der kan ikke være negative pladser på et lager");
+        }
+        if (lokation == null) {
+            throw new IllegalArgumentException("Lokation være udfyldt");
+        }
+
         Lager lager = new Lager(lokation, antalPladser);
         storage.addLager(lager);
         return lager;
@@ -67,6 +74,18 @@ public class Controller {
 
     // Opretter et nyt Fad objekt og tilføjer det til storage og lager
     public Fad opretFad(String fadType, double fadStr, Lager lager, int plads) {
+        if (fadType == null || fadType.isEmpty()) {
+            throw new IllegalArgumentException("Fad type må ikke være null eller tom.");
+        }
+        if (fadStr <= 0) {
+            throw new IllegalArgumentException("Fad størrelse skal være større end 0.");
+        }
+        if (lager == null) {
+            throw new IllegalArgumentException("Lager må ikke være null.");
+        }
+        if (plads < 0) {
+            throw new IllegalArgumentException("Plads skal være større eller lig med 0.");
+        }
         Fad fad = new Fad(fadType, fadStr);
         // Tilføj fad til lager og storage
         storage.getLagerById(lager.getId()).addFad(fad, plads);
@@ -113,6 +132,21 @@ public class Controller {
     }
 
     public LagretVæske opretNyLagretVæskeOmhældning(Fad kilde, Fad destination, double mængde, LocalDate dato) {
+        if (kilde == null) {
+            throw new IllegalArgumentException("Kildefad må ikke være null.");
+        }
+
+        if (destination == null) {
+            throw new IllegalArgumentException("Destinationsfad må ikke være null.");
+        }
+
+        if (mængde <= 0) {
+            throw new IllegalArgumentException("Mængde skal være større end 0.");
+        }
+
+        if (dato == null) {
+            throw new IllegalArgumentException("Dato må ikke være null.");
+        }
 
         ArrayList<Distillat> kildeDestillatListe = kilde.getLagretVæsker().get(0).getDistillater();
         ArrayList<Distillat> destinationDestillatListe = null;
@@ -247,7 +281,15 @@ public class Controller {
 
     // Opretter og tilføjer en ny LagretVæske til storage
     public LagretVæske opretLagretVæske(double liter, LocalDate påfyldningsDato, Distillat distillat, ArrayList<Distillat> kildeDestillatListe, ArrayList<Distillat> destinationDestillatListe, LagretVæske kildeLagretVæske, LagretVæske destinationLagretVæske) {
-
+        if (liter < 0) {
+            throw new IllegalArgumentException("Mængde skal være større eller lig 0");
+        }
+        if (påfyldningsDato == null) {
+            throw new IllegalArgumentException("Påfyldningsdato kan ikke være null");
+        }
+        if (distillat == null) {
+            throw new IllegalArgumentException("Distillat kan ikke være null");
+        }
         // hvis den lagrede væske oprettes fra et destillat basically
         if (kildeDestillatListe == null && destinationDestillatListe == null) {
             // Opretter ny LagretVæske
@@ -261,6 +303,18 @@ public class Controller {
             storage.addLagretVæske(lagretVæske);
             return lagretVæske;
         } else {
+            if (kildeDestillatListe == null) {
+                throw new IllegalArgumentException("KildeDestillatListe kan ikke være null");
+            }
+            if (destinationDestillatListe == null) {
+                throw new IllegalArgumentException("DestinationDestillatListe kan ikke være null");
+            }
+            if (kildeLagretVæske == null) {
+                throw new IllegalArgumentException("KildeLagretVæske kan ikke være null");
+            }
+            if (destinationLagretVæske == null) {
+                throw new IllegalArgumentException("DestinationLagretVæske kan ikke være null");
+            }
             // Opretter det nye LagretVæske objekt
             // tilføjer de kombinerede distillater til den nye LagretVæskes distillatliste
             LagretVæske lagretVæske = new LagretVæske(liter, påfyldningsDato);
@@ -402,6 +456,33 @@ public class Controller {
 
 // Opretter et nyt Distillat og tilføjer det til storage
     public Distillat opretDistillat(double liter, String maltBatch, String kornsort, double alkoholprocent, String rygemateriale, LocalDate dato, String medarbejder) {
+        if (liter <= 0) {
+            throw new IllegalArgumentException("Liter skal være større end 0.");
+        }
+
+        if (maltBatch == null || maltBatch.isEmpty()) {
+            throw new IllegalArgumentException("Malt batch må ikke være null eller tom.");
+        }
+
+        if (kornsort == null || kornsort.isEmpty()) {
+            throw new IllegalArgumentException("Kornsort må ikke være null eller tom.");
+        }
+
+        if (alkoholprocent <= 0 || alkoholprocent > 100) {
+            throw new IllegalArgumentException("Alkoholprocent skal være mellem 0 og 100.");
+        }
+
+        if (rygemateriale == null || rygemateriale.isEmpty()) {
+            throw new IllegalArgumentException("Rygemateriale må ikke være null eller tom.");
+        }
+
+        if (dato == null) {
+            throw new IllegalArgumentException("Dato må ikke være null.");
+        }
+
+        if (medarbejder == null || medarbejder.isEmpty()) {
+            throw new IllegalArgumentException("Medarbejder må ikke være null eller tom.");
+        }
         // Opretter nyt Distillat
         Distillat distillat = new Distillat(liter, maltBatch, kornsort, alkoholprocent, rygemateriale, dato, medarbejder);
         // Tilføjer Distillat til storage
@@ -429,6 +510,38 @@ public class Controller {
     // Opretter en ny Whisky og tilføjer den til storage
     public Whisky opretWhisky(String navn, LocalDate påfyldningsDato, double liter, Flasketype flasketype, LagretVæske væske, Fad fad, String vandKilde, double fortyndelsesProcent) {
         // Beregner kapaciteten i fadet
+        // Input validering
+        if (navn == null || navn.isEmpty()) {
+            throw new IllegalArgumentException("Navn må ikke være null eller tom.");
+        }
+
+        if (påfyldningsDato == null) {
+            throw new IllegalArgumentException("Påfyldningsdato må ikke være null.");
+        }
+
+        if (liter <= 0) {
+            throw new IllegalArgumentException("Liter skal være større end 0.");
+        }
+
+        if (flasketype == null) {
+            throw new IllegalArgumentException("Flasketype må ikke være null.");
+        }
+
+        if (væske == null) {
+            throw new IllegalArgumentException("Lagret væske må ikke være null.");
+        }
+
+        if (fad == null) {
+            throw new IllegalArgumentException("Fad må ikke være null.");
+        }
+
+        if (vandKilde == null || vandKilde.isEmpty()) {
+            throw new IllegalArgumentException("Vandkilde må ikke være null eller tom.");
+        }
+
+        if (fortyndelsesProcent < 0 || fortyndelsesProcent > 100) {
+            throw new IllegalArgumentException("Fortyndelsesprocent skal være mellem 0 og 100.");
+        }
         double fadStr = fad.getFadStr();
         double fadFyldning = fad.getFadfyldning();
         double capacity = fadStr - fadFyldning;
