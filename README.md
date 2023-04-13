@@ -23,11 +23,12 @@ Sall Whisky Warehouse Management is a warehouse management system specifically d
 
 - Java JDK 11 or higher
 - Maven 3.6.0 or higher (for building from source)
+- IDE that supports Java and JavaFX
 
 ## Installation
 
 1. Clone the repository:
-git clone https://github.com/yourusername/sall-whisky-warehouse-management.git
+``git clone https://github.com/yourusername/sall-whisky-warehouse-management.git``
 
 2. Change into the project directory:
 cd sall-whisky-warehouse-management
