@@ -1,0 +1,19 @@
+.comboBoxLager {
+    -fx-background-color: #fff;
+    -fx-border-radius: 5;
+}
+
+.comboBoxLager .list-cell {
+    -fx-background-color: #fff;
+    -fx-padding: 5;
+}
+
+.comboBoxLager .list-cell:filled:hover {
+    -fx-background-color: #f3f3f3;
+    -fx-text-fill: #000000;
+}
+
+.comboBoxLager .arrow {
+    -fx-background-color: #b3b3b3;
+}
+
