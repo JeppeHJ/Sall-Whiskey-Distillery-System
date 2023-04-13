@@ -1,5 +1,9 @@
 
-R
-"src/controller/ControllerTest.java,5\2\52c34794cdbfc4a46c6a9873cb169d7bcd0b554b
 b
 2src/gui/views/lagerePane/LagerePaneController.java,c\5\c55fd58b9a735c07a2e777029ab0855781363dbf
+L
+src/gui/application/App.java,d\e\dec0a16cde65d748a7a52fb545a8eee0b7e3a0bd
+?
+SallProject.iml,d\4\d4b7b3ba8d358de80290a2a37074e6995f7e6bfa
+9
+	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d

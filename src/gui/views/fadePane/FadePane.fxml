@@ -110,12 +110,12 @@
         <Pane layoutX="37.0" layoutY="291.0" prefHeight="234.0" prefWidth="346.0" style="-fx-background-color: #f3f3f3; -fx-background-radius: 20;">
             <children>
                 <ListView fx:id="listFade" layoutX="22.0" layoutY="14.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="166.0" prefWidth="300.0" style="-fx-background-radius: 20; -fx-padding: 7;" />
-                <Button fx:id="btnNuværendeIndholdDetaljer" alignment="CENTER" contentDisplay="CENTER" layoutX="22.0" layoutY="190.0" mnemonicParsing="false" onAction="#openNewWindowWithTableView" prefHeight="36.0" prefWidth="145.0" style="-fx-background-radius: 20; -fx-background-color: #fff;" text="Nuværende inhold">
+                <Button fx:id="btnNuværendeIndholdDetaljer" alignment="CENTER" contentDisplay="CENTER" disable="true" layoutX="22.0" layoutY="190.0" mnemonicParsing="false" onAction="#openNewWindowWithTableView" prefHeight="36.0" prefWidth="145.0" style="-fx-background-radius: 20; -fx-background-color: #fff;" text="Nuværende inhold">
                     <font>
                         <Font name="SansSerif Bold" size="12.0" />
                     </font>
                 </Button>
-                <Button fx:id="btnIndholdsHistorikDetaljer" alignment="CENTER" contentDisplay="CENTER" layoutX="177.0" layoutY="190.0" mnemonicParsing="false" onAction="#openIndholdshistorikDetaljeWindow" prefHeight="36.0" prefWidth="145.0" style="-fx-background-radius: 20; -fx-background-color: #fff;" text="Inholdshistorik">
+                <Button fx:id="btnIndholdsHistorikDetaljer" alignment="CENTER" contentDisplay="CENTER" disable="true" layoutX="177.0" layoutY="190.0" mnemonicParsing="false" onAction="#openIndholdshistorikDetaljeWindow" prefHeight="36.0" prefWidth="145.0" style="-fx-background-radius: 20; -fx-background-color: #fff;" text="Inholdshistorik">
                     <font>
                         <Font name="SansSerif Bold" size="12.0" />
                     </font>
