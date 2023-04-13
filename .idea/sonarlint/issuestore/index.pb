@@ -13,10 +13,6 @@ J
 src/gui/DistillatPane.java,b\2\b294d06152e8642810725fbaf6465e4481652d39
 h
 8src/gui/views/distillatPane/DistillatPaneController.java,0\5\0566c180fd307ed34f6d56a990cc8a20da5dce9c
-@
-src/gui/App.java,7\b\7b14ffe0c24639e0445ecb82cffe670c0fcbdec0
-L
-src/gui/application/App.java,d\e\dec0a16cde65d748a7a52fb545a8eee0b7e3a0bd
 V
 &src/gui/application/AppController.java,c\1\c15efe4b83f55e0addeb1db2e3b05cd81a1fd560
 G
@@ -25,3 +21,11 @@ l
 <src/gui/views/opretWhiskyPane/OpretWhiskyPaneController.java,f\4\f403ed5f9bf073d436a91fec427eae6a20045161
 b
 2src/gui/views/opretWhiskyPane/OpretWhiskyPane.fxml,7\2\72cc0d690e2ea3c27ed5615acc11b43040c238d4
+@
+src/gui/App.java,7\b\7b14ffe0c24639e0445ecb82cffe670c0fcbdec0
+H
+src/gui/ProduktPane.java,6\b\6b82252e8325af0e7f8fd945edbbaf3834567f44
+H
+src/gui/StartWindow.java,6\5\6561d942a094123e4f37d6d79185c544a25247fa
+L
+src/gui/application/App.java,d\e\dec0a16cde65d748a7a52fb545a8eee0b7e3a0bd
