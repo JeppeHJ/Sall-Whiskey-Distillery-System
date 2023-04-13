@@ -91,7 +91,7 @@ public class DistillatPaneController {
     }
 
     public void updateControls() {
-        lstDistillater.getItems().setAll(controller.getDistillaterMedActualVaeske());
+        lstDistillater.getItems().setAll(controller.getDistillaterMedFaktiskVæske());
     }
 
 }

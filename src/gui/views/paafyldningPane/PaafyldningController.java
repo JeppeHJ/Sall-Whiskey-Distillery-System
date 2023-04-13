@@ -56,7 +56,7 @@ public class PaafyldningController {
             }
         });
 
-        comboBoxDistillat.getItems().addAll(controller.getDistillaterMedActualVaeske());
+        comboBoxDistillat.getItems().addAll(controller.getDistillaterMedFaktiskVæske());
     }
 
     private void configureTextFields() {
