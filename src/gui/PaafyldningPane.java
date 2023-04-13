@@ -81,7 +81,7 @@ public class PaafyldningPane extends GridPane {
                 }
         );
 
-        comboBoxDistillat.getItems().addAll(controller.getDistillaterMedActualVaeske());
+        comboBoxDistillat.getItems().addAll(controller.getDistillaterMedFaktiskVæske());
         this.add(comboBoxDistillat, 0, 1);
     }
 
@@ -223,7 +223,7 @@ public class PaafyldningPane extends GridPane {
         comboBoxLager.getItems().clear();
         comboBoxLager.getItems().addAll(controller.getAlleLagre());
         comboBoxDistillat.getItems().clear();
-        comboBoxDistillat.getItems().addAll(controller.getDistillaterMedActualVaeske());
+        comboBoxDistillat.getItems().addAll(controller.getDistillaterMedFaktiskVæske());
         if (this.valgtLager != null) {
             System.out.println("gej");
             listFade.getItems().setAll(controller.getFadeIHashMap(valgtLager.getId()).values());

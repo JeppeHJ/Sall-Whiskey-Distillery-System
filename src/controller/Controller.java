@@ -154,7 +154,7 @@ public class Controller {
     }
 
     // Henter en liste af fade, der indeholder en bestemt LagretVæske
-    public List<Fad> getBarrelsContainingLagretVaeske(LagretVæske lagretVaeske) {
+    public List<Fad> getFadDerIndholder(LagretVæske lagretVaeske) {
         List<Fad> barrels = new ArrayList<>();
         for (Fad fad : storage.getFade()) {
             if (fad.getLagretVæsker().contains(lagretVaeske))
@@ -324,7 +324,7 @@ public class Controller {
 
 
     // Validerer input for opretLagretVæske metoden
-    private void validateOpretLagretVæskeInput(double liter, Distillat distillat) {
+    private void validereOpretLagretVæskeInput(double liter, Distillat distillat) {
         if (liter <= 0) {
             throw new IllegalArgumentException("Litermængden kan ikke være 0 eller under");
         }
@@ -410,7 +410,7 @@ public class Controller {
     }
 
     // Henter en liste over Distillater med væske tilbage
-    public ArrayList<Distillat> getDistillaterMedActualVaeske() {
+    public ArrayList<Distillat> getDistillaterMedFaktiskVæske() {
         ArrayList<Distillat> distillaterMedVæske = new ArrayList<>();
         // Gennemgår alle distillater i storage
         for (Distillat distillat : storage.getDistillater()) {

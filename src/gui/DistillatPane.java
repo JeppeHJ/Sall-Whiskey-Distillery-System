@@ -3,7 +3,6 @@ package gui;
 import application.Distillat;
 import controller.Controller;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -141,6 +140,6 @@ public class DistillatPane extends GridPane {
     }
 
     public void updateControls() {
-        lstDistillater.getItems().setAll(controller.getDistillaterMedActualVaeske());
+        lstDistillater.getItems().setAll(controller.getDistillaterMedFaktiskVæske());
     }
 }

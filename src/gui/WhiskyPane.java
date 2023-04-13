@@ -122,7 +122,7 @@ public class WhiskyPane extends GridPane {
                         "Fadehistorik: " + newValue.getFadehistorik() + "\n"
                 );
 
-                lstFade.getItems().setAll(controller.getBarrelsContainingLagretVaeske(newValue));
+                lstFade.getItems().setAll(controller.getFadDerIndholder(newValue));
 
                 if (!lstFade.getItems().isEmpty()) {
                     lstFade.getSelectionModel().selectFirst();
