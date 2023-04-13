@@ -18,6 +18,14 @@ Sall Whisky Warehouse Management is a warehouse management system specifically d
 - Monitor warehouse capacity and utilization
 - Easily search and retrieve cask information
 - Manage multiple warehouses
+- Fully functional GUI
+
+## Features to be made
+
+- Serialization support (and SQL-support)
+- Implementation of Design Pattern
+- Missing update and delete functionality
+- Needs functionality to make whisky out of several casks
 
 ## Requirements
 
@@ -31,13 +39,13 @@ Sall Whisky Warehouse Management is a warehouse management system specifically d
 ``git clone https://github.com/yourusername/sall-whisky-warehouse-management.git``
 
 2. Change into the project directory:
-cd sall-whisky-warehouse-management
+``cd sall-whisky-warehouse-management
 
 3. Build the project:
-mvn clean install
+``mvn clean install
 
 4. Run the application:
-java -jar target/sall-whisky-warehouse-management-1.0-SNAPSHOT.jar
+``java -jar target/sall-whisky-warehouse-management-1.0-SNAPSHOT.jar
 
 ## Usage
 
@@ -52,7 +60,3 @@ java -jar target/sall-whisky-warehouse-management-1.0-SNAPSHOT.jar
 3. Commit your changes to the new branch.
 4. Push your changes to your fork.
 5. Create a pull request, describing your changes and why they should be merged.
-
-## License
-
-Sall Whisky Warehouse Management is licensed under the [MIT License](LICENSE).
