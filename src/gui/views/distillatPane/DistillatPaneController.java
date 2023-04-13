@@ -72,6 +72,16 @@ public class DistillatPaneController {
         }
     }
 
+    @FXML
+    private void btnSletAction() {
+        // TODO: Implementer
+    }
+
+    @FXML
+    private void btnOpdaterAction() {
+        // TODO: Implementer
+    }
+
     private void showErrorAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Fejl");

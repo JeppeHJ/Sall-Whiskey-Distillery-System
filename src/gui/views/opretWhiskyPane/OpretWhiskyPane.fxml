@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            stylesheets="OpretWhiskyPane.css"
+            fx:controller="gui.views.opretWhiskyPane.OpretWhiskyPaneController">
+    <children>
+        <VBox spacing="10" layoutX="20" layoutY="20">
+            <children>
+                <HBox spacing="10">
+                    <children>
+                        <RadioButton fx:id="rbSingleCask" text="Single Cask"/>
+                        <RadioButton fx:id="rbSingleMalt" text="Single Malt"/>
+                        <RadioButton fx:id="rbBlended" text="Blended"/>
+                    </children>
+                </HBox>
+                <GridPane hgap="20" vgap="10">
+                    <columnConstraints>
+                        <ColumnConstraints/>
+                        <ColumnConstraints/>
+                        <ColumnConstraints/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints/>
+                        <RowConstraints/>
+                        <RowConstraints/>
+                        <RowConstraints/>
+                        <RowConstraints/>
+                        <RowConstraints/>
+                        <RowConstraints/>
+                        <RowConstraints/>
+                        <RowConstraints/>
+                    </rowConstraints>
+                    <children>
+                        <Label text="Færdiglagrede væske:" GridPane.rowIndex="1"/>
+                        <Label text="Information om væske:" GridPane.rowIndex="3"/>
+                        <Label text="Fad:" GridPane.rowIndex="5"/>
+                        <Label text="Navn" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                        <Label text="Flasketype" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                        <Label text="Dato" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+                        <Label text="Vandkilde" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                        <Label text="Fortyndelsesprocent" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
+                        <ComboBox fx:id="comboBoxVælgVæse" GridPane.rowIndex="2"/>
+                        <TextArea fx:id="txtAreaInfo" editable="false" prefRowCount="6" GridPane.rowIndex="4"/>
+                        <TextField fx:id="txtNavn" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                        <ComboBox fx:id="comboBoxFlasketype" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+                        <TextField fx:id="txtVandkilde" GridPane.columnIndex="2" GridPane.rowIndex="5"/>
+                        <TextField fx:id="txtFortyndelsesprocent" GridPane.columnIndex="2" GridPane.rowIndex="7"/>
+                        <ListView fx:id="lstFade" GridPane.rowIndex="6"/>
+                        <DatePicker fx:id="datePicker" GridPane.columnIndex="2" GridPane.rowIndex="6"/>
+                    </children>
+                </GridPane>
+                <Button fx:id="btnOpretWhisky" text="Opret Whisky" />
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

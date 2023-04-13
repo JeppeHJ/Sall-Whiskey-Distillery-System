@@ -19,6 +19,8 @@ public class AppController {
     @FXML
     private Button btnPaafyldningPane;
     @FXML
+    private Button btnOpretWhiskyPane;
+    @FXML
     private AnchorPane contentPane;
 
 
@@ -34,6 +36,7 @@ public class AppController {
         btnFadePaneAction();
         btnDistillatPaneAction();
         btnPaafyldningPaneAction();
+        btnOpretWhiskyPaneAction();
     }
 
     private void btnLagerePaneAction() {
@@ -82,6 +85,24 @@ public class AppController {
                 e.printStackTrace();
             }
         });
+    }
+
+    private void btnOpretWhiskyPaneAction() {
+        btnOpretWhiskyPane.setOnAction(event -> {
+            try {
+                Pane opretWhiskyPane = getOpretWhiskyPane();
+                contentPane.getChildren().setAll(opretWhiskyPane);
+                opretWhiskyPane.toFront();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public Pane getOpretWhiskyPane() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/opretWhiskyPane/OpretWhiskyPane.fxml"));
+        Pane opretWhiskyPane = loader.load();
+        return opretWhiskyPane;
     }
 
     public Pane getLagerePane() throws IOException {

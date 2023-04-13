@@ -79,6 +79,16 @@ public class LagerePaneController {
         clearFields();
     }
 
+    @FXML
+    private void btnOpdaterAction() {
+        // TODO: Add update logic here
+    }
+
+    @FXML
+    private void btnSletAction() {
+        // TODO: Add delete logic here
+    }
+
     private void clearFields() {
         txtLagerLokation.clear();
         txtLagerPladser.clear();
