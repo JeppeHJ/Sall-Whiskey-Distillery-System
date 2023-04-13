@@ -21,18 +21,26 @@ public class LagretVæske {
     /**
      * Konstruktor for LagretVæske.
      *
-     * @param liter           Mængde af væske i liter.
-     * @param påfyldningsDato Datoen for påfyldning af væsken.
+     * @param liter           Den mængde væske i liter, der er på fadet.
+     * @param påfyldningsDato Datoen for, hvornår væsken blev påfyldt fadet.
+     *                        Præbetingelse: liter skal være en positiv double-værdi.
+     *                        Præbetingelse: påfyldningsDato skal være en gyldig LocalDate objekt, og bør ikke være en fremtidig dato.
      */
+
     public LagretVæske(double liter, LocalDate påfyldningsDato) {
         this.påfyldningsDato = påfyldningsDato;
         this.liter = liter;
         this.id = count++;
         this.distillater = new ArrayList<>();
         this.fadHistorik = new ArrayList<>();
-        this.alkoholProcent = this.calculateAlkoholprocent();
+        this.alkoholProcent = this.udregnAlkoholprocent();
     }
 
+    /**
+     * Tilføjer en liste af destillater til denne LagretVæske, hvis de ikke allerede er tilføjet.
+     *
+     * @param distillater En ArrayList af Distillat objekter, der skal tilføjes. Præbetingelse: distillater skal være en gyldig ArrayList af Distillat objekter.
+     */
     public void addDestillater(ArrayList<Distillat> distillater) {
         for (Distillat distillat : distillater) {
             if (!this.distillater.contains(distillat)) {
@@ -41,7 +49,12 @@ public class LagretVæske {
         }
     }
 
-    public double calculateAlkoholprocent() {
+    /**
+     * Beregner alkoholprocenten for denne LagretVæske baseret på de tilknyttede destillater.
+     *
+     * @return Alkoholprocenten som en double-værdi.
+     */
+    public double udregnAlkoholprocent() {
         if (distillater.isEmpty()) {
             return 0;
         }
@@ -53,6 +66,11 @@ public class LagretVæske {
         return sum / distillater.size();
     }
 
+    /**
+     * Tilføjer en liste af LagretVæskesFadHistorik objekter til denne LagretVæskes historik, hvis de ikke allerede er tilføjet.
+     *
+     * @param fadHistorikker En ArrayList af LagretVæskesFadHistorik objekter, der skal tilføjes. Præbetingelse: fadHistorikker skal være en gyldig ArrayList af LagretVæskesFadHistorik objekter.
+     */
     public void addFadHistorikker(ArrayList<LagretVæskesFadHistorik> fadHistorikker) {
         for (LagretVæskesFadHistorik fadHistorik : fadHistorikker) {
             // Only add the fadHistorik if it's not already present in the list
@@ -61,8 +79,13 @@ public class LagretVæske {
             }
         }
     }
-
-    public void editHistoryWhenOmhældning(LagretVæske lagretVæske, LocalDate emptyDate) {
+    /**
+     * Opdaterer historikken for denne LagretVæske, når der sker en omhældning.
+     *
+     * @param lagretVæske Det LagretVæske objekt, der skal redigeres. Præbetingelse: lagretVæske skal være et gyldigt LagretVæske objekt.
+     * @param emptyDate   Datoen for, hvornår fadet blev tømt. Præbetingelse: emptyDate skal være en gyldig LocalDate objekt og bør ikke være en fremtidig dato.
+     */
+    public void editHistoryNårDerOmhældes(LagretVæske lagretVæske, LocalDate emptyDate) {
         for (LagretVæskesFadHistorik lV: fadHistorik) {
             if (lV.getFad().getLagretVæsker() != null && !lV.getFad().getLagretVæsker().isEmpty()) {
                 if (lV.getFad().getLagretVæsker().get(0) == lagretVæske) {
@@ -77,20 +100,40 @@ public class LagretVæske {
         return id;
     }
 
+    /**
+     * Henter påfyldningsdatoen for denne LagretVæske.
+     *
+     * @return Påfyldningsdatoen som en LocalDate værdi.
+     */
     public LocalDate getPåfyldningsDato() {
         return påfyldningsDato;
     }
 
+    /**
+     * Henter antallet af liter for denne LagretVæske.
+     *
+     * @return Antallet af liter som en double værdi.
+     */
     public double getLiter() {
         return liter;
     }
 
+    /**
+     * Tilføjer et destillat til denne LagretVæske, hvis det ikke allerede er tilføjet.
+     *
+     * @param distillat Det Distillat objekt, der skal tilføjes. Præbetingelse: distillat skal være et gyldigt Distillat objekt.
+     */
     public void addDistillat(Distillat distillat) {
         if (!this.distillater.contains(distillat)) {
             this.distillater.add(distillat);
         }
     }
 
+    /**
+     * Sætter antallet af liter for denne LagretVæske.
+     *
+     * @param liter Den nye mængde liter som en double værdi. Præbetingelse: liter skal være en positiv double værdi.
+     */
     public void setLiter(double liter) {
         if (liter == 0) {
 
@@ -98,20 +141,31 @@ public class LagretVæske {
         this.liter = liter;
     }
 
+
+    /**
+     * Henter alkoholprocenten for denne LagretVæske.
+     *
+     * @return Alkoholprocenten som en double værdi.
+     */
     public double getAlkoholProcent() {
         return alkoholProcent;
     }
 
+    /**
+     * Henter en liste af destillater tilknyttet denne LagretVæske.
+     *
+     * @return En ArrayList af Distillat objekter.
+     */
     public ArrayList<Distillat> getDistillater() {
         return new ArrayList<>(distillater);
     }
 
     /**
-     * Beregner den nye alkoholprocent baseret på en liste af distillater og deres respektive volumener.
+     * Beregner den nye alkoholprocent ved at blande destillater og de tilsvarende volumener.
      *
-     * @param distillater Liste af distillater.
-     * @param volumes     Array af volumener for hver distillat.
-     * @return Den nye alkoholprocent.
+     * @param distillater En ArrayList af Distillat objekter.
+     * @param volumes     Et double array med volumener, der svarer til destillater i distillater ArrayList. Præbetingelse: volumes skal have samme længde som distillater ArrayList.
+     * @return Den nye alkoholprocent som en double værdi.
      */
     public static double calculateNewAlkoholProcent(ArrayList<Distillat> distillater, double[] volumes) {
         double totalAlkohol = 0;
@@ -125,16 +179,21 @@ public class LagretVæske {
         return totalAlkohol / totalVolumen;
     }
 
-    // Getter for fadehistorik
+    /**
+     * Henter fadhistorikken for denne LagretVæske.
+     *
+     * @return En ArrayList af LagretVæskesFadHistorik objekter.
+     */
     public ArrayList<LagretVæskesFadHistorik> getFadehistorik() {
         return this.fadHistorik;
     }
 
-
     /**
-     * Tilføjer et fad og påfyldningsdato til væskens historik.
+     * Tilføjer et fad til denne LagretVæskes historik sammen med påfyldnings- og tømningsdatoerne.
      *
-     * @param fad             Fadet, der skal tilføjes.
+     * @param fad       Det Fad objekt, der skal tilføjes til historikken. Præbetingelse: fad skal være et gyldigt Fad objekt.
+     * @param fillDate  fillDate Påfyldningsdatoen som en LocalDate værdi. Præbetingelse: fillDate skal være en gyldig LocalDate objekt og bør ikke være en fremtidig dato.
+     * @param emptyDate Tømningsdatoen som en LocalDate værdi. Præbetingelse: emptyDate skal være en gyldig LocalDate objekt og bør ikke være en fremtidig dato.
      */
     public void addFadTilHistorik(Fad fad, LocalDate fillDate, LocalDate emptyDate) {
         LagretVæskesFadHistorik entry = new LagretVæskesFadHistorik(fad, fillDate, emptyDate);
@@ -142,12 +201,12 @@ public class LagretVæske {
     }
 
     /**
-     * toString-metode for LagretVæske*
+     * Returnerer en strengrepræsentation af denne LagretVæske.
      *
-     * @return En strengrepræsentation af LagretVæske, inklusive fadehistorik og distillater.
+     * @return En strengrepræsentation af denne LagretVæske, der indeholder væske-ID og påfyldningsdato.
      */
     @Override
     public String toString() {
-        return "VæskeID: " + this.id +  " | " + påfyldningsDato + " -";
+        return "VæskeID: " + this.id + " | " + påfyldningsDato + " -";
     }
 }

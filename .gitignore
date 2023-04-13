@@ -2,3 +2,4 @@ out/
 SallProject.iml
 *.gitignore
 .gitignore
+/out/production/SallProject/application/

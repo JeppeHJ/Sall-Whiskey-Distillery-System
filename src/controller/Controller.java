@@ -136,7 +136,7 @@ public class Controller {
 
     private void tømtFad(Fad fad, LagretVæske nyeVæske, LocalDate dato) {
         // Fad skal have et FadsLagretVæskeHistorik objekt med lagretvæske, påfyldningsdato, final omhældningsdato
-        fad.editHistoryWhenBarrelEmpty(fad.getLagretVæsker().get(0), dato);
+        fad.editHistorikNårFadErTømt(fad.getLagretVæsker().get(0), dato);
 
         // Kilde Fad er nu tomt i systemet
         fad.removeLagretVæsker(fad.getLagretVæsker().get(0));
@@ -148,13 +148,13 @@ public class Controller {
     public int totalAntalFad() {
         int total = 0;
         for (Lager lager : storage.getLagre()) {
-            total += lager.amountOfFade();
+            total += lager.amountAfFade();
         }
         return total;
     }
 
     // Henter en liste af fade, der indeholder en bestemt LagretVæske
-    public List<Fad> getBarrelsContainingLagretVaeske(LagretVæske lagretVaeske) {
+    public List<Fad> getFadDerIndholder(LagretVæske lagretVaeske) {
         List<Fad> barrels = new ArrayList<>();
         for (Fad fad : storage.getFade()) {
             if (fad.getLagretVæsker().contains(lagretVaeske))
@@ -271,7 +271,7 @@ public class Controller {
                 // Co-join the lists of LagretVæskesFadHistorik object stored in kilde and dest
             }
             lagretVæske.addFadHistorikker(nyListeAfLagretVæskesFadHistorik);
-            lagretVæske.editHistoryWhenOmhældning(kildeLagretVæske, påfyldningsDato);
+            lagretVæske.editHistoryNårDerOmhældes(kildeLagretVæske, påfyldningsDato);
             lagretVæske.addDestillater(nyListeAfDistillater);
             storage.addLagretVæske(lagretVæske);
             return lagretVæske;
@@ -324,7 +324,7 @@ public class Controller {
 
 
     // Validerer input for opretLagretVæske metoden
-    private void validateOpretLagretVæskeInput(double liter, Distillat distillat) {
+    private void validereOpretLagretVæskeInput(double liter, Distillat distillat) {
         if (liter <= 0) {
             throw new IllegalArgumentException("Litermængden kan ikke være 0 eller under");
         }
@@ -410,7 +410,7 @@ public class Controller {
     }
 
     // Henter en liste over Distillater med væske tilbage
-    public ArrayList<Distillat> getDistillaterMedActualVaeske() {
+    public ArrayList<Distillat> getDistillaterMedFaktiskVæske() {
         ArrayList<Distillat> distillaterMedVæske = new ArrayList<>();
         // Gennemgår alle distillater i storage
         for (Distillat distillat : storage.getDistillater()) {

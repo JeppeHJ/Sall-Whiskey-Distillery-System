@@ -16,7 +16,14 @@ public class Fad {
     private final ArrayList<FadsOmhældningsHistorik> omhældningsHistory;
     private final ArrayList<LagretVæske> lagretVæsker;
 
-    // Konstruktør
+    /**
+     * Constructor for Distillat klassen, der opretter et nyt distillat med de givne parametre.
+     *
+     * @param fadType en String, der repræsenterer typen af fad.
+     * @param fadStr  en double, der repræsenterer størrelsen af fadet i liter.
+     *
+     *                Præbetingelse: fadType skal være en gyldig streng, og fadStr skal være en positiv double-værdi.
+     */
     public Fad(String fadType, double fadStr) {
         count++;
         this.id = count;
@@ -27,13 +34,20 @@ public class Fad {
         omhældningsHistory = new ArrayList<>();
     }
 
-    // Påfyldning af LagretVæske til Fad
+    /**
+     * Tilføjer en LagretVæske til fadet og opdaterer historikken for både fadet og den valgte LagretVæske.
+     *
+     * @param valgtLagretVæske et LagretVæske-objekt, der repræsenterer den væske, der skal fyldes på fadet.
+     * @param påfyldningsDato  en LocalDate-instans, der repræsenterer datoen for påfyldningen af væsken på fadet.
+     *
+     *                         Præbetingelse: valgtLagretVæske skal være et gyldigt LagretVæske-objekt, og påfyldningsDato skal være en gyldig LocalDate-instans.
+     */
     public void påfyldning(LagretVæske valgtLagretVæske, LocalDate påfyldningsDato) {
         this.addLagretVæsker(valgtLagretVæske);
         valgtLagretVæske.addFadTilHistorik(this, påfyldningsDato, null);
 
-        // Tilføj LagretVæske til historikken
-        addToHistory(valgtLagretVæske, påfyldningsDato, null);
+
+        addTilHistorik(valgtLagretVæske, påfyldningsDato, null);
     }
 
     public ArrayList<FadsOmhældningsHistorik> getOmhældningsHistory() {
@@ -52,13 +66,13 @@ public class Fad {
         kilde.addToOmhældningsHistorik(omhældningKilde);
         destination.addToOmhældningsHistorik(omhældningDestination);
 
-        destination.addToHistory(nyeVæske, LocalDate.now(), null);
+        destination.addTilHistorik(nyeVæske, LocalDate.now(), null);
         if (destination.lagretVæsker.size() != 0) {
-            destination.editHistoryWhenBarrelEmpty(destination.lagretVæsker.get(0), LocalDate.now());
+            destination.editHistorikNårFadErTømt(destination.lagretVæsker.get(0), LocalDate.now());
         }
 
         if ((kilde.fadStr - kilde.getFadfyldning()) - mængde == 0) {
-            kilde.editHistoryWhenBarrelEmpty(kilde.lagretVæsker.get(0), LocalDate.now());
+            kilde.editHistorikNårFadErTømt(kilde.lagretVæsker.get(0), LocalDate.now());
         }
 
         // Handle kilde fads nye mængde
@@ -76,15 +90,30 @@ public class Fad {
     }
 
 
-
-    // Tilføjer en ny post til historikken
-    public void addToHistory(LagretVæske lagretVaeske, LocalDate fillDate, LocalDate emptyDate) {
-        FadsLagretVæskeHistorik entry = new FadsLagretVæskeHistorik(lagretVaeske, fillDate, emptyDate);
-        væskeHistory.add(entry);
+    /**
+     * Tilføjer en ny post til fadets væskehistorik med angivne oplysninger om den lagrede væske, påfyldnings- og tømningsdatoer.
+     *
+     * @param lagretVaeske LagretVæske-objektet der repræsenterer den væske, der er blevet lagret i fadet.
+     * @param fillDate     LocalDate-objektet der repræsenterer den dato, hvor væsken er blevet fyldt på fadet.
+     * @param emptyDate    LocalDate-objektet der repræsenterer den dato, hvor væsken er blevet tømt fra fadet, eller null hvis fadet ikke er tømt endnu.
+     *
+     *                     Præbetingelse: lagretVæske skal være et gyldigt LagretVæske-objekt, og fillDate og emptyDate skal være gyldige LocalDate-instanser eller null.
+     */
+    public void addTilHistorik(LagretVæske lagretVaeske, LocalDate fillDate, LocalDate emptyDate) {
+        FadsLagretVæskeHistorik historik = new FadsLagretVæskeHistorik(lagretVaeske, fillDate, emptyDate);
+        væskeHistory.add(historik);
     }
 
-    public void editHistoryWhenBarrelEmpty(LagretVæske lagretVaeske, LocalDate emptyDate) {
-        for (FadsLagretVæskeHistorik lV: væskeHistory) {
+    /**
+     * Opdaterer fadets LagretVæske-historik, når fadet tømmes.
+     *
+     * @param lagretVaeske LagretVæske-objektet der repræsenterer den væske, hvis historik skal opdateres med tømningsdatoen.
+     * @param emptyDate    LocalDate-objektet der repræsenterer den dato, hvor fadet blev tømt.
+     *
+     *                     Præbetingelse: lagretVaeske skal være et gyldigt LagretVæske-objekt, og emptyDate skal være en gyldig LocalDate-instans.
+     */
+    public void editHistorikNårFadErTømt(LagretVæske lagretVaeske, LocalDate emptyDate) {
+        for (FadsLagretVæskeHistorik lV : væskeHistory) {
             if (lV.getLagretVaeske() == lagretVaeske) {
                 lV.setEmptyDate(emptyDate);
             }
@@ -92,8 +121,9 @@ public class Fad {
     }
 
 
-
-    // Getters
+    /**
+     * @return ArrayList af FadsLagretVæskeHistorik objekter.
+     */
     public ArrayList<FadsLagretVæskeHistorik> getFadsLagretVæskeHistorik() {
         return væskeHistory;
     }
@@ -110,7 +140,12 @@ public class Fad {
         return fyldning;
     }
 
-    // Reducerer mængden af LagretVæske i Fad
+    /**
+     * Reducerer mængden af LagretVæske i fadet med den angivne mængde.
+     *
+     * @param liter double-værdien, der repræsenterer mængden af væske, der skal reduceres fra fadet.
+     *              Præbetingelse: liter skal være en positiv double-værdi.
+     */
     public void reducereLagretVaeske(double liter) {
         for (LagretVæske væske : lagretVæsker) {
             væske.setLiter(væske.getLiter() - liter);
@@ -118,7 +153,11 @@ public class Fad {
         }
     }
 
-    // Kontrollerer om LagretVæske er færdiglagret (minimum 3 år)
+    /**
+     * Kontrollerer om LagretVæske er færdiglagret (minimum 3 år).
+     *
+     * @return true, hvis væsken er færdiglagret, ellers false.
+     */
     public boolean erFaerdigLagret() {
         LocalDate currentDate = LocalDate.now();
         for (LagretVæske lV : lagretVæsker) {
@@ -129,7 +168,10 @@ public class Fad {
         }
         return true;
     }
-    // Getters og setters
+
+    /**
+     * @return ArrayList af LagretVæske objekter.
+     */
     public ArrayList<LagretVæske> getLagretVæsker() {
         return lagretVæsker;
     }
@@ -138,12 +180,23 @@ public class Fad {
         this.plads = plads;
     }
 
-    // Tilføjer LagretVæske til fadet
+
+    /**
+     * Tilføjer en LagretVæske til fadet.
+     *
+     * @param lagretVæske LagretVæske-objektet, der skal tilføjes til fadet.
+     *                    Præbetingelse: lagretVæske skal være et gyldigt LagretVæske-objekt.
+     */
     public void addLagretVæsker(LagretVæske lagretVæske) {
         this.lagretVæsker.add(0, lagretVæske);
     }
 
-    // Fjerner LagretVæske fra fadet
+    /**
+     * Fjerner en LagretVæske fra fadet.
+     *
+     * @param lagretVæske LagretVæske-objektet, der skal fjernes
+     *                    Præbetingelse: lagretVæske skal være et gyldigt LagretVæske-objekt.
+     */
     public void removeLagretVæsker(LagretVæske lagretVæske) {
         if (this.lagretVæsker.contains(lagretVæske)) {
             this.lagretVæsker.remove(lagretVæske);
@@ -158,8 +211,11 @@ public class Fad {
         return id;
     }
 
-    // toString-metoden for Fad
+    /**
+     * @return en streng, der repræsenterer fadet.
+     */
     public String toString() {
         return this.id + " | " + this.getFadfyldning();
         //return this.id + " | " + fadType + " | " +  + "/" + this.fadStr + " | Fadposition: " + this.plads;
-    }}
+    }
+}
