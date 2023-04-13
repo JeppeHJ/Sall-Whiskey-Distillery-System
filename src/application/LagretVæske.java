@@ -1,9 +1,7 @@
 package application;
 
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * LagretVæske klassen repræsenterer en væske, der er lagret på et fad og indeholder en historik over fade og påfyldningsdatoer.
@@ -30,7 +28,7 @@ public class LagretVæske {
         this.id = count++;
         this.distillater = new ArrayList<>();
         this.fadHistorik = new ArrayList<>();
-        this.alkoholProcent = this.calculateAlkoholprocent();
+        this.alkoholProcent = this.udregnAlkoholprocent();
     }
 
     public void addDestillater(ArrayList<Distillat> distillater) {
@@ -41,7 +39,7 @@ public class LagretVæske {
         }
     }
 
-    public double calculateAlkoholprocent() {
+    public double udregnAlkoholprocent() {
         if (distillater.isEmpty()) {
             return 0;
         }
@@ -62,7 +60,7 @@ public class LagretVæske {
         }
     }
 
-    public void editHistoryWhenOmhældning(LagretVæske lagretVæske, LocalDate emptyDate) {
+    public void editHistoryNårDerOmhældes(LagretVæske lagretVæske, LocalDate emptyDate) {
         for (LagretVæskesFadHistorik lV: fadHistorik) {
             if (lV.getFad().getLagretVæsker() != null && !lV.getFad().getLagretVæsker().isEmpty()) {
                 if (lV.getFad().getLagretVæsker().get(0) == lagretVæske) {

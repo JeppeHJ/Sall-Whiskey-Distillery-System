@@ -1,6 +1,5 @@
 package application;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -41,7 +40,7 @@ public class Lager {
      *
      * @return Antallet af fade i lageret.
      */
-    public int amountOfFade() {
+    public int amountAfFade() {
         int count = 0;
         for (Fad fad : fadeHashMap.values()) {
             if (fad != null) {

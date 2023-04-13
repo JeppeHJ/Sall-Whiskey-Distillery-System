@@ -33,7 +33,7 @@ public class Fad {
         valgtLagretVæske.addFadTilHistorik(this, påfyldningsDato, null);
 
         // Tilføj LagretVæske til historikken
-        addToHistory(valgtLagretVæske, påfyldningsDato, null);
+        addTilHistorik(valgtLagretVæske, påfyldningsDato, null);
     }
 
     public ArrayList<FadsOmhældningsHistorik> getOmhældningsHistory() {
@@ -52,13 +52,13 @@ public class Fad {
         kilde.addToOmhældningsHistorik(omhældningKilde);
         destination.addToOmhældningsHistorik(omhældningDestination);
 
-        destination.addToHistory(nyeVæske, LocalDate.now(), null);
+        destination.addTilHistorik(nyeVæske, LocalDate.now(), null);
         if (destination.lagretVæsker.size() != 0) {
-            destination.editHistoryWhenBarrelEmpty(destination.lagretVæsker.get(0), LocalDate.now());
+            destination.editHistorikNårFadErTømt(destination.lagretVæsker.get(0), LocalDate.now());
         }
 
         if ((kilde.fadStr - kilde.getFadfyldning()) - mængde == 0) {
-            kilde.editHistoryWhenBarrelEmpty(kilde.lagretVæsker.get(0), LocalDate.now());
+            kilde.editHistorikNårFadErTømt(kilde.lagretVæsker.get(0), LocalDate.now());
         }
 
         // Handle kilde fads nye mængde
@@ -78,12 +78,12 @@ public class Fad {
 
 
     // Tilføjer en ny post til historikken
-    public void addToHistory(LagretVæske lagretVaeske, LocalDate fillDate, LocalDate emptyDate) {
+    public void addTilHistorik(LagretVæske lagretVaeske, LocalDate fillDate, LocalDate emptyDate) {
         FadsLagretVæskeHistorik entry = new FadsLagretVæskeHistorik(lagretVaeske, fillDate, emptyDate);
         væskeHistory.add(entry);
     }
-
-    public void editHistoryWhenBarrelEmpty(LagretVæske lagretVaeske, LocalDate emptyDate) {
+//
+    public void editHistorikNårFadErTømt(LagretVæske lagretVaeske, LocalDate emptyDate) {
         for (FadsLagretVæskeHistorik lV: væskeHistory) {
             if (lV.getLagretVaeske() == lagretVaeske) {
                 lV.setEmptyDate(emptyDate);

@@ -2,7 +2,6 @@ package UnitTest;
 
 import application.Fad;
 import application.FadsLagretVæskeHistorik;
-import application.FadsOmhældningsHistorik;
 import application.LagretVæske;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -121,7 +120,7 @@ public class FadTest {
 
     @Test
     public void testAddToHistory() {
-        fad.addToHistory(lagretVæske, LocalDate.now(), null);
+        fad.addTilHistorik(lagretVæske, LocalDate.now(), null);
         ArrayList<FadsLagretVæskeHistorik> history = fad.getFadsLagretVæskeHistorik();
         assertEquals(1, history.size());
         assertEquals(lagretVæske, history.get(0).getLagretVaeske());
@@ -129,8 +128,8 @@ public class FadTest {
 
     @Test
     public void testEditHistoryWhenBarrelEmpty() {
-        fad.addToHistory(lagretVæske, LocalDate.now(), null);
-        fad.editHistoryWhenBarrelEmpty(lagretVæske, LocalDate.now().plusDays(1));
+        fad.addTilHistorik(lagretVæske, LocalDate.now(), null);
+        fad.editHistorikNårFadErTømt(lagretVæske, LocalDate.now().plusDays(1));
         ArrayList<FadsLagretVæskeHistorik> history = fad.getFadsLagretVæskeHistorik();
         assertEquals(LocalDate.now().plusDays(1), history.get(0).getEmptyDate());
     }

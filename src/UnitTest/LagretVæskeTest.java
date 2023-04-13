@@ -3,7 +3,6 @@ package UnitTest;
 import application.Distillat;
 import application.Fad;
 import application.LagretVæske;
-import application.LagretVæskesFadHistorik;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -40,7 +39,7 @@ class LagretVæskeTest {
 
         lagretVæske1.addFadTilHistorik(fad, fillDate, null);
         fad.addLagretVæsker(lagretVæske1);
-        lagretVæske1.editHistoryWhenOmhældning(lagretVæske2, emptyDate);
+        lagretVæske1.editHistoryNårDerOmhældes(lagretVæske2, emptyDate);
 
         assertEquals(1, lagretVæske1.getFadehistorik().size());
         assertEquals(null, lagretVæske1.getFadehistorik().get(0).getTilDato());

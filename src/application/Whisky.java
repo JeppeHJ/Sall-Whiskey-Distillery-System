@@ -41,7 +41,7 @@ public class Whisky {
         this.id = count++;
         this.vandKilde = vandKilde;
         this.fortyndelsesProcent = fortyndelsesProcent;
-        this.alkoholProcent = calculateAlkoholprocent();
+        this.alkoholProcent = udregnAlkoholprocent();
     }
 
     // Getters
@@ -83,7 +83,7 @@ public class Whisky {
         return liter;
     }
 
-    public double calculateAlkoholprocent() {
+    public double udregnAlkoholprocent() {
         double sum = 0;
         for (Distillat distillat : væske.getDistillater()) {
             sum += distillat.getAlkoholprocent();

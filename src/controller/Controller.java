@@ -136,7 +136,7 @@ public class Controller {
 
     private void tømtFad(Fad fad, LagretVæske nyeVæske, LocalDate dato) {
         // Fad skal have et FadsLagretVæskeHistorik objekt med lagretvæske, påfyldningsdato, final omhældningsdato
-        fad.editHistoryWhenBarrelEmpty(fad.getLagretVæsker().get(0), dato);
+        fad.editHistorikNårFadErTømt(fad.getLagretVæsker().get(0), dato);
 
         // Kilde Fad er nu tomt i systemet
         fad.removeLagretVæsker(fad.getLagretVæsker().get(0));
@@ -148,7 +148,7 @@ public class Controller {
     public int totalAntalFad() {
         int total = 0;
         for (Lager lager : storage.getLagre()) {
-            total += lager.amountOfFade();
+            total += lager.amountAfFade();
         }
         return total;
     }
@@ -271,7 +271,7 @@ public class Controller {
                 // Co-join the lists of LagretVæskesFadHistorik object stored in kilde and dest
             }
             lagretVæske.addFadHistorikker(nyListeAfLagretVæskesFadHistorik);
-            lagretVæske.editHistoryWhenOmhældning(kildeLagretVæske, påfyldningsDato);
+            lagretVæske.editHistoryNårDerOmhældes(kildeLagretVæske, påfyldningsDato);
             lagretVæske.addDestillater(nyListeAfDistillater);
             storage.addLagretVæske(lagretVæske);
             return lagretVæske;
