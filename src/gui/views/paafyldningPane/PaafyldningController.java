@@ -41,6 +41,32 @@ public class PaafyldningController {
         configureFadeList();
         configureDatePicker();
         configureButtons();
+
+        comboBoxDistillat.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+                    if (newValue != null) {
+                        txtDistillatInfo.setText(
+                                "Maltbatch: " + newValue.getMaltBatch() + "\n" +
+                                        "Kornsort: " + newValue.getKornsort() + "\n" +
+                                        "Alkoholprocent: " + newValue.getAlkoholprocent() + "\n" +
+                                        "Rygemateriale: " + newValue.getRygemateriale() + "\n" +
+                                        "Færdig Dato: " + newValue.getDatoForDone() + "\n" +
+                                        "Medarbejder: " + newValue.getMedarbejder()
+                        );
+                    }
+                }
+        );
+
+        listFade.setCellFactory(lv -> new ListCell<Fad>() {
+            @Override
+            protected void updateItem(Fad item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(null);
+                } else {
+                    setText(item.getPlads() + " | Fad-ID: " + item.getId() + " | Status: " + item.getFadfyldning() + " / " + item.getFadStr());
+                }
+            }
+        });
     }
 
     private void configureComboBoxes() {
