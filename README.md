@@ -36,7 +36,7 @@ Sall Whisky Warehouse Management is a warehouse management system specifically d
 ## Installation
 
 1. Clone the repository:
-``git clone https://github.com/yourusername/sall-whisky-warehouse-management.git``
+```git clone https://github.com/yourusername/sall-whisky-warehouse-management.git```
 
 2. Change into the project directory:
 ``cd sall-whisky-warehouse-management``
