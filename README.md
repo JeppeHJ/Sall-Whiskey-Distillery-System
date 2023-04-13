@@ -1,6 +1,6 @@
 # Sall Whisky Warehouse Management
 
-Sall Whisky Warehouse Management is a warehouse management system specifically designed to keep track of whisky casks in a warehouse.
+Sall Whisky Warehouse Management is a warehouse management system specifically designed to keep track of whisky casks in a warehouse as well as the production of whisky. 
 
 ## Table of Contents
 
