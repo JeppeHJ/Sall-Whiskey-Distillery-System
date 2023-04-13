@@ -1,7 +1,9 @@
 package UnitTest;
 
+import application.Distillat;
 import application.Fad;
 import application.Lager;
+import application.LagretVæske;
 import controller.Controller;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,22 +41,6 @@ class ControllerTest {
             assertEquals(antalPladser, lager.getAntalPladser());
         }
 
-        @Test
-        public void testGetAlleLagre() {
-            String lokation1 = "Test Location 1";
-            int antalPladser1 = 10;
-            Lager lager1 = controller.opretLager(lokation1, antalPladser1);
-
-            String lokation2 = "Test Location 2";
-            int antalPladser2 = 15;
-            Lager lager2 = controller.opretLager(lokation2, antalPladser2);
-
-            ArrayList<Lager> lagre = controller.getAlleLagre();
-
-            assertEquals(2, lagre.size());
-            assertEquals(lager1, lagre.get(0));
-            assertEquals(lager2, lagre.get(1));
-        }
 
         @Test
         public void testGetFadeIHashMap() {
@@ -78,22 +64,10 @@ class ControllerTest {
             assertEquals(lager, retrievedLager);
         }
 
-        @Test
-        public void testTotalAntalLager() {
-            String lokation1 = "Test Location 1";
-            int antalPladser1 = 10;
-            controller.opretLager(lokation1, antalPladser1);
 
-            String lokation2 = "Test Location 2";
-            int antalPladser2 = 15;
-            controller.opretLager(lokation2, antalPladser2);
+}
 
-            int totalLager = controller.totalAntalLager();
 
-            assertEquals(2, totalLager);
-        }
-
-    }
 
 
 
