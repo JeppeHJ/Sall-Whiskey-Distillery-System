@@ -142,8 +142,6 @@ public class Controller {
         fad.removeLagretVæsker(fad.getLagretVæsker().get(0));
 
 
-
-
     }
 
     // Returnerer det samlede antal fade i alle lagre
@@ -249,12 +247,11 @@ public class Controller {
 
     // Opretter og tilføjer en ny LagretVæske til storage
     public LagretVæske opretLagretVæske(double liter, LocalDate påfyldningsDato, Distillat distillat, ArrayList<Distillat> kildeDestillatListe, ArrayList<Distillat> destinationDestillatListe, LagretVæske kildeLagretVæske, LagretVæske destinationLagretVæske) {
-        // Validerer input
-        //validateOpretLagretVæskeInput(liter, distillat);
 
         // hvis den lagrede væske oprettes fra et destillat basically
         if (kildeDestillatListe == null && destinationDestillatListe == null) {
             // Opretter ny LagretVæske
+            //TODO paafyldningsDato has to be AFTER distillat.DatoForDone.
             LagretVæske lagretVæske = new LagretVæske(liter, påfyldningsDato);
             // Tilføjer distillat til LagretVæske
             lagretVæske.addDistillat(storage.getDistillatById(distillat.getId()));
@@ -372,9 +369,10 @@ public class Controller {
         }
         return harFad;
     }
+
     public ArrayList<LagretVæske> getAktiveLagredeVæsker() {
         ArrayList<LagretVæske> aktiveVæsker = new ArrayList<>();
-        for (LagretVæske væske: storage.getLagretVæsker()) {
+        for (LagretVæske væske : storage.getLagretVæsker()) {
             if (checkOmFærdigLagretVæskeHarFad(væske) && væske.getLiter() != 0) {
                 aktiveVæsker.add(væske);
             }
@@ -397,7 +395,10 @@ public class Controller {
             throw new IllegalArgumentException("LagretVæske kunne ikke findes i storage");
         }
     }
-    /**-------------- Distillat METODER --------------**/
+
+    /**
+     * -------------- Distillat METODER --------------
+     **/
 
 // Opretter et nyt Distillat og tilføjer det til storage
     public Distillat opretDistillat(double liter, String maltBatch, String kornsort, double alkoholprocent, String rygemateriale, LocalDate dato, String medarbejder) {
@@ -421,7 +422,9 @@ public class Controller {
         return distillaterMedVæske;
     }
 
-    /** ------------- WHISKY METODER ------------- **/
+    /**
+     * ------------- WHISKY METODER -------------
+     **/
 
     // Opretter en ny Whisky og tilføjer den til storage
     public Whisky opretWhisky(String navn, LocalDate påfyldningsDato, double liter, Flasketype flasketype, LagretVæske væske, Fad fad, String vandKilde, double fortyndelsesProcent) {
@@ -452,7 +455,6 @@ public class Controller {
         LagretVæske lagretVæske = whisky.getVæske();
         // Henter fadhistorikken for LagretVæske
         ArrayList<LagretVæskesFadHistorik> fadHistory = lagretVæske.getFadehistorik();
-        System.out.println(lagretVæske.getFadehistorik());
 
         return fadHistory;
     }
@@ -469,14 +471,18 @@ public class Controller {
 
         return whiskyer;
     }
+
     public void createSomeObjects() {
-        Lager l1 = controller.opretLager("Aarhus",100);
-        Fad f1 = controller.opretFad("Grim",250.0, l1, 1);
-        Fad f2 = controller.opretFad("Grim",30.0, l1, 2);
-        Fad f3 = controller.opretFad("Grim",30.0, l1, 3);
-        Fad f4 = controller.opretFad("Grim",30.0, l1,4 );
-        Fad f5 = controller.opretFad("Grim",50.0, l1, 5);
-        Fad f6 = controller.opretFad("Grim",50.0, l1, 6);
+        Lager l1 = controller.opretLager("Aarhus", 100);
+        Lager l2 = controller.opretLager("Copenhagen", 80);
+
+        Fad f1 = controller.opretFad("Oak", 250.0, l1, 1);
+        Fad f2 = controller.opretFad("Oak", 500.0, l1, 2);
+        Fad f3 = controller.opretFad("Oak", 500.0, l1, 3);
+        Fad f4 = controller.opretFad("Oak", 500.0, l1, 4);
+        Fad f5 = controller.opretFad("Oak", 500.0, l1, 5);
+        Fad f6 = controller.opretFad("Oak", 500.0, l1, 6);
+
         ArrayList<Fad> fade = new ArrayList<>();
         fade.add(f1);
         fade.add(f2);
@@ -484,16 +490,51 @@ public class Controller {
         fade.add(f4);
         fade.add(f5);
         fade.add(f6);
-        Distillat d1 = controller.opretDistillat(3000,"SortBatch73","Black",40.0, "Hmm", LocalDate.of(2022,6,30), "Niels");
-        Distillat d2 = controller.opretDistillat(3000,"HvidBatch39","White",40.0, "Hmm", LocalDate.of(1992,6,30), "Anders");
-        Distillat d3 = controller.opretDistillat(3000,"GrønBatch41","Green",40.0, "Hmm", LocalDate.of(2000,6,30), "Kent");
-        // TODO fyldPåFlereFade fix!!
-        //controller.fyldPåFlereFade(250,LocalDate.of(1990,3,3), fade, d1);
-        LagretVæske lV = controller.fyldPåSpecifiktFad(15,LocalDate.of(1992,6,30),f3,d1);
-        LagretVæske lV2 = controller.fyldPåSpecifiktFad(15,LocalDate.of(1982,6,30),f4,d2);
-        LagretVæske lV3 = controller.fyldPåSpecifiktFad(15,LocalDate.of(2020,6,30),f2,d3);
 
+        Distillat d1 = controller.opretDistillat(3000, "Batch73", "Rye", 40.0, "Peat", LocalDate.of(2022, 6, 30), "Niels");
+        Distillat d2 = controller.opretDistillat(3000, "Batch39", "Wheat", 40.0, "Peat", LocalDate.of(1992, 6, 30), "Anders");
+        Distillat d3 = controller.opretDistillat(3000, "Batch41", "Barley", 40.0, "Peat", LocalDate.of(2000, 6, 30), "Kent");
 
+        LagretVæske lV1 = controller.fyldPåSpecifiktFad(100, LocalDate.of(1992, 6, 30), f1, d1);
+        LagretVæske lV2 = controller.fyldPåSpecifiktFad(100, LocalDate.of(1982, 6, 30), f2, d2);
+        LagretVæske lV3 = controller.fyldPåSpecifiktFad(100, LocalDate.of(2020, 6, 30), f3, d3);
+        LagretVæske lV4 = controller.fyldPåSpecifiktFad(100, LocalDate.of(2015, 6, 30), f4, d1);
+        LagretVæske lV5 = controller.fyldPåSpecifiktFad(100, LocalDate.of(2011, 6, 30), f5, d2);
+        LagretVæske lV6 = controller.fyldPåSpecifiktFad(100, LocalDate.of(2009, 6, 30), f6, d3);
+
+        // Add more test objects
+        Fad f7 = controller.opretFad("Oak", 100.0, l2, 7);
+        Fad f8 = controller.opretFad("Oak", 100.0, l2, 8);
+
+        Fad f9 = controller.opretFad("Oak", 100.0, l1, 9);
+        Fad f10 = controller.opretFad("Oak", 100.0, l1, 10);
+        Fad f11 = controller.opretFad("Oak", 100.0, l1, 11);
+        Fad f12 = controller.opretFad("Oak", 100.0, l1, 12);
+
+        Distillat d4 = controller.opretDistillat(3000, "Batch55", "Corn", 40.0, "Peat", LocalDate.of(2005, 6, 30), "Mads");
+        Distillat d5 = controller.opretDistillat(3000, "Batch60", "Rye", 45.0, "Peat", LocalDate.of(2010, 6, 30), "Rasmus");
+
+        LagretVæske lV7 = controller.fyldPåSpecifiktFad(50, LocalDate.of(2005, 6, 30), f7, d4);
+        LagretVæske lV8 = controller.fyldPåSpecifiktFad(50, LocalDate.of(2010, 6, 30), f8, d5);
+        LagretVæske lV9 = controller.fyldPåSpecifiktFad(50, LocalDate.of(1998, 6, 30), f9, d1);
+        LagretVæske lV10 = controller.fyldPåSpecifiktFad(50, LocalDate.of(2002, 6, 30), f10, d2);
+        LagretVæske lV11 = controller.fyldPåSpecifiktFad(50, LocalDate.of(2018, 6, 30), f11, d3);
+        LagretVæske lV12 = controller.fyldPåSpecifiktFad(50, LocalDate.of(2019, 6, 30), f12, d1);
+
+        Distillat d6 = controller.opretDistillat(3000, "Batch78", "Malted Barley", 43.0, "Peat", LocalDate.of(2015, 6, 30), "Søren");
+        Distillat d7 = controller.opretDistillat(3000, "Batch90", "Rye", 48.0, "Peat", LocalDate.of(2018, 6, 30), "Frederik");
+
+        LagretVæske lvOmhældning1 = controller.opretNyLagretVæskeOmhældning(f1, f7, 10, LocalDate.of(2023, 1, 1));
+        LagretVæske lvOmhældning2 = controller.opretNyLagretVæskeOmhældning(f2, f8, 20, LocalDate.of(2023, 1, 15));
+        LagretVæske lvOmhældning3 = controller.opretNyLagretVæskeOmhældning(f3, f9, 15, LocalDate.of(2023, 2, 1));
+        LagretVæske lvOmhældning4 = controller.opretNyLagretVæskeOmhældning(f4, f10, 25, LocalDate.of(2023, 2, 15));
+        LagretVæske lvOmhældning5 = controller.opretNyLagretVæskeOmhældning(f5, f11, 30, LocalDate.of(2023, 3, 1));
+        LagretVæske lvOmhældning6 = controller.opretNyLagretVæskeOmhældning(f6, f12, 40, LocalDate.of(2023, 3, 15));
+
+        Whisky whisky1 = controller.opretWhisky("Aarhus Single Malt", LocalDate.of(2023, 4, 1), Flasketype.LILLE.getCapacity(), Flasketype.LILLE, lV1, f1, "Aarhus Spring", 46.0);
+        Whisky whisky2 = controller.opretWhisky("Copenhagen Rye", LocalDate.of(2023, 4, 1), Flasketype.MEDIUM.getCapacity(), Flasketype.MEDIUM, lV2, f2, "Copenhagen Spring", 48.0);
+        Whisky whisky3 = controller.opretWhisky("Odense Malted Barley", LocalDate.of(2023, 4, 1), Flasketype.STOR.getCapacity(), Flasketype.STOR, lV3, f3, "Odense Spring", 50.0);
+        Whisky whisky4 = controller.opretWhisky("Aalborg Rye", LocalDate.of(2023, 4, 1), Flasketype.JUBILÆUMSFLASKE.getCapacity(), Flasketype.JUBILÆUMSFLASKE, lV4, f4, "Aalborg Spring", 52.0);
     }
 }
 

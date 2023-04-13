@@ -6,13 +6,11 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.time.LocalDate;
 
-/**
- * DistillatPane klassen repræsenterer en JavaFX-pane, der tillader brugeren at oprette nye distillater.
- */
 public class DistillatPane extends GridPane {
     private final Controller controller = Controller.getController();
     private final ListView<Distillat> lstDistillater = new ListView<>();
@@ -29,27 +27,21 @@ public class DistillatPane extends GridPane {
         this.setPadding(new Insets(20));
         this.setHgap(20);
         this.setVgap(10);
-        this.setGridLinesVisible(false); // Hide grid lines for better appearance
+        this.setGridLinesVisible(false);
 
-        lstDistillater.setPrefHeight(150); // Set the preferred height for the ListView
+        lstDistillater.setPrefHeight(150);
         listViewBox.getChildren().addAll(new Label("Distillat Liste:"), lstDistillater);
 
         GridPane inputGrid = new GridPane();
         inputGrid.setHgap(10);
         inputGrid.setVgap(10);
 
-        // etiketter
         Label lblLiter = new Label("Liter");
         Label lblMaltbatch = new Label("Maltbatch");
-
         Label lblKornsort = new Label("Kornsort");
-
         Label lblAlkoholprocent = new Label("Alkoholprocent");
-
         Label lblRygemateriale = new Label("Rygemateriale");
-
         Label lblDate = new Label("Dato");
-
         Label lblMedarbejder = new Label("Medarbejder");
 
         inputGrid.add(lblLiter, 0, 0);
@@ -67,12 +59,38 @@ public class DistillatPane extends GridPane {
         inputGrid.add(lblMedarbejder, 0, 6);
         inputGrid.add(txtMedarbejder, 1, 6);
 
-        Button btnOpretDistillat = new Button("Opret Distillat");
+        Button btnOpretDistillat = new Button("Opret");
         btnOpretDistillat.setOnAction(event -> btnOpretDistillatAction());
+
+        Button btnOpdater = new Button("Opdater");
+        btnOpdater.setDisable(true);
+        btnOpdater.setOnAction(event -> btnOpdaterAction());
+
+        Button btnSlet = new Button("Slet");
+        btnSlet.setDisable(true);
+        btnSlet.setOnAction(event -> btnSletAction());
+
+        HBox buttonBox = new HBox(10);
+        buttonBox.getChildren().addAll(btnSlet, btnOpdater, btnOpretDistillat);
+        lstDistillater.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                btnOpdater.setDisable(false);
+                btnSlet.setDisable(false);
+            } else {
+                btnOpdater.setDisable(true);
+                btnSlet.setDisable(true);
+            }
+        });
 
         this.add(listViewBox, 0, 0);
         this.add(inputGrid, 1, 0);
-        this.add(btnOpretDistillat, 1, 1);
+        this.add(buttonBox, 1, 1);
+    }
+
+    private void btnSletAction() {
+    }
+
+    private void btnOpdaterAction() {
     }
 
     private void btnOpretDistillatAction() {

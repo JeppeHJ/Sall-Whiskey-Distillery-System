@@ -94,8 +94,6 @@ public class Lager {
      */
     @Override
     public String toString() {
-        return lokation + ' ' +
-                " id: " + id + " antal fad: " + this.fadeHashMap.size() +
-                " Pladser: " + antalPladser;
+        return id + " | " + lokation + " | " + "Pladser: " + antalPladser;
     }
 }

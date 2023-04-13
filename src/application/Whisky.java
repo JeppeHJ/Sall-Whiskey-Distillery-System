@@ -8,7 +8,7 @@ import java.util.ArrayList;
  */
 public class Whisky {
     private String navn;
-    private static int count;
+    private static int count = 0;
     private int id;
     private LocalDate tappetDato;
     private double alkoholProcent;
@@ -33,7 +33,7 @@ public class Whisky {
     public Whisky(String navn, LocalDate tappetDato, double liter, Flasketype flasketype, LagretVæske væske, String vandKilde, double fortyndelsesProcent) {
         this.navn = navn;
         this.tappetDato = tappetDato;
-        this.alkoholProcent = alkoholProcent;
+
         this.liter = liter;
         this.flasketype = flasketype;
         this.historik.add(væske);
@@ -41,6 +41,7 @@ public class Whisky {
         this.id = count++;
         this.vandKilde = vandKilde;
         this.fortyndelsesProcent = fortyndelsesProcent;
+        this.alkoholProcent = calculateAlkoholprocent();
     }
 
     // Getters
@@ -80,6 +81,19 @@ public class Whisky {
 
     public double getLiter() {
         return liter;
+    }
+
+    public double calculateAlkoholprocent() {
+        double sum = 0;
+        for (Distillat distillat : væske.getDistillater()) {
+            sum += distillat.getAlkoholprocent();
+        }
+        double gennemsnitligAlkoholprocent = sum / væske.getDistillater().size();
+
+        // Tager hensyn til fortyndelsesprocenten
+        double alkoholprocentEfterFortynding = gennemsnitligAlkoholprocent * (1 - fortyndelsesProcent);
+
+        return alkoholprocentEfterFortynding;
     }
 
     public Flasketype getFlasketype() {

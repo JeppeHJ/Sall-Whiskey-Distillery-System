@@ -6,7 +6,7 @@ import java.time.LocalDate;
  * Denne klasse repræsenterer et distillat i destilleringsprocessen.
  */
 public class Distillat {
-    private static int count; // For unikke ID'er
+    private static int count = 1; // For unikke ID'er
     private final int id;
     private double liter;
     private double literTilbage;

@@ -3,12 +3,12 @@ package gui;
 import application.Lager;
 import controller.Controller;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class LagerePane extends GridPane {
+public class LagerPane extends GridPane {
     private final Controller controller = Controller.getController();
     private final ListView<Lager> lstLager = new ListView<>();
     private final Label lblAntalLagre = new Label("Antal lagre: " + controller.getAlleLagre().size());
@@ -17,7 +17,7 @@ public class LagerePane extends GridPane {
     private final TextField txtLagerPladser = new TextField();
     private final VBox listViewBox = new VBox(10); // Set spacing to 10
 
-    public LagerePane() {
+    public LagerPane() {
         this.setPadding(new Insets(20));
         this.setHgap(20);
         this.setVgap(10);
@@ -40,12 +40,33 @@ public class LagerePane extends GridPane {
         inputGrid.add(lblPladser, 0, 1);
         inputGrid.add(txtLagerPladser, 1, 1);
 
-        Button btnOpretLager = new Button("Opret lager");
+        Button btnOpretLager = new Button("Opret");
         btnOpretLager.setOnAction(event -> btnOpretAction());
+
+        Button btnOpdater = new Button("Opdater");
+        btnOpdater.setDisable(true);
+        btnOpdater.setOnAction(event -> btnOpdaterAction());
+
+        Button btnSlet = new Button("Slet");
+        btnSlet.setDisable(true);
+        btnSlet.setOnAction(event -> btnSletAction());
+
+        HBox buttonBox = new HBox(10);
+        buttonBox.getChildren().addAll(btnSlet, btnOpdater, btnOpretLager);
+
+        lstLager.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                btnOpdater.setDisable(false);
+                btnSlet.setDisable(false);
+            } else {
+                btnOpdater.setDisable(true);
+                btnSlet.setDisable(true);
+            }
+        });
 
         this.add(listViewBox, 0, 0);
         this.add(inputGrid, 1, 0);
-        this.add(btnOpretLager, 1, 1);
+        this.add(buttonBox, 1, 1);
         this.add(lblAntalLagre, 0, 2);
         this.add(lblTotalAntalFad, 0, 3);
     }
@@ -94,4 +115,13 @@ public class LagerePane extends GridPane {
         txtLagerLokation.clear();
         txtLagerPladser.clear();
     }
+
+    private void btnOpdaterAction() {
+        // Add your update logic here
+    }
+
+    private void btnSletAction() {
+        // Add your delete logic here
+    }
 }
+

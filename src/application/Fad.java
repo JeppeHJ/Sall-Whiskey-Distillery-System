@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * Fad klassen repræsenterer et fad, der kan opbevares i et lager.
  */
 public class Fad {
-    private static int count;
+    private static int count = 1;
     private final int id;
     private final String fadType;
     private final double fadStr;
@@ -68,7 +68,6 @@ public class Fad {
 
         // Handle destination fads nye mængde
         if (!(destination.getLagretVæsker().isEmpty())) {
-            System.out.println("Hejsjssss: " + destination.getId());
             destination.removeLagretVæsker(destination.getLagretVæsker().get(0));
 
         }
@@ -146,7 +145,6 @@ public class Fad {
 
     // Fjerner LagretVæske fra fadet
     public void removeLagretVæsker(LagretVæske lagretVæske) {
-        System.out.println("Alarm: " + lagretVæske);
         if (this.lagretVæsker.contains(lagretVæske)) {
             this.lagretVæsker.remove(lagretVæske);
         }

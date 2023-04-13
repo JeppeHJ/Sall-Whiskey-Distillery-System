@@ -19,14 +19,16 @@ import java.time.LocalDate;
 import java.util.*;
 
 /**
- * FadePane klassen repræsenterer en JavaFX-pane, der tillader brugeren at oprette
+ * FadPane klassen repræsenterer en JavaFX-pane, der tillader brugeren at oprette
  * og se nye fade, vælge et lager og se de forskellige positioner i lageret.
  */
-public class FadePane extends GridPane {
+public class FadPane extends GridPane {
     private final Controller controller = Controller.getController();
-private final Button btnNuværendeIndholdDetaljer = new Button("Detaljer");
+private final Button btnNuværendeIndholdDetaljer = new Button("Nuværende Indhold");
+    private Button btnOpdaterFad = new Button("Opdater");
+    private Button btnSletFad = new Button("Slet");
     private int selectedPosition;
-    private final Button btnIndholdsHistorikDetaljer = new Button("Detaljer LOL");
+    private final Button btnIndholdsHistorikDetaljer = new Button("Indholdshistorik");
     private GridPane warehouseGrid;
     private final ListView<Fad> listFade = new ListView<>();
     // Add a new ListView for FadOmhældningsHistorik
@@ -36,22 +38,39 @@ private final Button btnNuværendeIndholdDetaljer = new Button("Detaljer");
     private final ComboBox<Lager> comboBoxLager = new ComboBox<>();
     private Label lblActualPosition = new Label();
 
-    private final ListView<Distillat> lstDistillat = new ListView<>();
+
     private final ListView<FadsLagretVæskeHistorik> lstIndholdshistorik = new ListView<>();
     private final ListView<String> lstOmhældningshistorik = new ListView<>();
     private final ListView<LagretVæske> lstNuværendeVæske = new ListView<>();
 
     private Lager lagerChoice;
 
-    public FadePane() {
+    public FadPane() {
         this.setPadding(new Insets(20));
         this.setHgap(20);
         this.setVgap(10);
         this.setGridLinesVisible(false);
 
+        this.btnOpdaterFad.setDisable(true);
+        this.btnSletFad.setDisable(true);
+
         // Opretter ComboBox med lagre
         comboBoxLager.getItems().addAll(controller.getAlleLagre());
         this.add(comboBoxLager, 3, 0);
+
+        listFade.setCellFactory(param -> new ListCell<Fad>() {
+            @Override
+            protected void updateItem(Fad item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    setText(item.getPlads() + " | Fad-ID: " + item.getId() + " | Status: " + item.getFadfyldning() + " / " + item.getFadStr());
+                }
+            }
+        });
 
         // Lytter til valg af lager i ComboBox
         comboBoxLager.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
@@ -72,19 +91,10 @@ private final Button btnNuværendeIndholdDetaljer = new Button("Detaljer");
         // Tilføjer og konfigurerer fade-liste og andre lister
         this.add(listFade, 1, 3);
         listFade.setEditable(false);
-        listFade.setMaxHeight(50);
+        listFade.setMaxHeight(200);
 
-        this.add(lstNuværendeVæske, 1, 4);
-        lstNuværendeVæske.setEditable(false);
-        lstNuværendeVæske.setMaxHeight(50);
 
-        this.add(lstDistillat, 1, 6);
-        lstDistillat.setEditable(false);
-        lstDistillat.setMaxHeight(50);
 
-        this.add(lstIndholdshistorik, 1, 5);
-        lstIndholdshistorik.setEditable(false);
-        lstIndholdshistorik.setMaxHeight(50);
 
         // Tilføjer og konfigurerer etiketter
         this.add(new Label("Fad størrelse"), 0, 0);
@@ -93,10 +103,8 @@ private final Button btnNuværendeIndholdDetaljer = new Button("Detaljer");
         this.add(new Label("Vælg lager:"), 2, 0);
         this.add(new Label("Total fade: " + controller.totalAntalFad()), 0, 7);
         this.add(new Label("Position"), 0, 2);
-        this.add(new Label("------------Nuværende indhold"), 0, 4);
+        //this.add(new Label("------------Nuværende indhold"), 0, 4);
         this.add(new Label("Omhældningshistorik"), 2, 4);
-        this.add(new Label("-----------Indholdshistorik"), 0, 5);
-        this.add(new Label("-----------Distillat(er)"), 0, 6);
 
         this.add(lblActualPosition, 1, 2);
 
@@ -108,9 +116,13 @@ private final Button btnNuværendeIndholdDetaljer = new Button("Detaljer");
                     distillatList.addAll(lV.getDistillater());
                 }
 
+                btnOpdaterFad.setDisable(false);
+                btnSletFad.setDisable(false);
+
+
+
                 lstNuværendeVæske.getItems().setAll(newSelection.getLagretVæsker());
 
-                lstDistillat.getItems().setAll(distillatList);
 
 
 
@@ -121,9 +133,9 @@ private final Button btnNuværendeIndholdDetaljer = new Button("Detaljer");
                 lstIndholdshistorik.getItems().setAll(newSelection.getFadsLagretVæskeHistorik());
                 if (!(newSelection.getFadsLagretVæskeHistorik().isEmpty())) {
                     this.btnIndholdsHistorikDetaljer.setDisable(false);
+                    this.btnNuværendeIndholdDetaljer.setDisable(false);
                 }
             } else {
-                lstDistillat.getItems().clear();
                 lstIndholdshistorik.getItems().clear();
                 lstOmhældningshistorik.getItems().clear();
                 lstFadOmhældningsHistorik.getItems().clear();
@@ -137,9 +149,19 @@ private final Button btnNuværendeIndholdDetaljer = new Button("Detaljer");
 
 
         // Tilføjer og konfigurerer knappen "Opret fad"
-        Button btnopretfad = new Button("Opret fad");
-        this.add(btnopretfad, 3, 1);
-        btnopretfad.setOnAction(event -> btnOpretAction());
+        Button btnOpretFad = new Button("Opret");
+        this.add(btnOpretFad, 3, 1);
+        btnOpretFad.setOnAction(event -> btnOpretAction());
+
+        // Tilføjer og konfigurerer knappen "Opret fad"
+
+        this.add(btnOpdaterFad, 4, 1);
+        btnOpdaterFad.setOnAction(event -> btnOpdaterAction());
+
+        // Tilføjer og konfigurerer knappen "Opret fad"
+
+        this.add(btnSletFad, 5, 1);
+        btnSletFad.setOnAction(event -> btnSletAction());
 
         // Tilføjer og konfigurerer knappen "Opret fad"
 
@@ -152,14 +174,8 @@ private final Button btnNuværendeIndholdDetaljer = new Button("Detaljer");
         btnIndholdsHistorikDetaljer.setDisable(true);
         btnIndholdsHistorikDetaljer.setOnAction(event -> openIndholdshistorikDetaljeWindow());
 
-        Button btnDistillatDetaljer = new Button("Detaljer");
-        this.add(btnDistillatDetaljer, 0, 6);
-        btnDistillatDetaljer.setDisable(true);
-        btnopretfad.setOnAction(event -> btnOpretAction());
 
-        Button omhældningsDetaljer = new Button("Omhældningsdetaljer");
         Button btnInputExtraData = new Button("Opret Omhældning");
-        this.add(omhældningsDetaljer, 3, 5);
         this.add(btnInputExtraData, 3, 6); // Adjust the position as needed
         btnInputExtraData.setOnAction(event -> showCustomDialog());
 
@@ -172,8 +188,15 @@ private final Button btnNuværendeIndholdDetaljer = new Button("Detaljer");
         this.add(warehouseGrid, 3, 3);
     }
 
+    private void btnSletAction() {
+    }
+
+    private void btnOpdaterAction() {
+    }
+
     private void openNewWindowWithTableView() {
         TableView<LagretVæske> tableView = new TableView<>();
+
 
         // Define columns
         TableColumn<LagretVæske, Integer> column1 = new TableColumn<>("ID");
@@ -192,9 +215,10 @@ private final Button btnNuværendeIndholdDetaljer = new Button("Detaljer");
         // Add columns to the TableView
         tableView.getColumns().addAll(column1, column2, column3, column4, column5);
 
-        LagretVæske selectedLagretVæske = lstNuværendeVæske.getSelectionModel().getSelectedItem();
+        LagretVæske selectedLagretVæske = listFade.getSelectionModel().getSelectedItem().getLagretVæsker().get(0);
 
         // Add the selectedLagretVæske to the TableView
+        System.out.println(selectedLagretVæske);
         tableView.getItems().add(selectedLagretVæske);
 
         Stage newWindow = new Stage();
@@ -417,6 +441,18 @@ private final Button btnNuværendeIndholdDetaljer = new Button("Detaljer");
 
         comboBoxFadMedVæske.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             // Save the object chosen in the comboBoxFadMedVæske
+        });
+
+        listFade.setCellFactory(param -> new ListCell<Fad>() {
+            @Override
+            protected void updateItem(Fad item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText("ID: " + item.getId() + " | Status: " + item.getFadfyldning() + " / " + item.getFadStr());
+                }
+            }
         });
 
     }

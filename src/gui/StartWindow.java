@@ -41,26 +41,26 @@ public class StartWindow extends Application {
             tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
 
-            Tab tab01 = new Tab("Lagere");
-            Tab tab02 = new Tab("Fade");
+            Tab tab01 = new Tab("Lager");
+            Tab tab02 = new Tab("Fad");
             Tab tab03 = new Tab("Distillat");
             Tab tab04 = new Tab("Påfyldning");
-            Tab tab05 = new Tab("Færdige Whiskys");
-            Tab tab06 = new Tab("Lagret distillat");
+            Tab tab05 = new Tab("Whisky");
+            Tab tab06 = new Tab("Produkter");
 
-            LagerePane lagerePane = new LagerePane();
-            FadePane fadePane = new FadePane();
+            LagerPane lagerPane = new LagerPane();
+            FadPane fadPane = new FadPane();
             DistillatPane distillatPane = new DistillatPane();
+            ProduktPane produktPane = new ProduktPane();
             WhiskyPane whiskyPane = new WhiskyPane();
-            FeardigWhiskeysPane feardigeWhiskysPane = new FeardigWhiskeysPane();
             PaafyldningPane paafyldningPane = new PaafyldningPane();
 
-            tab01.setContent(lagerePane);
-            tab02.setContent(fadePane);
+            tab01.setContent(lagerPane);
+            tab02.setContent(fadPane);
             tab03.setContent(distillatPane);
             tab04.setContent(paafyldningPane);
-            tab05.setContent(feardigeWhiskysPane);
-            tab06.setContent(whiskyPane);
+            tab05.setContent(whiskyPane);
+            tab06.setContent(produktPane);
 
             tabPane.getTabs().add(tab01);
             tabPane.getTabs().add(tab02);
@@ -69,12 +69,12 @@ public class StartWindow extends Application {
             tabPane.getTabs().add(tab05);
             tabPane.getTabs().add(tab06);
 
-            tab01.setOnSelectionChanged(event -> lagerePane.updateControls());
-            tab02.setOnSelectionChanged(event -> fadePane.updateControls());
+            tab01.setOnSelectionChanged(event -> lagerPane.updateControls());
+            tab02.setOnSelectionChanged(event -> fadPane.updateControls());
             tab03.setOnSelectionChanged(event -> distillatPane.updateControls());
             tab04.setOnSelectionChanged(event -> paafyldningPane.updateControls());
-            tab05.setOnSelectionChanged(event -> feardigeWhiskysPane.updateControls());
-            tab06.setOnSelectionChanged(event -> whiskyPane.updateControls());
+            tab05.setOnSelectionChanged(event -> whiskyPane.updateControls());
+            tab06.setOnSelectionChanged(event -> produktPane.updateControls());
 
 
 

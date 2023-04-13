@@ -1,25 +1,30 @@
 package gui;
 
-import application.*;
+import application.Fad;
+import application.Flasketype;
+import application.LagretVæske;
 import controller.Controller;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.util.Callback;
+import javafx.scene.layout.HBox;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 
 public class WhiskyPane extends GridPane {
     private final Controller controller = Controller.getController();
-    private final ComboBox<Whisky> lstFaerdigeVaesker = new ComboBox<>(); // Updated to Whisky
+    private final ComboBox<LagretVæske> comboBoxVælgVæse = new ComboBox<>();
+    private final TextField txtNavn = new TextField();
     private final TextArea txtAreaInfo = new TextArea();
-    private final TextArea txtAreaDistillat = new TextArea();
-
-    private final ListView<Distillat> listWhiskyDestillatListe = new ListView<>();
-    private final TextArea txtAreaDistillatInfo = new TextArea(); // Add the new TextArea
-    private final ListView<LagretVæskesFadHistorik> listLagretsVæskesFadHistorik = new ListView<>();
-    private final ListView<FadsLagretVæskeHistorik> listFadsLagretVæskeHistorik = new ListView<>();
+    private final ListView<Fad> lstFade = new ListView<>();
+    private final ComboBox<Flasketype> comboBoxFlasketype = new ComboBox();
+    private final TextField txtVandkilde = new TextField();
+    private final TextField txtFortyndelsesprocent = new TextField();
+    private final DatePicker datePicker = new DatePicker();
+    private final RadioButton rbSingleCask = new RadioButton("Single Cask");
+    private final RadioButton rbSingleMalt = new RadioButton("Single Malt");
+    private final RadioButton rbBlended = new RadioButton("Blended");
+    private final ToggleGroup radioGroup = new ToggleGroup();
 
     public WhiskyPane() {
         this.setPadding(new Insets(20));
@@ -27,141 +32,148 @@ public class WhiskyPane extends GridPane {
         this.setVgap(10);
         this.setGridLinesVisible(false);
 
-        // list
-        this.add(lstFaerdigeVaesker, 0, 1);
-        this.lstFaerdigeVaesker.setEditable(false);
-        this.lstFaerdigeVaesker.getItems().setAll(controller.getWhisky()); // Updated method
+        // Radio buttons for whisky type
+        HBox radioBox = new HBox(10);
+        rbSingleCask.setToggleGroup(radioGroup);
+        rbSingleMalt.setToggleGroup(radioGroup);
+        // Funktionalitet for rbSingleMalt er ikke lavet
+        rbSingleMalt.setDisable(true);
 
-        // TextArea
-        this.add(txtAreaInfo, 0, 2); // Added TextArea to the layout
-        txtAreaInfo.setMinHeight(200);
-        txtAreaInfo.setMaxHeight(100);
-        txtAreaInfo.setMaxWidth(250);
-        txtAreaInfo.setEditable(false); // Make TextArea non-editable
-        txtAreaInfo.setPrefRowCount(6); // Set preferred row count (adjust as needed)
+        // Funktionalitet for rbBlended er ikke lavet
+        rbBlended.setDisable(true);
+        radioBox.getChildren().addAll(rbSingleCask, rbSingleMalt, rbBlended);
+        this.add(radioBox, 0, 0, 3, 1);
 
-        this.add(listFadsLagretVæskeHistorik, 1, 4);
-        listFadsLagretVæskeHistorik.setEditable(false);
-        listFadsLagretVæskeHistorik.setMinHeight(200);
-        listFadsLagretVæskeHistorik.setMaxHeight(100);
-        listFadsLagretVæskeHistorik.setMaxWidth(250);
+        // Liste over færdiglagrede væsker
+        this.add(comboBoxVælgVæse, 0, 2);
+        comboBoxVælgVæse.setEditable(false);
+        comboBoxVælgVæse.getItems().setAll(controller.getFaerdigLagretVaeske());
+        comboBoxVælgVæse.setDisable(true);
 
-        // New TextArea for Distillat Info
-        this.add(txtAreaDistillatInfo, 2, 4);
-        txtAreaDistillatInfo.setEditable(false);
-        txtAreaDistillatInfo.setMinHeight(200);
-        txtAreaDistillatInfo.setMaxHeight(100);
-        txtAreaDistillatInfo.setMaxWidth(250);
+        comboBoxFlasketype.getItems().addAll(Flasketype.values());
 
+        // Tekstfelt til visning af information
+        this.add(txtAreaInfo, 0, 4);
+        txtAreaInfo.setEditable(false);
+        txtAreaInfo.setPrefRowCount(6);
 
-        // labels
-        Label lblDistillatList = new Label("Whiskyflasker:"); // Updated label text
-        this.add(lblDistillatList, 0, 0);
-        Label lblFadHistorik = new Label("Fad Historik:");
-        this.add(lblFadHistorik, 1, 0);
-        Label lblDestillatListe = new Label("Destillat Liste");
-        this.add(lblDestillatListe, 2, 0);
+        // Labels
+        Label lblDistillatList = new Label("Færdiglagrede væske:");
+        this.add(lblDistillatList, 0, 1);
+        Label lblInformation = new Label("Information om væske:");
+        this.add(lblInformation, 0, 3);
+        Label lblFad = new Label("Fad:");
+        this.add(lblFad, 0, 5);
+        Label lblNavn = new Label("Navn");
+        this.add(lblNavn, 1, 1);
+        Label lblLiter = new Label("Flasketype");
+        this.add(lblLiter, 1, 2);
+        Label lblDate = new Label("Dato");
+        this.add(lblDate, 1, 6);
+        Label lblVandkilde = new Label("Vandkilde");
+        this.add(lblVandkilde, 1, 5);
+        Label lblFortyndelsesprocent = new Label("Fortyndelsesprocent");
+        this.add(lblFortyndelsesprocent, 1, 7);
 
-        this.add(listWhiskyDestillatListe, 2, 2);
-        listWhiskyDestillatListe.setEditable(false);
-        listWhiskyDestillatListe.setMinHeight(200);
-        listWhiskyDestillatListe.setMaxHeight(100);
-        listWhiskyDestillatListe.setMaxWidth(250);
+        // Tekstfelter
+        this.add(txtNavn, 2, 1);
+        this.add(comboBoxFlasketype, 2, 2);
+        this.add(txtVandkilde, 2, 5);
+        this.add(txtFortyndelsesprocent, 2, 7);
 
-        // ListView for barrels
-        this.add(listLagretsVæskesFadHistorik, 1, 2);
-        listLagretsVæskesFadHistorik.setEditable(false);
-        listLagretsVæskesFadHistorik.setMinHeight(200);
-        listLagretsVæskesFadHistorik.setMaxHeight(100);
-        listLagretsVæskesFadHistorik.setMaxWidth(250);
+        lstFade.setCellFactory(lv -> new ListCell<Fad>() {
+            @Override
+            protected void updateItem(Fad item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(null);
+                } else {
+                    setText(item.getPlads() + " | Fad-ID: " + item.getId() + " | Status: " + item.getFadfyldning() + "/" + item.getFadStr());
+                }
+            }
+        });
 
-        lstFaerdigeVaesker.valueProperty().addListener((observable, oldValue, newValue) -> {
+        // ListView til fade
+        this.add(lstFade, 0, 6);
+
+        // DatePicker
+        this.add(datePicker, 2, 6);
+
+        // Knap til oprettelse af whisky
+        Button btnOpretWhisky = new Button("Opret Whisky");
+        this.add(btnOpretWhisky, 1, 8);
+        btnOpretWhisky.setOnAction(event -> btnOpretWhisky());
+
+        // Update controls based on radio button selection
+        radioGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                // Display information about the selected
-                txtAreaInfo.setText("Navn: " + newValue.getNavn() + "\n" +
-                        "ID: " + newValue.getId() + "\n" +
-                        "TappetDato: " + newValue.getTappetDato() + "\n" +
-                        "Alkoholprocent: " + newValue.getAlkoholProcent() + "\n" +
-                        "Liter: " + newValue.getLiter() + "\n" +
-                        "Flasketype: " + newValue.getFlasketype() + "\n" +
-                        "Fortyndelsesprocent: " + newValue.getFortyndelsesProcent() + "\n" +
-                        "Vandkilde: " + newValue.getVandKilde()
+                comboBoxVælgVæse.setDisable(false);
+                lstFade.setDisable(false);
+            } else {
+                comboBoxVælgVæse.setDisable(true);
+                lstFade.setDisable(true);
+            }
+        });
+
+        // Opdater tekstfelt med info om valgt LagretVæske og liste over fade
+        comboBoxVælgVæse.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                txtAreaInfo.setText("Distillat: " + newValue.getDistillater() + "\n" +
+                        "Fadehistorik: " + newValue.getFadehistorik() + "\n"
                 );
 
-                List<LagretVæskesFadHistorik> fadHistory = controller.getFadHistoryForWhisky(newValue);
-                listLagretsVæskesFadHistorik.getItems().setAll(fadHistory);
+                lstFade.getItems().setAll(controller.getBarrelsContainingLagretVaeske(newValue));
 
-                ArrayList<Distillat> distillatList = new ArrayList<>();
-                for (LagretVæske lV : newValue.getHistorik()) {
-                    distillatList.addAll(lV.getDistillater());
+                if (!lstFade.getItems().isEmpty()) {
+                    lstFade.getSelectionModel().selectFirst();
                 }
-
-                listWhiskyDestillatListe.getItems().setAll(distillatList);
-
             } else {
                 txtAreaInfo.clear();
-                listLagretsVæskesFadHistorik.getItems().clear();
-            }
-        });
-
-        // Add listener to the Distillat ListView
-        listWhiskyDestillatListe.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                txtAreaDistillatInfo.setText(
-                        "Maltbatch: " + newValue.getMaltBatch() + "\n" +
-                                "Kornsort: " + newValue.getKornsort() + "\n" +
-                                "Alkoholprocent: " + newValue.getAlkoholprocent() + "\n" +
-                                "Rygemateriale: " + newValue.getRygemateriale() + "\n" +
-                                "Færdig Dato: " + newValue.getDatoForDone() + "\n" +
-                                "Medarbejder: " + newValue.getMedarbejder()
-                );
-            } else {
-                txtAreaDistillatInfo.clear();
-            }
-        });
-
-
-
-        listLagretsVæskesFadHistorik.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                Fad fad = newValue.getFad();
-                List<LagretVæskesFadHistorik> fadHistory = controller.getFadHistoryForWhisky(lstFaerdigeVaesker.getValue());
-                StringBuilder historyText = new StringBuilder("History for Fad ID: " + fad.getId() + "\n\n");
-
-                for (LagretVæskesFadHistorik entry : fadHistory) {
-                    historyText.append("Påhældning: ").append(entry.getFraDato().toString()).append("\n");
-                }
-
-                txtAreaDistillat.setText(historyText.toString());
-
-                // Populate lstIndholdshistorik with the selected Fad's history
-                listFadsLagretVæskeHistorik.getItems().setAll(newValue.getFad().getFadsLagretVæskeHistorik());
-            } else {
-                txtAreaDistillat.clear();
-                listFadsLagretVæskeHistorik.getItems().clear(); // Clear the new ListView if no item is selected
-            }
-        });
-
-        listLagretsVæskesFadHistorik.setCellFactory(new Callback<>() {
-            @Override
-            public ListCell<LagretVæskesFadHistorik> call(ListView<LagretVæskesFadHistorik> param) {
-                return new ListCell<>() {
-                    @Override
-                    protected void updateItem(LagretVæskesFadHistorik item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (item != null && !empty) {
-                            setText("Fad ID: " + item.getFad().getId() + " | " + item.getFraDato().toString() + " til " + item.getTilDato());
-                        } else {
-                            setText(null);
-                        }
-                    }
-                };
+                lstFade.getItems().clear();
             }
         });
     }
 
-        public void updateControls() {
-        lstFaerdigeVaesker.getItems().clear();
-        lstFaerdigeVaesker.getItems().setAll(controller.getWhisky()); // Updated method
+    private void btnOpretWhisky() {
+        LagretVæske lV = comboBoxVælgVæse.getValue();
+        String navn = txtNavn.getText().trim();
+        Flasketype flasketype = comboBoxFlasketype.getValue();
+        String liter = String.valueOf(flasketype.getCapacity());
+        LocalDate date = datePicker.getValue();
+        String vandKilde = txtVandkilde.getText().trim();
+        String fortyndelsesprocent = txtFortyndelsesprocent.getText().trim();
+        Fad fad = lstFade.getSelectionModel().getSelectedItem();
+
+        if (navn.isEmpty() || date == null || fad == null) {
+            showErrorAlert("Udfyld venligst alle felter eller vælg en fad der indeholder den valgte lagrede væske.");
+            return;
+        }
+
+        try {
+            double literValue = Double.parseDouble(liter);
+            double fortyndelsesprocentValue = Double.parseDouble(fortyndelsesprocent);
+
+            controller.opretWhisky(navn, date, literValue, flasketype, lV, fad, vandKilde, fortyndelsesprocentValue);
+
+            comboBoxVælgVæse.getItems().setAll(controller.getFaerdigLagretVaeske());
+
+            txtNavn.clear();
+            datePicker.setValue(null);
+        } catch (NumberFormatException e) {
+            showErrorAlert("Ugyldigt input. Kontrollér venligst dine indtastede værdier.");
+        }
+    }
+
+    private void showErrorAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Fejl");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    public void updateControls() {
+        comboBoxVælgVæse.getItems().clear();
+        comboBoxVælgVæse.getItems().setAll(controller.getFaerdigLagretVaeske());
     }
 }

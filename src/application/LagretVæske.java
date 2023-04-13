@@ -14,7 +14,6 @@ public class LagretVæske {
     private double liter;
     private double alkoholProcent;
     private LocalDate påfyldningsDato;
-    private HashMap<Fad, LocalDate> fadehistorik;
     private ArrayList<Distillat> distillater;
     private ArrayList<LagretVæskesFadHistorik> fadHistorik;
 
@@ -30,8 +29,8 @@ public class LagretVæske {
         this.liter = liter;
         this.id = count++;
         this.distillater = new ArrayList<>();
-        this.fadehistorik = new HashMap<>();
         this.fadHistorik = new ArrayList<>();
+        this.alkoholProcent = this.calculateAlkoholprocent();
     }
 
     public void addDestillater(ArrayList<Distillat> distillater) {
@@ -40,6 +39,18 @@ public class LagretVæske {
                 this.distillater.add(distillat);
             }
         }
+    }
+
+    public double calculateAlkoholprocent() {
+        if (distillater.isEmpty()) {
+            return 0;
+        }
+
+        double sum = 0;
+        for (Distillat distillat : distillater) {
+            sum += distillat.getAlkoholprocent();
+        }
+        return sum / distillater.size();
     }
 
     public void addFadHistorikker(ArrayList<LagretVæskesFadHistorik> fadHistorikker) {
@@ -109,6 +120,8 @@ public class LagretVæske {
             totalAlkohol += distillater.get(i).getAlkoholprocent() * volumes[i];
             totalVolumen += volumes[i];
         }
+        System.out.println(totalAlkohol);
+        System.out.println(totalVolumen);
         return totalAlkohol / totalVolumen;
     }
 

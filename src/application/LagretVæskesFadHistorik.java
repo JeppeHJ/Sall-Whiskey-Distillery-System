@@ -41,6 +41,6 @@ public class LagretVæskesFadHistorik {
 
     @Override
     public String toString() {
-        return "Fad: " + fad + ", Fra dato: " + fraDato + ", Til dato: " + tilDato;
+        return "Fad: " + fad + ", Fra dato: " + fraDato + ", Til dato: " + (tilDato == null ? "nu" : tilDato);
     }
 }
