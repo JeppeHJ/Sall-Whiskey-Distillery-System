@@ -2,6 +2,7 @@ package main;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
@@ -9,7 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Scanner;
 
 public class Controller {
 
@@ -18,35 +18,43 @@ public class Controller {
     @FXML
     private TextField literTextField;
     @FXML
+    private TextField alkoholprocentTextField;
+    @FXML
+    private TextField paaFyldningsDatoTextField;
+    @FXML
+    private TextField tomningsDatoTextField;
+    @FXML
+    private TextField fadIdTextField;
+    @FXML
+    private TextField slutmaengdeTextField;
+    @FXML
+    private TextField medarbejderIdTextField;
+    @FXML
+    private TextField hyldeIdTextField;
+
+    @FXML
     private Button createNewLagretVaeskeButton;
+    @FXML
+    private Button getTotalDestillaterAndLiterButton;
+    @FXML
+    private Button placeFadOnHyldeButton;
 
     public void setConnection(Connection connection) {
         this.connection = connection;
     }
 
     public void initialize() {
-
+        // TODO:
     }
 
     @FXML
-    private void createNewLagretVaeske(Connection connection, Scanner scanner) {
-        System.out.println("Indtast liter:");
-        double liter = scanner.nextDouble();
-
-        System.out.println("Indtast alkoholprocent:");
-        double alkoholprocent = scanner.nextDouble();
-
-        System.out.println("Indtast paa_fyldnings_dato (yyyy-mm-dd):");
-        String paa_fyldnings_dato = scanner.next();
-
-        System.out.println("Indtast tomnings_dato (yyyy-mm-dd):");
-        String tomnings_dato = scanner.next();
-
-        System.out.println("Indtast fad_id:");
-        int fad_id = scanner.nextInt();
-
-        System.out.println("Indtast slutmaengde:");
-        double slutmaengde = scanner.nextDouble();
+    private void createNewLagretVaeske(ActionEvent event) {
+        double liter = Double.parseDouble(literTextField.getText());
+        double alkoholprocent = Double.parseDouble(alkoholprocentTextField.getText());
+        String paa_fyldnings_dato = paaFyldningsDatoTextField.getText();
+        String tomnings_dato = tomningsDatoTextField.getText();
+        int fad_id = Integer.parseInt(fadIdTextField.getText());
+        double slutmaengde = Double.parseDouble(slutmaengdeTextField.getText());
 
         String sql = "INSERT INTO lagret_vaeske (liter, alkoholprocent, paa_fyldnings_dato, tomnings_dato, fad_id, slutmaengde) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -58,15 +66,15 @@ public class Controller {
             pstmt.setDouble(6, slutmaengde);
 
             pstmt.executeUpdate();
-            System.out.println("Lagret væske oprettet!");
+            showAlert("Success", "Lagret væske oprettet!", Alert.AlertType.INFORMATION);
         } catch (SQLException e) {
-            System.out.println("Fejl ved oprettelse af lagret væske: " + e.getMessage());
+            showAlert("Error", "Fejl ved oprettelse af lagret væske: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
-    private void getTotalDestillaterAndLiter(Connection connection, Scanner scanner) {
-        System.out.println("Indtast medarbejderens id:");
-        int medarbejder_id = scanner.nextInt();
+    @FXML
+    private void getTotalDestillaterAndLiter(ActionEvent event) {
+        int medarbejder_id = Integer.parseInt(medarbejderIdTextField.getText());
 
         String sql = "SELECT COUNT(d.id) AS antal_destillater, SUM(l.liter) AS total_liter FROM medarbejder m JOIN destillat d ON m.distillat_id = d.id JOIN destillatkomponent dk ON dk.destillat_id = d.id JOIN lagret_vaeske l ON l.id = dk.lagretvaeske_id WHERE m.id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -75,22 +83,19 @@ public class Controller {
             if (rs.next()) {
                 int antal_destillater = rs.getInt("antal_destillater");
                 double total_liter = rs.getDouble("total_liter");
-                System.out.println("Antal destillater: " + antal_destillater);
-                System.out.println("Samlet antal liter destillat væske: " + total_liter);
+                showAlert("Success", "Antal destillater: " + antal_destillater + "\nSamlet antal liter destillat væske: " + total_liter, Alert.AlertType.INFORMATION);
             } else {
-                System.out.println("Ingen data fundet for medarbejderen.");
+                showAlert("Warning", "Ingen data fundet for medarbejderen.", Alert.AlertType.WARNING);
             }
         } catch (SQLException e) {
-            System.out.println("Fejl ved hentning af destillater og liter: " + e.getMessage());
+            showAlert("Error", "Fejl ved hentning af destillater og liter: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
-    private void placeFadOnHylde(Connection connection, Scanner scanner) {
-        System.out.println("Indtast fad_id:");
-        int fad_id = scanner.nextInt();
-
-        System.out.println("Indtast hylde_id:");
-        int hylde_id = scanner.nextInt();
+    @FXML
+    private void placeFadOnHylde(ActionEvent event) {
+        int fad_id = Integer.parseInt(fadIdTextField.getText());
+        int hylde_id = Integer.parseInt(hyldeIdTextField.getText());
 
         try {
             // Hent antal fad på hylden
@@ -117,18 +122,26 @@ public class Controller {
                                 updateHyldeStmt.executeUpdate();
                             }
 
-                            System.out.println("Fad placeret på hylde!");
+                            showAlert("Success", "Fad placeret på hylde!", Alert.AlertType.INFORMATION);
                         }
                     } else {
-                        System.out.println("Der er ikke plads på hylden.");
+                        showAlert("Warning", "Der er ikke plads på hylden.", Alert.AlertType.WARNING);
                     }
                 } else {
-                    System.out.println("Hylde ikke fundet.");
+                    showAlert("Warning", "Hylde ikke fundet.", Alert.AlertType.WARNING);
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Fejl ved placering af fad på hylde: " + e.getMessage());
+            showAlert("Error", "Fejl ved placering af fad på hylde: " + e.getMessage(), Alert.AlertType.ERROR);
         }
+    }
+
+    private void showAlert(String title, String content, Alert.AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
 }
