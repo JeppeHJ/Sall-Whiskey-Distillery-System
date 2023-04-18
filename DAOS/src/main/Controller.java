@@ -9,9 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ListView;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

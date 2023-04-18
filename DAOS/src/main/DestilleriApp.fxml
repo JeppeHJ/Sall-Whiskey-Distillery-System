@@ -61,7 +61,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane layoutX="413.0" layoutY="34.0" prefHeight="394.0" prefWidth="346.0" style="-fx-background-color: #f3f3f3; -fx-background-radius: 20;">
+      <Pane layoutX="413.0" layoutY="34.0" prefHeight="400.0" prefWidth="346.0" style="-fx-background-color: #f3f3f3; -fx-background-radius: 20;">
          <children>
             <HBox alignment="CENTER_LEFT" layoutX="31.0" layoutY="65.0" prefHeight="272.0" prefWidth="284.0" spacing="20.0">
                <padding>
@@ -70,7 +70,12 @@
                <children>
                   <VBox alignment="CENTER_LEFT" prefHeight="272.0" prefWidth="131.0" spacing="25.0">
                      <children>
-                        <Label text="Liter">
+                        <Label text="Malt batch">
+                           <font>
+                              <Font name="SansSerif Regular" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label text="Kornsort">
                            <font>
                               <Font name="SansSerif Regular" size="18.0" />
                            </font>
@@ -80,7 +85,7 @@
                               <Font name="SansSerif Regular" size="18.0" />
                            </font>
                         </Label>
-                        <Label text="Slutmængde">
+                        <Label text="Rygemateriale">
                            <font>
                               <Font name="SansSerif Regular" size="18.0" />
                            </font>
@@ -88,7 +93,7 @@
                               <Insets bottom="10.0" />
                            </padding>
                         </Label>
-                        <Label prefHeight="13.0" prefWidth="129.0" text="Påfyldningsdato">
+                        <Label text="Liter tilbage">
                            <font>
                               <Font name="SansSerif Regular" size="18.0" />
                            </font>
@@ -105,7 +110,12 @@
                   </VBox>
                   <VBox alignment="CENTER_LEFT" prefHeight="213.0" prefWidth="99.0" spacing="20.0">
                      <children>
-                        <TextField fx:id="literTextField" prefHeight="30.0" prefWidth="95.0" promptText="Liter" style="-fx-background-color: #fff; -fx-background-radius: 20; -fx-border-color: #000000; -fx-border-radius: 20;">
+                        <TextField fx:id="literTextField" prefHeight="30.0" prefWidth="95.0" promptText="Batch #" style="-fx-background-color: #fff; -fx-background-radius: 20; -fx-border-color: #000000; -fx-border-radius: 20;">
+                           <font>
+                              <Font name="SansSerif Italic" size="13.0" />
+                           </font>
+                        </TextField>
+                        <TextField fx:id="literTextField1" prefHeight="30.0" prefWidth="95.0" promptText="Sort" style="-fx-background-color: #fff; -fx-background-radius: 20; -fx-border-color: #000000; -fx-border-radius: 20;">
                            <font>
                               <Font name="SansSerif Italic" size="13.0" />
                            </font>
@@ -115,23 +125,27 @@
                               <Font name="SansSerif Italic" size="13.0" />
                            </font>
                         </TextField>
-                        <TextField fx:id="slutmaengdeTextField" prefHeight="29.0" prefWidth="92.0" promptText="Mængde i L" style="-fx-background-color: #fff; -fx-background-radius: 20; -fx-border-color: #000000; -fx-border-radius: 20;">
+                        <TextField fx:id="slutmaengdeTextField" prefHeight="29.0" prefWidth="92.0" promptText="Materiale" style="-fx-background-color: #fff; -fx-background-radius: 20; -fx-border-color: #000000; -fx-border-radius: 20;">
                            <font>
                               <Font name="SansSerif Italic" size="13.0" />
                            </font>
                         </TextField>
-                        <DatePicker fx:id="datePicker1" prefHeight="21.0" prefWidth="99.0" promptText="Dato" stylesheets="@DestilleriApp.css" />
+                        <TextField fx:id="slutmaengdeTextField1" prefHeight="29.0" prefWidth="92.0" promptText="Liter" style="-fx-background-color: #fff; -fx-background-radius: 20; -fx-border-color: #000000; -fx-border-radius: 20;">
+                           <font>
+                              <Font name="SansSerif Italic" size="13.0" />
+                           </font>
+                        </TextField>
                         <DatePicker fx:id="datePicker" prefHeight="23.0" prefWidth="99.0" promptText="Dato" stylesheets="@DestilleriApp.css" />
                      </children>
                   </VBox>
                </children>
             </HBox>
-            <Button fx:id="createNewLagretVaeskeButton" alignment="CENTER" contentDisplay="CENTER" layoutX="120.0" layoutY="337.0" mnemonicParsing="false" onAction="#createNewLagretVaeske" prefHeight="36.0" prefWidth="107.0" style="-fx-background-radius: 20; -fx-background-color: #fff;" text="Opret">
+            <Button fx:id="createNewDistillatButton" alignment="CENTER" contentDisplay="CENTER" layoutX="120.0" layoutY="350.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="107.0" style="-fx-background-radius: 20; -fx-background-color: #fff;" text="Opret">
                <font>
                   <Font name="SansSerif Bold" size="12.0" />
                </font>
             </Button>
-            <Label fx:id="lblOpretlager" layoutX="25.0" layoutY="33.0" text="Opret Lagret væske">
+            <Label fx:id="lblOpretlager" layoutX="31.0" layoutY="23.0" text="Opret Distillat">
                <font>
                   <Font name="SansSerif Bold" size="20.0" />
                </font>
