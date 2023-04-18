@@ -110,12 +110,12 @@
                   </VBox>
                   <VBox alignment="CENTER_LEFT" prefHeight="213.0" prefWidth="99.0" spacing="20.0">
                      <children>
-                        <TextField fx:id="literTextField" prefHeight="30.0" prefWidth="95.0" promptText="Batch #" style="-fx-background-color: #fff; -fx-background-radius: 20; -fx-border-color: #000000; -fx-border-radius: 20;">
+                        <TextField fx:id="maltTextField" prefHeight="30.0" prefWidth="95.0" promptText="Batch #" style="-fx-background-color: #fff; -fx-background-radius: 20; -fx-border-color: #000000; -fx-border-radius: 20;">
                            <font>
                               <Font name="SansSerif Italic" size="13.0" />
                            </font>
                         </TextField>
-                        <TextField fx:id="literTextField1" prefHeight="30.0" prefWidth="95.0" promptText="Sort" style="-fx-background-color: #fff; -fx-background-radius: 20; -fx-border-color: #000000; -fx-border-radius: 20;">
+                        <TextField fx:id="kornTextField" prefHeight="30.0" prefWidth="95.0" promptText="Sort" style="-fx-background-color: #fff; -fx-background-radius: 20; -fx-border-color: #000000; -fx-border-radius: 20;">
                            <font>
                               <Font name="SansSerif Italic" size="13.0" />
                            </font>
@@ -130,7 +130,7 @@
                               <Font name="SansSerif Italic" size="13.0" />
                            </font>
                         </TextField>
-                        <TextField fx:id="slutmaengdeTextField1" prefHeight="29.0" prefWidth="92.0" promptText="Liter" style="-fx-background-color: #fff; -fx-background-radius: 20; -fx-border-color: #000000; -fx-border-radius: 20;">
+                        <TextField fx:id="tilbageTextField" prefHeight="29.0" prefWidth="92.0" promptText="Liter" style="-fx-background-color: #fff; -fx-background-radius: 20; -fx-border-color: #000000; -fx-border-radius: 20;">
                            <font>
                               <Font name="SansSerif Italic" size="13.0" />
                            </font>

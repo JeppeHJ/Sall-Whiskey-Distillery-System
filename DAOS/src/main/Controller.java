@@ -4,22 +4,22 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 public class Controller {
 
     private Connection connection;
 
     @FXML
-    private TextField literTextField;
+    private TextField maltTextField;
+    @FXML
+    private TextField kornTextField;
     @FXML
     private TextField alkoholprocentTextField;
     @FXML
@@ -33,7 +33,7 @@ public class Controller {
     @FXML
     private TextField medarbejderIdTextField;
     @FXML
-    private TextField distillatIdTextField;
+    private TextField tilbageTextField;
     @FXML
     private TextField distillatAntalTextField;
     @FXML
@@ -48,6 +48,8 @@ public class Controller {
     private Button placeFadOnHyldeButton;
     @FXML
     private ListView<String> lstMedarbejdere;
+    @FXML
+    private DatePicker datePicker;
 
     public void setConnection(Connection connection) {
         this.connection = connection;
@@ -63,17 +65,19 @@ public class Controller {
 
     // TODO: update
     @FXML
-    private void createNewLagretVaeske(ActionEvent event) {
-        double liter = Double.parseDouble(literTextField.getText());
+    private void createNewDistillat(ActionEvent event) {
+        String malt_batch = maltTextField.getText();
+        String kornsort = kornTextField.getText();
         double alkoholprocent = Double.parseDouble(alkoholprocentTextField.getText());
-        String paa_fyldnings_dato = paaFyldningsDatoTextField.getText();
-        String tomnings_dato = tomningsDatoTextField.getText();
+
         int fad_id = Integer.parseInt(fadIdTextField.getText());
-        double slutmaengde = Double.parseDouble(slutmaengdeTextField.getText());
+
+        double liter_tilbage = Double.parseDouble(tilbageTextField.getText());
+        LocalDate dato_for_faerdig = datePicker.getValue();
 
         String sql = "INSERT INTO lagret_vaeske (liter, alkoholprocent, paa_fyldnings_dato, tomnings_dato, fad_id, slutmaengde) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setDouble(1, liter);
+            pstmt.setDouble(1, malt_batch);
             pstmt.setDouble(2, alkoholprocent);
             pstmt.setString(3, paa_fyldnings_dato);
             pstmt.setString(4, tomnings_dato);
@@ -165,7 +169,7 @@ public class Controller {
     }
 
     private void loadMedarbejderNames() {
-        String sql = "SELECT navn FROM medarbejder ORDER BY navn ASC";
+        String sql = "SELECT id, navn FROM medarbejder ORDER BY id, navn ASC";
         ObservableList<String> medarbejderNames = FXCollections.observableArrayList();
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
