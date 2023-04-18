@@ -6,10 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 
 public class Controller {
@@ -19,33 +16,21 @@ public class Controller {
     @FXML
     private TextField maltTextField;
     @FXML
+    private TextField fadIdTextField;
+    @FXML
+    private TextField hyldeIdTextField;
+    @FXML
+    private TextField literTotalTextField;
+    @FXML
     private TextField kornTextField;
     @FXML
     private TextField alkoholprocentTextField;
     @FXML
-    private TextField paaFyldningsDatoTextField;
-    @FXML
-    private TextField tomningsDatoTextField;
-    @FXML
-    private TextField fadIdTextField;
-    @FXML
-    private TextField slutmaengdeTextField;
-    @FXML
-    private TextField medarbejderIdTextField;
+    private TextField rygeTextField;
     @FXML
     private TextField tilbageTextField;
     @FXML
     private TextField distillatAntalTextField;
-    @FXML
-    private TextField literTotalTextField;
-    @FXML
-    private TextField hyldeIdTextField;
-    @FXML
-    private Button createNewLagretVaeskeButton;
-    @FXML
-    private Button getTotalDestillaterAndLiterButton;
-    @FXML
-    private Button placeFadOnHyldeButton;
     @FXML
     private ListView<String> lstMedarbejdere;
     @FXML
@@ -63,31 +48,28 @@ public class Controller {
         }
     }
 
-    // TODO: update
     @FXML
     private void createNewDistillat(ActionEvent event) {
         String malt_batch = maltTextField.getText();
         String kornsort = kornTextField.getText();
         double alkoholprocent = Double.parseDouble(alkoholprocentTextField.getText());
-
-        int fad_id = Integer.parseInt(fadIdTextField.getText());
-
+        String rygemateriale = rygeTextField.getText();
         double liter_tilbage = Double.parseDouble(tilbageTextField.getText());
         LocalDate dato_for_faerdig = datePicker.getValue();
 
-        String sql = "INSERT INTO lagret_vaeske (liter, alkoholprocent, paa_fyldnings_dato, tomnings_dato, fad_id, slutmaengde) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO distillat (malt_batch, kornsort, alkoholprocent, rygemateriale, liter_tilbage, dato_for_faerdig) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setDouble(1, malt_batch);
-            pstmt.setDouble(2, alkoholprocent);
-            pstmt.setString(3, paa_fyldnings_dato);
-            pstmt.setString(4, tomnings_dato);
-            pstmt.setInt(5, fad_id);
-            pstmt.setDouble(6, slutmaengde);
+            pstmt.setString(1, malt_batch);
+            pstmt.setString(2, kornsort);
+            pstmt.setDouble(3, alkoholprocent);
+            pstmt.setString(4, rygemateriale);
+            pstmt.setDouble(5, liter_tilbage);
+            pstmt.setDate(6, Date.valueOf(dato_for_faerdig));
 
             pstmt.executeUpdate();
-            showAlert("Success", "Lagret væske oprettet!", Alert.AlertType.INFORMATION);
+            showAlert("Success", "Destillat oprettet!", Alert.AlertType.INFORMATION);
         } catch (SQLException e) {
-            showAlert("Error", "Fejl ved oprettelse af lagret væske: " + e.getMessage(), Alert.AlertType.ERROR);
+            showAlert("Error", "Fejl ved oprettelse af destillat: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 

@@ -17,5 +17,3 @@ X
 (src/gui/views/lagerePane/LagerePane.fxml,3\6\366353ebff91ef492bf6a189e9c6d7eabba96319
 W
 'src/gui/views/lagerePane/LagerePane.css,a\a\aa96fb54ba61fcf7d17d7b4fbbaa09237e77e223
-b
-2src/gui/views/opretWhiskyPane/OpretWhiskyPane.fxml,7\2\72cc0d690e2ea3c27ed5615acc11b43040c238d4

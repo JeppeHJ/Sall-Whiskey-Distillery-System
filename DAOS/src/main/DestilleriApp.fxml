@@ -125,7 +125,7 @@
                               <Font name="SansSerif Italic" size="13.0" />
                            </font>
                         </TextField>
-                        <TextField fx:id="slutmaengdeTextField" prefHeight="29.0" prefWidth="92.0" promptText="Materiale" style="-fx-background-color: #fff; -fx-background-radius: 20; -fx-border-color: #000000; -fx-border-radius: 20;">
+                        <TextField fx:id="rygeTextField" prefHeight="29.0" prefWidth="92.0" promptText="Materiale" style="-fx-background-color: #fff; -fx-background-radius: 20; -fx-border-color: #000000; -fx-border-radius: 20;">
                            <font>
                               <Font name="SansSerif Italic" size="13.0" />
                            </font>
@@ -140,7 +140,7 @@
                   </VBox>
                </children>
             </HBox>
-            <Button fx:id="createNewDistillatButton" alignment="CENTER" contentDisplay="CENTER" layoutX="120.0" layoutY="350.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="107.0" style="-fx-background-radius: 20; -fx-background-color: #fff;" text="Opret">
+            <Button fx:id="createNewDistillatButton" alignment="CENTER" contentDisplay="CENTER" layoutX="120.0" layoutY="350.0" mnemonicParsing="false" onAction="#createNewDistillat" prefHeight="36.0" prefWidth="107.0" style="-fx-background-radius: 20; -fx-background-color: #fff;" text="Opret">
                <font>
                   <Font name="SansSerif Bold" size="12.0" />
                </font>

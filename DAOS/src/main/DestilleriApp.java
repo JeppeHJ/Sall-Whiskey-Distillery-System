@@ -17,17 +17,20 @@ public class DestilleriApp extends Application {
     private static final String USER = "sa";
     private static final String PASSWORD = "1234";
 
-    public void start(Stage primaryStage) {
-        Controller controller = new Controller();
+    private Connection connection;
 
-        try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASSWORD)) {
-            controller.setConnection(connection);
+    @Override
+    public void start(Stage primaryStage) {
+        try {
+            connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
 
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("DestilleriApp.fxml"));
             AnchorPane root = fxmlLoader.load();
-            controller = fxmlLoader.getController();
+
+            Controller controller = fxmlLoader.getController();
             controller.setConnection(connection);
             controller.initData();
+
             Scene scene = new Scene(root, 782, 694);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Lagerstyring");
@@ -39,8 +42,18 @@ public class DestilleriApp extends Application {
         }
     }
 
+    @Override
+    public void stop() {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static void main(String[] args) {
         launch(args);
     }
-
 }
