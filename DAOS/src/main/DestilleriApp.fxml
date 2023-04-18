@@ -17,9 +17,9 @@
 
 <AnchorPane prefHeight="694.0" prefWidth="782.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controller">
     <children>
-      <Pane layoutX="35.0" layoutY="152.0" prefHeight="510.0" prefWidth="356.0" style="-fx-background-color: #f3f3f3; -fx-background-radius: 20;">
+      <Pane layoutX="35.0" layoutY="150.0" prefHeight="512.0" prefWidth="356.0" style="-fx-background-color: #f3f3f3; -fx-background-radius: 20;">
          <children>
-            <ListView fx:id="lstMedarbejdere" layoutX="25.0" layoutY="96.0" prefHeight="244.0" prefWidth="306.0" styleClass="lstMedarbejdere" stylesheets="@DestilleriApp.css">
+            <ListView fx:id="lstMedarbejdere" layoutX="25.0" layoutY="96.0" prefHeight="272.0" prefWidth="306.0" styleClass="lstMedarbejdere" stylesheets="@DestilleriApp.css">
                <padding>
                   <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                </padding>
@@ -29,32 +29,27 @@
                   <Font name="SansSerif Bold" size="20.0" />
                </font>
             </Label>
-            <Button fx:id="getTotalDestillaterAndLiterButton" alignment="CENTER" contentDisplay="CENTER" layoutX="114.0" layoutY="355.0" mnemonicParsing="false" onAction="#getTotalDestillaterAndLiter" prefHeight="36.0" prefWidth="129.0" style="-fx-background-radius: 20; -fx-background-color: #fff;" text="Hent Data">
-               <font>
-                  <Font name="SansSerif Bold" size="12.0" />
-               </font>
-            </Button>
             <Label layoutX="25.0" layoutY="68.0" text="Medarbejdere:">
                <font>
                   <Font name="SansSerif Regular" size="15.0" />
                </font>
             </Label>
-            <TextField fx:id="distillatAntalTextField" disable="true" layoutX="196.0" layoutY="406.0" prefHeight="30.0" prefWidth="95.0" promptText="Antal" style="-fx-background-color: #fff; -fx-background-radius: 20; -fx-border-color: #000000; -fx-border-radius: 20;">
+            <TextField fx:id="distillatAntalTextField" editable="false" layoutX="196.0" layoutY="406.0" prefHeight="30.0" prefWidth="95.0" promptText="Antal" style="-fx-background-color: #fff; -fx-background-radius: 20; -fx-border-color: #000000; -fx-border-radius: 20;">
                <font>
                   <Font name="SansSerif Italic" size="13.0" />
                </font>
             </TextField>
-            <TextField fx:id="literTotalTextField" disable="true" layoutX="196.0" layoutY="449.0" prefHeight="30.0" prefWidth="95.0" promptText="Liter" style="-fx-background-color: #fff; -fx-background-radius: 20; -fx-border-color: #000000; -fx-border-radius: 20;">
+            <TextField fx:id="literTotalTextField" editable="false" layoutX="196.0" layoutY="455.0" prefHeight="30.0" prefWidth="95.0" promptText="Liter" style="-fx-background-color: #fff; -fx-background-radius: 20; -fx-border-color: #000000; -fx-border-radius: 20;">
                <font>
                   <Font name="SansSerif Italic" size="13.0" />
                </font>
             </TextField>
-            <Label layoutX="50.0" layoutY="410.0" text="Antal destillater:">
+            <Label layoutX="48.0" layoutY="411.0" text="Antal destillater:">
                <font>
                   <Font name="SansSerif Regular" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="137.0" layoutY="453.0" text="Liter:">
+            <Label layoutX="137.0" layoutY="460.0" text="Liter:">
                <font>
                   <Font name="SansSerif Regular" size="18.0" />
                </font>

@@ -16,10 +16,6 @@ public class Controller {
     @FXML
     private TextField maltTextField;
     @FXML
-    private TextField fadIdTextField;
-    @FXML
-    private TextField hyldeIdTextField;
-    @FXML
     private TextField literTotalTextField;
     @FXML
     private TextField kornTextField;
@@ -48,6 +44,19 @@ public class Controller {
         if (connection != null) {
             loadMedarbejderNames();
             populateComboBoxes();
+
+            // Add a listener to the ListView
+            lstMedarbejdere.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue != null) {
+                    // Call the getTotalDestillaterAndLiter() method when a new medarbejder is selected
+                    getTotalDestillaterAndLiter();
+                } else {
+                    // Clear the text fields when no medarbejder is selected
+                    distillatAntalTextField.setText("");
+                    literTotalTextField.setText("");
+                }
+            });
+
         } else {
             System.err.println("Connection is null in Controller.initData()");
         }
@@ -90,15 +99,11 @@ public class Controller {
     }
 
     @FXML
-    private void getTotalDestillaterAndLiter(ActionEvent event) {
+    private void getTotalDestillaterAndLiter() {
         String selectedMedarbejder = lstMedarbejdere.getSelectionModel().getSelectedItem();
-        if (selectedMedarbejder == null) {
-            showAlert("Warning", "Vælg en medarbejder fra listen.", Alert.AlertType.WARNING);
-            return;
-        }
         int medarbejder_id = Integer.parseInt(selectedMedarbejder.substring(0, selectedMedarbejder.indexOf(' ')));
 
-        String sql = "SELECT COUNT(d.id) AS antal_destillater, SUM(l.liter) AS total_liter FROM medarbejder m JOIN destillat d ON m.distillat_id = d.id JOIN destillatkomponent dk ON dk.destillat_id = d.id JOIN lagret_vaeske l ON l.id = dk.lagretvaeske_id WHERE m.id = ?";
+        String sql = "SELECT COUNT(d.id) AS antal_destillater, SUM(l.liter) AS total_liter FROM medarbejder m JOIN distillat d ON m.distillat_id = d.id JOIN DestillatKomponent dk ON dk.destillat_id = d.id JOIN lagret_vaeske l ON l.id = dk.lagretvaeske_id WHERE m.id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, medarbejder_id);
             ResultSet rs = pstmt.executeQuery();
@@ -113,6 +118,7 @@ public class Controller {
         }
     }
 
+    // TODO: Inputvalidering
     @FXML
     private void placeFadOnHylde(ActionEvent event) {
         String fad = String.valueOf(comboBoxFad.getValue());
@@ -197,6 +203,7 @@ public class Controller {
                 hylder.add(rsHylde.getString("id"));
             }
             comboBoxHylde.setItems(hylder);
+            comboBoxHylde.getSelectionModel().selectFirst();
 
             // Get fade
             ResultSet rsFad = pstmtFad.executeQuery();
@@ -204,6 +211,7 @@ public class Controller {
                 fade.add(rsFad.getString("id"));
             }
             comboBoxFad.setItems(fade);
+            comboBoxFad.getSelectionModel().selectFirst();
 
         } catch (SQLException e) {
             e.printStackTrace();
