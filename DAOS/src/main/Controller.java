@@ -121,9 +121,17 @@ public class Controller {
             showAlert("Warning", "Vælg både fad og hylde.", Alert.AlertType.WARNING);
             return;
         }
+        int fadId, hyldeId;
+        try {
+            fadId = Integer.parseInt(fad);
+            hyldeId = Integer.parseInt(hylde);
+        } catch (NumberFormatException e) {
+            showAlert("Error", "Kunne ikke konvertere fad eller hylde til et tal.", Alert.AlertType.ERROR);
+            return;
+        }
         String sql = "SELECT h.antal_fad, COUNT(f.id) as fad_count FROM Hylde h LEFT JOIN fad f ON h.id = f.hylde_id WHERE h.id = ? GROUP BY h.antal_fad";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setInt(1, Integer.parseInt(hylde));
+            pstmt.setInt(1, hyldeId);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 int antal_fad = rs.getInt("antal_fad");
@@ -134,8 +142,8 @@ public class Controller {
                 }
             }
             PreparedStatement updateFad = connection.prepareStatement("UPDATE fad SET hylde_id = ? WHERE id = ?");
-            updateFad.setInt(1, Integer.parseInt(hylde));
-            updateFad.setInt(2, Integer.parseInt(fad));
+            updateFad.setInt(1, hyldeId);
+            updateFad.setInt(2, fadId);
             int rowsAffected = updateFad.executeUpdate();
             if (rowsAffected == 1) {
                 showAlert("Success", "Fadet er blevet placeret på hylden.", Alert.AlertType.INFORMATION);
