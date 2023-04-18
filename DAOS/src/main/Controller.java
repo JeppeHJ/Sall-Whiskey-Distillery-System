@@ -44,19 +44,14 @@ public class Controller {
         if (connection != null) {
             loadMedarbejderNames();
             populateComboBoxes();
-
-            // Add a listener to the ListView
             lstMedarbejdere.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue != null) {
-                    // Call the getTotalDestillaterAndLiter() method when a new medarbejder is selected
                     getTotalDestillaterAndLiter();
                 } else {
-                    // Clear the text fields when no medarbejder is selected
                     distillatAntalTextField.setText("");
                     literTotalTextField.setText("");
                 }
             });
-
         } else {
             System.err.println("Connection is null in Controller.initData()");
         }
@@ -118,46 +113,35 @@ public class Controller {
         }
     }
 
-    // TODO: Inputvalidering
     @FXML
     private void placeFadOnHylde(ActionEvent event) {
         String fad = String.valueOf(comboBoxFad.getValue());
         String hylde = String.valueOf(comboBoxHylde.getValue());
-
         if (fad == null || hylde == null) {
             showAlert("Warning", "Vælg både fad og hylde.", Alert.AlertType.WARNING);
             return;
         }
-
         String sql = "SELECT h.antal_fad, COUNT(f.id) as fad_count FROM Hylde h LEFT JOIN fad f ON h.id = f.hylde_id WHERE h.id = ? GROUP BY h.antal_fad";
-
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-
-            // Check if there's space on the shelf
             pstmt.setInt(1, Integer.parseInt(hylde));
             ResultSet rs = pstmt.executeQuery();
-
             if (rs.next()) {
                 int antal_fad = rs.getInt("antal_fad");
                 int fad_count = rs.getInt("fad_count");
-
                 if (fad_count >= antal_fad) {
                     showAlert("Error", "Der er ikke plads på hylden.", Alert.AlertType.ERROR);
                     return;
                 }
             }
-
             PreparedStatement updateFad = connection.prepareStatement("UPDATE fad SET hylde_id = ? WHERE id = ?");
             updateFad.setInt(1, Integer.parseInt(hylde));
             updateFad.setInt(2, Integer.parseInt(fad));
             int rowsAffected = updateFad.executeUpdate();
-
             if (rowsAffected == 1) {
                 showAlert("Success", "Fadet er blevet placeret på hylden.", Alert.AlertType.INFORMATION);
             } else {
                 showAlert("Error", "Der opstod en fejl ved placering af fadet.", Alert.AlertType.ERROR);
             }
-
         } catch (SQLException e) {
             showAlert("Error", "Fejl placering af fad på hylden: " + e.getMessage(), Alert.AlertType.ERROR);
         }
@@ -175,7 +159,6 @@ public class Controller {
     private void loadMedarbejderNames() {
         String sql = "SELECT id, navn FROM medarbejder ORDER BY id, navn ASC";
         ObservableList<String> medarbejderNames = FXCollections.observableArrayList();
-
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
@@ -190,14 +173,11 @@ public class Controller {
     private void populateComboBoxes() {
         String sqlHylde = "SELECT id FROM Hylde";
         String sqlFad = "SELECT id FROM fad WHERE hylde_id IS NULL";
-
         ObservableList<String> hylder = FXCollections.observableArrayList();
         ObservableList<String> fade = FXCollections.observableArrayList();
-
         try (PreparedStatement pstmtHylde = connection.prepareStatement(sqlHylde);
              PreparedStatement pstmtFad = connection.prepareStatement(sqlFad)) {
 
-            // Get hylder
             ResultSet rsHylde = pstmtHylde.executeQuery();
             while (rsHylde.next()) {
                 hylder.add(rsHylde.getString("id"));
@@ -205,14 +185,12 @@ public class Controller {
             comboBoxHylde.setItems(hylder);
             comboBoxHylde.getSelectionModel().selectFirst();
 
-            // Get fade
             ResultSet rsFad = pstmtFad.executeQuery();
             while (rsFad.next()) {
                 fade.add(rsFad.getString("id"));
             }
             comboBoxFad.setItems(fade);
             comboBoxFad.getSelectionModel().selectFirst();
-
         } catch (SQLException e) {
             e.printStackTrace();
             showAlert("Error", "Fejl ved hentning af fad og hylde: " + e.getMessage(), Alert.AlertType.ERROR);
