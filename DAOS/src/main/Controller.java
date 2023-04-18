@@ -57,24 +57,35 @@ public class Controller {
     private void createNewDistillat(ActionEvent event) {
         String malt_batch = maltTextField.getText();
         String kornsort = kornTextField.getText();
-        double alkoholprocent = Double.parseDouble(alkoholprocentTextField.getText());
+        String alkoholprocentText = alkoholprocentTextField.getText();
         String rygemateriale = rygeTextField.getText();
-        double liter_tilbage = Double.parseDouble(tilbageTextField.getText());
+        String liter_tilbageText = tilbageTextField.getText();
         LocalDate dato_for_faerdig = datePicker.getValue();
 
-        String sql = "INSERT INTO distillat (malt_batch, kornsort, alkoholprocent, rygemateriale, liter_tilbage, dato_for_faerdig) VALUES (?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setString(1, malt_batch);
-            pstmt.setString(2, kornsort);
-            pstmt.setDouble(3, alkoholprocent);
-            pstmt.setString(4, rygemateriale);
-            pstmt.setDouble(5, liter_tilbage);
-            pstmt.setDate(6, Date.valueOf(dato_for_faerdig));
+        if (malt_batch.isEmpty() || kornsort.isEmpty() || alkoholprocentText.isEmpty() || rygemateriale.isEmpty() || liter_tilbageText.isEmpty() || dato_for_faerdig == null) {
+            showAlert("Error", "Udfyld venligst alle felter.", Alert.AlertType.ERROR);
+        } else {
+            try {
+                double alkoholprocent = Double.parseDouble(alkoholprocentText);
+                double liter_tilbage = Double.parseDouble(liter_tilbageText);
 
-            pstmt.executeUpdate();
-            showAlert("Success", "Destillat oprettet!", Alert.AlertType.INFORMATION);
-        } catch (SQLException e) {
-            showAlert("Error", "Fejl ved oprettelse af destillat: " + e.getMessage(), Alert.AlertType.ERROR);
+                String sql = "INSERT INTO distillat (malt_batch, kornsort, alkoholprocent, rygemateriale, liter_tilbage, dato_for_faerdig) VALUES (?, ?, ?, ?, ?, ?)";
+                try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+                    pstmt.setString(1, malt_batch);
+                    pstmt.setString(2, kornsort);
+                    pstmt.setDouble(3, alkoholprocent);
+                    pstmt.setString(4, rygemateriale);
+                    pstmt.setDouble(5, liter_tilbage);
+                    pstmt.setDate(6, Date.valueOf(dato_for_faerdig));
+
+                    pstmt.executeUpdate();
+                    showAlert("Success", "Destillat oprettet!", Alert.AlertType.INFORMATION);
+                } catch (SQLException e) {
+                    showAlert("Error", "Fejl ved oprettelse af destillat: " + e.getMessage(), Alert.AlertType.ERROR);
+                }
+            } catch (NumberFormatException e) {
+                showAlert("Error", "Ugyldigt input i alkoholprocent eller liter tilbage felter.", Alert.AlertType.ERROR);
+            }
         }
     }
 
