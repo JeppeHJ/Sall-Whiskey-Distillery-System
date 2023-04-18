@@ -24,7 +24,7 @@ public class DestilleriApp extends Application {
         try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASSWORD)) {
             controller.setConnection(connection);
 
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main/DestilleriApp.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("DestilleriApp.fxml"));
             AnchorPane root = fxmlLoader.load();
             controller = fxmlLoader.getController();
             controller.initialize();
