@@ -1,10 +1,16 @@
 package main;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ListView;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -30,23 +36,31 @@ public class Controller {
     @FXML
     private TextField medarbejderIdTextField;
     @FXML
+    private TextField distillatIdTextField;
+    @FXML
+    private TextField distillatAntalTextField;
+    @FXML
+    private TextField literTotalTextField;
+    @FXML
     private TextField hyldeIdTextField;
-
     @FXML
     private Button createNewLagretVaeskeButton;
     @FXML
     private Button getTotalDestillaterAndLiterButton;
     @FXML
     private Button placeFadOnHyldeButton;
+    @FXML
+    private ListView<String> lstMedarbejdere;
 
     public void setConnection(Connection connection) {
         this.connection = connection;
     }
 
     public void initialize() {
-        // TODO:
+        loadMedarbejderNames();
     }
 
+    // TODO: update
     @FXML
     private void createNewLagretVaeske(ActionEvent event) {
         double liter = Double.parseDouble(literTextField.getText());
@@ -74,16 +88,20 @@ public class Controller {
 
     @FXML
     private void getTotalDestillaterAndLiter(ActionEvent event) {
-        int medarbejder_id = Integer.parseInt(medarbejderIdTextField.getText());
+        String selectedMedarbejder = lstMedarbejdere.getSelectionModel().getSelectedItem();
+        if (selectedMedarbejder == null) {
+            showAlert("Warning", "Vælg en medarbejder fra listen.", Alert.AlertType.WARNING);
+            return;
+        }
+        int medarbejder_id = Integer.parseInt(selectedMedarbejder.substring(0, selectedMedarbejder.indexOf(' ')));
 
         String sql = "SELECT COUNT(d.id) AS antal_destillater, SUM(l.liter) AS total_liter FROM medarbejder m JOIN destillat d ON m.distillat_id = d.id JOIN destillatkomponent dk ON dk.destillat_id = d.id JOIN lagret_vaeske l ON l.id = dk.lagretvaeske_id WHERE m.id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, medarbejder_id);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                int antal_destillater = rs.getInt("antal_destillater");
-                double total_liter = rs.getDouble("total_liter");
-                showAlert("Success", "Antal destillater: " + antal_destillater + "\nSamlet antal liter destillat væske: " + total_liter, Alert.AlertType.INFORMATION);
+                distillatAntalTextField.setText(String.valueOf(rs.getInt("antal_destillater")));
+                literTotalTextField.setText(String.valueOf(rs.getDouble("total_liter")));
             } else {
                 showAlert("Warning", "Ingen data fundet for medarbejderen.", Alert.AlertType.WARNING);
             }
@@ -92,6 +110,7 @@ public class Controller {
         }
     }
 
+    // TODO: update
     @FXML
     private void placeFadOnHylde(ActionEvent event) {
         int fad_id = Integer.parseInt(fadIdTextField.getText());
@@ -142,6 +161,21 @@ public class Controller {
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    private void loadMedarbejderNames() {
+        String sql = "SELECT navn FROM medarbejder ORDER BY navn ASC";
+        ObservableList<String> medarbejderNames = FXCollections.observableArrayList();
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                medarbejderNames.add(rs.getInt("id") + " | " + rs.getString("navn"));
+            }
+        } catch (SQLException e) {
+            showAlert("Error", "Fejl ved hentning af medarbejder navne: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
+        lstMedarbejdere.setItems(medarbejderNames);
     }
 
 }
