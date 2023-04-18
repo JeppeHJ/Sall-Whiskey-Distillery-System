@@ -120,8 +120,8 @@
                               <Font name="SansSerif Italic" size="13.0" />
                            </font>
                         </TextField>
-                        <DatePicker fx:id="datePicker1" prefHeight="21.0" prefWidth="99.0" promptText="Dato" stylesheets="@../../../src/gui/views/distillatPane/DistillatPane.css" />
-                        <DatePicker fx:id="datePicker" prefHeight="23.0" prefWidth="99.0" promptText="Dato" stylesheets="@../../../src/gui/views/distillatPane/DistillatPane.css" />
+                        <DatePicker fx:id="datePicker1" prefHeight="21.0" prefWidth="99.0" promptText="Dato" stylesheets="@DestilleriApp.css" />
+                        <DatePicker fx:id="datePicker" prefHeight="23.0" prefWidth="99.0" promptText="Dato" stylesheets="@DestilleriApp.css" />
                      </children>
                   </VBox>
                </children>
@@ -140,7 +140,7 @@
       </Pane>
       <Pane layoutX="413.0" layoutY="457.0" prefHeight="205.0" prefWidth="346.0" style="-fx-background-color: #f3f3f3; -fx-background-radius: 20;">
          <children>
-            <ComboBox fx:id="comboBoxFad" layoutX="131.0" layoutY="69.0" prefHeight="27.0" prefWidth="193.0" styleClass="comboBoxLager" stylesheets="@../../../src/gui/views/fadePane/FadePane.css" />
+            <ComboBox fx:id="comboBoxFad" layoutX="131.0" layoutY="69.0" prefHeight="27.0" prefWidth="193.0" styleClass="comboBox" stylesheets="@DestilleriApp.css" />
             <Label layoutX="29.0" layoutY="74.0" text="Fad">
                <font>
                   <Font name="SansSerif Bold" size="15.0" />
@@ -156,7 +156,7 @@
                   <Font name="SansSerif Bold" size="20.0" />
                </font>
             </Label>
-            <ComboBox fx:id="comboBoxHylde" layoutX="131.0" layoutY="113.0" prefHeight="27.0" prefWidth="193.0" styleClass="comboBoxLager" stylesheets="@../../../src/gui/views/fadePane/FadePane.css" />
+            <ComboBox fx:id="comboBoxHylde" layoutX="131.0" layoutY="113.0" prefHeight="27.0" prefWidth="193.0" styleClass="comboBox" stylesheets="@DestilleriApp.css" />
             <Label layoutX="29.0" layoutY="118.0" text="Hylde">
                <font>
                   <Font name="SansSerif Bold" size="15.0" />

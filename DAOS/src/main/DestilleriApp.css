@@ -9,4 +9,45 @@
     -fx-font-size: 14.0;
 }
 
+/* General DatePicker styling */
+.date-picker {
+    -fx-background-color: #fff;
+    -fx-border-color: #000;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-padding: 3;
+}
+
+/* Style the text field part of the DatePicker */
+.date-picker .text-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-font-size: 12;
+}
+
+/* Style the arrow button */
+.date-picker .arrow-button {
+    -fx-background-color: #F3F3F3;
+    -fx-background-radius: 20;
+}
+
+.comboBox {
+    -fx-background-color: #fff;
+    -fx-border-radius: 5;
+}
+
+.comboBox .list-cell {
+    -fx-background-color: #fff;
+    -fx-padding: 5;
+}
+
+.comboBox .list-cell:filled:hover {
+    -fx-background-color: #f3f3f3;
+    -fx-text-fill: #000000;
+}
+
+.comboBox .arrow {
+    -fx-background-color: #b3b3b3;
+}
+
 

@@ -19,5 +19,3 @@ W
 'src/gui/views/lagerePane/LagerePane.css,a\a\aa96fb54ba61fcf7d17d7b4fbbaa09237e77e223
 b
 2src/gui/views/opretWhiskyPane/OpretWhiskyPane.fxml,7\2\72cc0d690e2ea3c27ed5615acc11b43040c238d4
-O
-DAOS/src/main/DestilleriApp.css,6\3\630c60d7e8af2287aa8a66854cd17fa7087ba702

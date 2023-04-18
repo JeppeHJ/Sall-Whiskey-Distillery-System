@@ -56,8 +56,15 @@ public class Controller {
         this.connection = connection;
     }
 
-    public void initialize() {
-        loadMedarbejderNames();
+//    public void initialize() {
+//    }
+
+    public void initData() {
+        if (connection != null) {
+            loadMedarbejderNames();
+        } else {
+            System.err.println("Connection is null in Controller.initData()");
+        }
     }
 
     // TODO: update

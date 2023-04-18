@@ -17,7 +17,6 @@ public class DestilleriApp extends Application {
     private static final String USER = "sa";
     private static final String PASSWORD = "1234";
 
-
     public void start(Stage primaryStage) {
         Controller controller = new Controller();
 
@@ -27,8 +26,9 @@ public class DestilleriApp extends Application {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("DestilleriApp.fxml"));
             AnchorPane root = fxmlLoader.load();
             controller = fxmlLoader.getController();
-            controller.initialize();
-            Scene scene = new Scene(root, 1023, 534);
+            controller.setConnection(connection);
+            controller.initData();
+            Scene scene = new Scene(root, 782, 694);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Lagerstyring");
             primaryStage.show();
