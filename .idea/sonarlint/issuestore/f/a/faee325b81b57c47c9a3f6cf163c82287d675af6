@@ -1,0 +1,23 @@
+
+V	java:S110E"<This class has 9 parents which is greater than 5 authorized.(¿¢Ã¾şÿÿÿÿ
+W	java:S110ë"<This class has 9 parents which is greater than 5 authorized.(¿¢Ã¾şÿÿÿÿ
+Y
+java:S2184ö"BCast one of the operands of this addition operation to a "double".(¨›ì¯
+Y
+java:S2184÷"BCast one of the operands of this addition operation to a "double".(ûÇÊŒ
+\
+java:S2184"@Cast one of the operands of this integer division to a "double".(¹ªæ÷úÿÿÿÿ
+	java:S116*"eRename this field "lstFadOmhÃ¦ldningsHistorik" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ø¶¹ÿÿÿÿÿ
+	java:S116."gRename this field "btnNuvÃ¦rendeIndholdDetaljer" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(»—ÁŠüÿÿÿÿ
+B
+java:S1602A",Remove useless curly braces around statement(Ì¹ç¬
+R
+java:S1854„";Remove this useless assignment to local variable "column6".(¬ç˜Ì
+C
+java:S1481„",Remove this unused "column6" local variable.(¬ç˜Ì
+r
+java:S3923Ê"[Remove this conditional structure or edit its code blocks so that they're not all the same.(¼¼öı
+\
+java:S1612Ô"EReplace this lambda with method reference 'textField1::requestFocus'.(Ğ¼¥“
+Z
+java:S1612å">Replace this lambda with method reference 'this::processData'.(ùüÊüÿÿÿÿ
