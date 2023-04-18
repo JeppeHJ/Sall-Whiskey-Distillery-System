@@ -56,9 +56,6 @@ public class Controller {
         this.connection = connection;
     }
 
-//    public void initialize() {
-//    }
-
     public void initData() {
         if (connection != null) {
             loadMedarbejderNames();
