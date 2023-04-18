@@ -17,3 +17,17 @@ X
 (src/gui/views/lagerePane/LagerePane.fxml,3\6\366353ebff91ef492bf6a189e9c6d7eabba96319
 W
 'src/gui/views/lagerePane/LagerePane.css,a\a\aa96fb54ba61fcf7d17d7b4fbbaa09237e77e223
+l
+<src/gui/views/opretWhiskyPane/OpretWhiskyPaneController.java,f\4\f403ed5f9bf073d436a91fec427eae6a20045161
+]
+-src/gui/views/distillatPane/DistillatPane.css,4\f\4f2d679a2060466cf42a1948de7143103bed326c
+S
+#src/gui/views/fadePane/FadePane.css,4\8\48e9522034ead926b808432d487de0603945fc6a
+^
+.src/gui/views/distillatPane/DistillatPane.fxml,6\d\6d0574d7f0e44b786e5d650701dc09fb91482490
+b
+2src/gui/views/opretWhiskyPane/OpretWhiskyPane.fxml,7\2\72cc0d690e2ea3c27ed5615acc11b43040c238d4
+Z
+*src/gui/views/produktPane/ProduktPane.fxml,a\0\a0ce3b3809bd8d32978c510e7da11356a03d2ef8
+d
+4src/gui/views/produktPane/ProduktPaneController.java,8\9\89fa6ca461b1ab9f06f53b3990500a934aa69873
