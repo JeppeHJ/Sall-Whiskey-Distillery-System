@@ -35,6 +35,10 @@ public class Controller {
     private ListView<String> lstMedarbejdere;
     @FXML
     private DatePicker datePicker;
+    @FXML
+    private ComboBox<Integer> comboBoxFad;
+    @FXML
+    private ComboBox<Integer> comboBoxHylde;
 
     public void setConnection(Connection connection) {
         this.connection = connection;
@@ -100,45 +104,46 @@ public class Controller {
     // TODO: update
     @FXML
     private void placeFadOnHylde(ActionEvent event) {
-        int fad_id = Integer.parseInt(fadIdTextField.getText());
-        int hylde_id = Integer.parseInt(hyldeIdTextField.getText());
+        String fad = String.valueOf(comboBoxFad.getValue());
+        String hylde = String.valueOf(comboBoxHylde.getValue());
 
-        try {
-            // Hent antal fad på hylden
-            String checkSql = "SELECT antal_fad FROM hylde WHERE id = ?";
-            try (PreparedStatement checkStmt = connection.prepareStatement(checkSql)) {
-                checkStmt.setInt(1, hylde_id);
-                ResultSet rs = checkStmt.executeQuery();
+        if (fad == null || hylde == null) {
+            showAlert("Error", "Vælg både fad og hylde.", Alert.AlertType.WARNING);
+            return;
+        }
 
-                if (rs.next()) {
-                    int antal_fad = rs.getInt("antal_fad");
+        try (Connection connection = DriverManager.getConnection("jdbc:your_database_url", "username", "password")) {
 
-                    // Opdater hylde_id for fad, hvis der er plads på hylden
-                    if (antal_fad < 5) { // Antager, at den maksimale kapacitet for en hylde er 5 fad
-                        String updateSql = "UPDATE fad SET hylde_id = ? WHERE id = ?";
-                        try (PreparedStatement updateStmt = connection.prepareStatement(updateSql)) {
-                            updateStmt.setInt(1, hylde_id);
-                            updateStmt.setInt(2, fad_id);
-                            updateStmt.executeUpdate();
+            // Check if there's space on the shelf
+            PreparedStatement checkSpace = connection.prepareStatement("SELECT antal_fad, COUNT(fad_id) as fad_count FROM Hylde h LEFT JOIN fad f ON h.id = f.hylde_id WHERE h.id = ? GROUP BY h.antal_fad");
+            checkSpace.setInt(1, Integer.parseInt(hylde));
+            ResultSet resultSet = checkSpace.executeQuery();
 
-                            // Opdater antal_fad for hylde
-                            String updateHyldeSql = "UPDATE hylde SET antal_fad = antal_fad + 1 WHERE id = ?";
-                            try (PreparedStatement updateHyldeStmt = connection.prepareStatement(updateHyldeSql)) {
-                                updateHyldeStmt.setInt(1, hylde_id);
-                                updateHyldeStmt.executeUpdate();
-                            }
+            if (resultSet.next()) {
+                int antal_fad = resultSet.getInt("antal_fad");
+                int fad_count = resultSet.getInt("fad_count");
 
-                            showAlert("Success", "Fad placeret på hylde!", Alert.AlertType.INFORMATION);
-                        }
-                    } else {
-                        showAlert("Warning", "Der er ikke plads på hylden.", Alert.AlertType.WARNING);
-                    }
-                } else {
-                    showAlert("Warning", "Hylde ikke fundet.", Alert.AlertType.WARNING);
+                if (fad_count >= antal_fad) {
+                    errorMessage.setText("Der er ikke plads på hylden.");
+                    return;
                 }
             }
+
+            // Place the cask on the shelf
+            PreparedStatement updateFad = connection.prepareStatement("UPDATE fad SET hylde_id = ? WHERE id = ?");
+            updateFad.setInt(1, Integer.parseInt(hylde));
+            updateFad.setInt(2, Integer.parseInt(fad));
+            int rowsAffected = updateFad.executeUpdate();
+
+            if (rowsAffected == 1) {
+                errorMessage.setText("Fadet er blevet placeret på hylden.");
+            } else {
+                errorMessage.setText("Der opstod en fejl ved placering af fadet.");
+            }
+
         } catch (SQLException e) {
-            showAlert("Error", "Fejl ved placering af fad på hylde: " + e.getMessage(), Alert.AlertType.ERROR);
+            e.printStackTrace();
+            errorMessage.setText("Der opstod en fejl ved kommunikation med databasen.");
         }
     }
 
