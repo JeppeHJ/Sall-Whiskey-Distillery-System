@@ -13,3 +13,11 @@ L
 src/gui/application/App.java,d\e\dec0a16cde65d748a7a52fb545a8eee0b7e3a0bd
 h
 8src/gui/views/distillatPane/DistillatPaneController.java,0\5\0566c180fd307ed34f6d56a990cc8a20da5dce9c
+X
+(src/gui/views/lagerePane/LagerePane.fxml,3\6\366353ebff91ef492bf6a189e9c6d7eabba96319
+W
+'src/gui/views/lagerePane/LagerePane.css,a\a\aa96fb54ba61fcf7d17d7b4fbbaa09237e77e223
+b
+2src/gui/views/opretWhiskyPane/OpretWhiskyPane.fxml,7\2\72cc0d690e2ea3c27ed5615acc11b43040c238d4
+O
+DAOS/src/main/DestilleriApp.css,6\3\630c60d7e8af2287aa8a66854cd17fa7087ba702
