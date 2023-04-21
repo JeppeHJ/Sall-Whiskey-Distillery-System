@@ -13,7 +13,7 @@ import java.sql.SQLException;
 
 public class DestilleriApp extends Application {
 
-    private static final String DB_URL = "jdbc:sqlserver://localhost\\MSSQLSERVER;databaseName=Sall";
+    private static final String DB_URL = "jdbc:sqlserver://localhost\\LUKASSERVER;databaseName=Sall;encrypt=false;";
     private static final String USER = "sa";
     private static final String PASSWORD = "1234";
 
