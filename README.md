@@ -36,16 +36,16 @@ Sall Whisky Warehouse Management is a warehouse management system specifically d
 ## Installation
 
 1. Clone the repository:
-```git clone https://github.com/yourusername/sall-whisky-warehouse-management.git```
+```git clone https://github.com/JeppeHJ/SallProject.git```
 
 2. Change into the project directory:
-``cd sall-whisky-warehouse-management``
+``cd SallProject``
 
 3. Build the project:
 ``mvn clean install``
 
 4. Run the application:
-``java -jar target/sall-whisky-warehouse-management-1.0-SNAPSHOT.jar``
+``java -jar target/SallProject-1.0-SNAPSHOT.jar``
 
 ## Usage
 
